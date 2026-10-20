@@ -1,0 +1,512 @@
+{
+  "total": 63,
+  "successCount": 63,
+  "warningCount": 0,
+  "results": [
+    {
+      "id": "starter_w1_o1",
+      "topic": "Hello",
+      "level": "STARTER",
+      "lineCount": 28,
+      "preview": "Hello!  | Hello! | Hello, hello, hello.",
+      "fullScript": "Hello! \nHello!\nHello, hello, hello.\nHello!\nHello.\nHello, hello, hello.\nHi!\nHi.\nHi, hi, hi.\nHi!\nHi.\nHi, hi, hi.\nHello!\nHello!\nHello, hello, hello.\nHello!\nHello.\nHello, hello, hello.\nHi!\nHi.\nHi, hi, hi.\nHi!\nHi.\nHi, hi, hi.\nHello!\nHi!\nHello!\nHi!"
+    },
+    {
+      "id": "starter_w1_o2",
+      "topic": "Greeting",
+      "level": "STARTER",
+      "lineCount": 39,
+      "preview": "Hello, children!  | Welcome to our English class. | Today, we are going to learn about: Greetings.",
+      "fullScript": "Hello, children! \nWelcome to our English class.\nToday, we are going to learn about: Greetings.\nAre you ready?\nLet's start!\n\nHello.\nHello.\nHi.\nHi.\n\nNow, listen and repeat after me.\nHello.\nHello.\nHi.\nHi.\n\nVery good!\n\nNow, let's learn how to say goodbye.\nGoodbye.\nGoodbye.\nBye-bye.\nBye-bye.\n\nListen and repeat.\nGoodbye.\nGoodbye.\nBye-bye.\nBye-bye.\n\nExcellent!\n\nNow, let's practice together.\nHello, teacher.\nHello, students.\nGoodbye, teacher.\nGoodbye, students.\n\nOne more time.\nHello, teacher.\nHello, students.\nGoodbye, teacher.\nGoodbye, students.\n\nGreat job, everyone!\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w1_o3",
+      "topic": "First day",
+      "level": "STARTER",
+      "lineCount": 51,
+      "preview": "Hello everyone!  | Welcome back to our English class. | I'm your teacher, Teacher Hannah.",
+      "fullScript": "Hello everyone! \nWelcome back to our English class.\nI'm your teacher, Teacher Hannah.\nToday, we have a new lesson.\nAre you ready?\nLet's go!\n\nFirst, let's learn some new words.\nLook at this picture.\nIt's a school.\nSchool. \nCan you say \"school\"? \nVery good!\n\nNext, look at this.\nIt's a classroom.\nClassroom.\nCan you say \"classroom\"?\nGreat job!\n\nNow, let's learn some phrases.\n\"Hello! What's your name?\"\n\"My name's...\"\nLet's practice.\n\"Hello! What's your name?\"\n\"My name's Ben.\"\n\nNow, it's your turn.\n\"Hello! What's your name?\"\n\"My name's...\"\nGood job!\n\nLet's learn how to say goodbye.\n\"Goodbye!\"\n\"See you later!\"\nCan you say \"Goodbye\"?\nVery good!\n\nNow, let's listen to a short story.\n\"Hello! My name is Ben. What's your name?\"\n\"Hi Ben! My name is Amy.\"\n\"Nice to meet you, Amy.\"\n\"Nice to meet you, too.\"\n\"Goodbye, Amy!\"\n\"Goodbye, Ben! See you later!\"\n\nNow, let's practice together.\nI say, you repeat.\n\"Hello! My name is Ben.\"\n\"What's your name?\"\n\"My name is...\"\n\"Nice to meet you.\"\n\"Goodbye! See you later!\"\n\nYou are doing great!\nThat's all for today's lesson.\nDon't forget to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "starter_w2_o1",
+      "topic": "School supplies",
+      "level": "STARTER",
+      "lineCount": 57,
+      "preview": "Hello! Welcome to our English class. | I'm Teacher Ivy. | Today, we are going to learn about \"School supplies\".",
+      "fullScript": "Hello! Welcome to our English class.\nI'm Teacher Ivy.\nToday, we are going to learn about \"School supplies\".\nAre you ready? Let's go!\n\nLook at this.\nWhat is this?\nIt's a pencil.\nA pencil.\nSay it with me: \"Pencil\".\nGood job!\n\nNow, look at this.\nWhat is this?\nIt's a pen.\nA pen.\nSay it with me: \"Pen\".\nGreat!\n\nNext one.\nWhat is this?\nIt's a book.\nA book.\nSay it with me: \"Book\".\nVery good!\n\nAnd this one.\nWhat is this?\nIt's a ruler.\nA ruler.\nSay it with me: \"Ruler\".\nExcellent!\n\nNow, let's practice.\nPoint to the pencil.\nWhere is the pencil?\nHere it is!\n\"It's a pencil.\"\n\nPoint to the pen.\nWhere is the pen?\nHere it is!\n\"It's a pen.\"\n\nPoint to the book.\nWhere is the book?\nHere it is!\n\"It's a book.\"\n\nPoint to the ruler.\nWhere is the ruler?\nHere it is!\n\"It's a ruler.\"\n\nLet's do a quick review.\n\"What is this?\"\n\"It's a pencil.\"\n\"What is this?\"\n\"It's a pen.\"\n\"What is this?\"\n\"It's a book.\"\n\"What is this?\"\n\"It's a ruler.\"\n\nYou did a great job today!\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w2_o2",
+      "topic": "Art supplies",
+      "level": "STARTER",
+      "lineCount": 47,
+      "preview": "Hello! Welcome back to our English class. | I’m Teacher Vy. | Today, we are going to learn about \"Art supplies\".",
+      "fullScript": "Hello! Welcome back to our English class.\nI’m Teacher Vy.\nToday, we are going to learn about \"Art supplies\".\nAre you ready? Let’s go!\n\nListen and repeat.\nCrayon.\nCrayon.\nGood job!\nMarker.\nMarker.\nVery good!\nPencil.\nPencil.\nExcellent!\nEraser.\nEraser.\nWell done!\nGlue.\nGlue.\nPerfect!\n\nNow, let's play a game.\nWhat is this?\nIt’s a crayon.\nWhat is this?\nIt’s a marker.\nWhat is this?\nIt’s a pencil.\nWhat is this?\nIt’s an eraser.\nWhat is this?\nIt’s glue.\n\nGreat job, everyone!\nNow, look at the picture and say the words.\nWhat is this?\nIt’s a pencil.\nWhat is this?\nIt’s a marker.\nWhat is this?\nIt’s glue.\nWhat is this?\nIt’s a crayon.\nWhat is this?\nIt’s an eraser.\n\nYou did a great job today!\nDon't forget to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "starter_w2_o3",
+      "topic": "What's this? What's that?",
+      "level": "STARTER",
+      "lineCount": 25,
+      "preview": "Hello, everyone! Welcome back to class. | Today, we are going to learn \"What's this?\" and \"What's that?\" | Are you ready? Let's go!",
+      "fullScript": "Hello, everyone! Welcome back to class.\nToday, we are going to learn \"What's this?\" and \"What's that?\"\nAre you ready? Let's go!\n\nLook at this.\nWhat's this?\nIt's a pen.\nWhat's this?\nIt's a pen.\n\nNow, look at that.\nWhat's that?\nIt's a book.\nWhat's that?\nIt's a book.\n\nLet's practice.\nWhat's this?\nIt's an eraser.\nWhat's this?\nIt's an eraser.\n\nWhat's that?\nIt's a pencil.\nWhat's that?\nIt's a pencil.\n\nGood job, everyone!\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w3_o1",
+      "topic": "Birthday",
+      "level": "STARTER",
+      "lineCount": 33,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are on Week 3, Lesson 1. | And the topic for today is: Birthday!",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are on Week 3, Lesson 1.\nAnd the topic for today is: Birthday!\nAre you ready? Let’s go!\n\nFirst, let's learn some new words.\nListen and repeat.\nCake.\nCake.\nCandles.\nCandles.\nPresents.\nPresents.\nBalloons.\nBalloons.\n\nGreat job! Now, let's practice the sentence structure.\nIt’s a birthday party.\nIt’s a birthday party.\nHow many balloons?\nOne, two, three.\nThree balloons.\nThree balloons.\n\nLet’s try again.\nHow many candles?\nOne, two, three, four, five.\nFive candles.\nFive candles.\n\nVery good! Now, let's listen to the song.\n\"Happy birthday to you, happy birthday to you!\"\n\"Happy birthday, happy birthday, happy birthday to you!\"\n\nWell done, everyone!\nThat is the end of our lesson for today.\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w3_o2",
+      "topic": "It's ok",
+      "level": "STARTER",
+      "lineCount": 61,
+      "preview": "Hello, boys and girls! | Welcome to your English lesson. | I'm teacher Vy, and I'm very happy to be here with you today.",
+      "fullScript": "Hello, boys and girls!\nWelcome to your English lesson.\nI'm teacher Vy, and I'm very happy to be here with you today.\nAre you ready for our lesson?\nGreat! Let's start.\n\nToday, we are going to learn about feelings.\nSometimes we feel happy, sometimes we feel sad, sometimes we feel angry, and that is okay.\nOur topic today is: \"It's okay\".\n\nNow, let's learn some new words.\nLook at the picture.\nHow does he feel?\nHe is happy.\nRepeat after me: Happy.\nHappy.\nVery good!\n\nNow, look at this picture.\nHow does she feel?\nShe is sad.\nRepeat after me: Sad.\nSad.\nWell done!\n\nAnd look at this one.\nHow does he feel?\nHe is angry.\nRepeat after me: Angry.\nAngry.\nGood job!\n\nNow, let's practice with the sentence: \"I am...\"\nRepeat after me: I am happy.\nI am happy.\nI am sad.\nI am sad.\nI am angry.\nI am angry.\n\nVery good! Now, listen and point to the pictures.\nHappy.\nSad.\nAngry.\n\nNow, let's play a game.\nWhen I say a feeling, you show me the face.\nAre you ready?\nHappy!\nShow me your happy face.\nGreat!\nSad!\nShow me your sad face.\nOh, I see many sad faces.\nAngry!\nShow me your angry face.\nOh, very scary!\n\nNow, let's learn the main sentence of our lesson.\n\"It's okay.\"\nRepeat after me: It's okay.\nIt's okay to be sad.\nIt's okay to be angry.\nIt's okay to be happy.\n\nVery good, everyone!\nYou did a great job today.\nRemember, all your feelings are okay.\nSee you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "starter_w3_o3",
+      "topic": "Emotions",
+      "level": "STARTER",
+      "lineCount": 41,
+      "preview": "Hello! Today, we are going to learn about emotions. | Are you ready? Let's go! | Happy.",
+      "fullScript": "Hello! Today, we are going to learn about emotions.\nAre you ready? Let's go!\n\nHappy.\nHappy.\nAre you happy?\nYes, I am!\n\nSad.\nSad.\nAre you sad?\nNo, I'm not.\n\nHungry.\nHungry.\nAre you hungry?\nYes, I am!\n\nThirsty.\nThirsty.\nAre you thirsty?\nNo, I'm not.\n\nAngry.\nAngry.\nAre you angry?\nNo, I'm not.\n\nTired.\nTired.\nAre you tired?\nYes, I am!\n\nLet's practice!\nAre you happy?\nYes, I am.\nAre you sad?\nNo, I'm not.\nAre you hungry?\nYes, I am.\nAre you thirsty?\nNo, I'm not.\nAre you angry?\nNo, I'm not.\nAre you tired?\nYes, I am.\n\nGreat job!\nSee you next time!"
+    },
+    {
+      "id": "starter_w4_o1",
+      "topic": "Wake up",
+      "level": "STARTER",
+      "lineCount": 49,
+      "preview": "Hello, everyone! Welcome back to class. | Are you ready to learn? | Great! Let's start.",
+      "fullScript": "Hello, everyone! Welcome back to class.\nAre you ready to learn?\nGreat! Let's start.\n\nToday, we are going to learn about: \"Wake up\".\nWake up!\nWake up!\n\nListen and repeat:\nWake up!\nWake up!\nVery good.\n\nNow, let's look at the actions.\nStretch!\nStretch!\nStretch!\nWake up, stretch!\n\nWash your face.\nWash your face.\nWash your face.\nWake up, stretch, wash your face.\n\nBrush your teeth.\nBrush your teeth.\nBrush your teeth.\nWake up, stretch, wash your face, brush your teeth.\n\nGet dressed.\nGet dressed.\nGet dressed.\nWake up, stretch, wash your face, brush your teeth, get dressed.\n\nComb your hair.\nComb your hair.\nComb your hair.\nWake up, stretch, wash your face, brush your teeth, get dressed, comb your hair.\n\nNow, let's do it together!\nReady? Go!\n\nWake up!\nStretch!\nWash your face!\nBrush your teeth!\nGet dressed!\nComb your hair!\n\nOne more time, a little bit faster!\nWake up!\nStretch!\nWash your face!\nBrush your teeth!\nGet dressed!\nComb your hair!\n\nYou did a great job today!\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "starter_w4_o2",
+      "topic": "Morning routines",
+      "level": "STARTER",
+      "lineCount": 36,
+      "preview": "Hello! Welcome to our English class. | Today, we are going to learn about morning routines. | Are you ready?",
+      "fullScript": "Hello! Welcome to our English class.\nToday, we are going to learn about morning routines.\nAre you ready?\nLet's start!\n\nWake up.\nWake up.\nGood morning!\nWake up.\n\nBrush my teeth.\nBrush my teeth.\nBrush, brush, brush.\nBrush my teeth.\n\nWash my face.\nWash my face.\nWash, wash, wash.\nWash my face.\n\nGet dressed.\nGet dressed.\nGet dressed.\n\nEat breakfast.\nEat breakfast.\nEat, eat, eat.\nEat breakfast.\n\nGo to school.\nGo to school.\nGo to school.\n\nNow, let's practice together.\nWhat do you do in the morning?\n\nWake up.\nBrush my teeth.\nWash my face.\nGet dressed.\nEat breakfast.\nGo to school.\n\nGreat job!\nSee you next time!"
+    },
+    {
+      "id": "starter_w4_o3",
+      "topic": "5 senses",
+      "level": "STARTER",
+      "lineCount": 45,
+      "preview": "Hello everyone! | Welcome back to our English class. | I’m so happy to see you again.",
+      "fullScript": "Hello everyone!\nWelcome back to our English class.\nI’m so happy to see you again.\nToday, we are going to learn about the 5 senses.\nAre you ready?\nLet's go!\n\nFirst, let's learn the parts of our body that we use for our senses.\nEyes.\nEars.\nNose.\nMouth.\nHands.\n\nNow, let's learn the 5 senses.\nSight.\nHearing.\nSmell.\nTaste.\nTouch.\n\nLet's practice together.\nI use my eyes to see.\nI can see a beautiful flower.\nI use my ears to hear.\nI can hear the music.\nI use my nose to smell.\nI can smell a yummy pizza.\nI use my mouth to taste.\nI can taste a sweet apple.\nI use my hands to touch.\nI can touch a soft teddy bear.\n\nGreat job!\nNow, let’s play a game.\nListen carefully.\nWhat sense do you use to know it is a flower?\nYes, you use your eyes to see the flower.\nAnd you use your nose to smell the flower.\n\nWhat sense do you use to know it is a drum?\nYes, you use your ears to hear the drum.\n\nWhat sense do you use to know it is ice cream?\nYes, you use your mouth to taste the ice cream.\n\nWhat sense do you use to know it is a fluffy pillow?\nYes, you use your hands to touch the pillow.\n\nYou did a great job today.\nRemember, we use our 5 senses to explore the world.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "starter_w5_o1",
+      "topic": "Clothes",
+      "level": "STARTER",
+      "lineCount": 45,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are going to learn about clothes. | Are you ready? Let's go!",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are going to learn about clothes.\nAre you ready? Let's go!\n\nLook at this. What is this?\nIt's a T-shirt.\nT-shirt.\nT-shirt.\nCan you say that? T-shirt.\nVery good!\n\nNext one. What is this?\nIt's a dress.\nDress.\nDress.\nCan you say that? Dress.\nGreat job!\n\nNow, what are these?\nThey are pants.\nPants.\nPants.\nCan you say that? Pants.\nWell done!\n\nAnd what are these?\nThey are shoes.\nShoes.\nShoes.\nCan you say that? Shoes.\nExcellent!\n\nNow, let's practice together.\nWhat is this? It's a T-shirt.\nWhat is this? It's a dress.\nWhat are these? They are pants.\nWhat are these? They are shoes.\n\nLet's do it faster!\nT-shirt.\nDress.\nPants.\nShoes.\n\nYou are doing great!\nNow, repeat after me.\nI have a T-shirt.\nI have a dress.\nI have pants.\nI have shoes.\n\nThat’s all for today. \nSee you next time! Goodbye!"
+    },
+    {
+      "id": "starter_w5_o2",
+      "topic": "Put on your clothes",
+      "level": "STARTER",
+      "lineCount": 50,
+      "preview": "Hello! | Welcome back to our English class. | Today, we are going to learn about clothes.",
+      "fullScript": "Hello!\nWelcome back to our English class.\nToday, we are going to learn about clothes.\nAre you ready?\nLet's go!\n\nListen and repeat.\nT-shirt.\nT-shirt.\nT-shirt.\n\nDress.\nDress.\nDress.\n\nSkirt.\nSkirt.\nSkirt.\n\nHat.\nHat.\nHat.\n\nShoes.\nShoes.\nShoes.\n\nSocks.\nSocks.\nSocks.\n\nNow, let's practice putting on clothes.\nPut on your T-shirt.\nPut on your T-shirt.\n\nPut on your dress.\nPut on your dress.\n\nPut on your skirt.\nPut on your skirt.\n\nPut on your hat.\nPut on your hat.\n\nPut on your shoes.\nPut on your shoes.\n\nPut on your socks.\nPut on your socks.\n\nGreat job, everyone!\nNow, let's play a game.\nI will say a word, and you point to the clothes.\nReady?\nWhere is the hat?\nYes, here is the hat!\n\nWhere are the shoes?\nYes, here are the shoes!\n\nWhere is the T-shirt?\nYes, here is the T-shirt!\n\nYou did a great job today.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "starter_w5_o3",
+      "topic": "What does she look like",
+      "level": "STARTER",
+      "lineCount": 40,
+      "preview": "Hello, everyone! Welcome back to our English class.  | Today, we are going to learn how to ask and answer questions about someone's appearance. | Are you ready? Let's start!",
+      "fullScript": "Hello, everyone! Welcome back to our English class. \n\nToday, we are going to learn how to ask and answer questions about someone's appearance.\n\nAre you ready? Let's start!\n\nLook at the picture. \n\n\"What does she look like?\"\n\nRepeat after me.\n\"What does she look like?\"\n\n\"What does she look like?\"\n\nGreat!\n\nNow, let's look at the answer. \n\n\"She is tall and thin.\"\n\n\"She is tall and thin.\"\n\nLet's do it again.\n\"She is tall and thin.\"\n\nVery good!\n\nNow, let's look at another one.\n\n\"What does she look like?\"\n\n\"She is short and pretty.\"\n\n\"She is short and pretty.\"\n\nAgain.\n\"She is short and pretty.\"\n\nExcellent!\n\nNow, look at this.\n\n\"What does she look like?\"\n\n\"She has long hair.\"\n\n\"She has long hair.\"\n\nVery good.\n\n\"She has short hair.\"\n\n\"She has short hair.\"\n\nLet's repeat that.\n\"She has short hair.\"\n\nGreat job, everyone!\n\nNow, let's practice together.\n\nWhat does she look like?\nShe is tall.\n\nWhat does she look like?\nShe has long hair.\n\nWell done!\n\nNow, it's your turn to practice.\n\nSee you next time!"
+    },
+    {
+      "id": "starter_w6_o1",
+      "topic": "What number is it?",
+      "level": "STARTER",
+      "lineCount": 36,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are going to learn about numbers. | Are you ready? Let's start!",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are going to learn about numbers.\nAre you ready? Let's start!\n\nWhat number is it?\nNumber one.\nIt's number one.\nNumber one.\n\nWhat number is it?\nNumber two.\nIt's number two.\nNumber two.\n\nWhat number is it?\nNumber three.\nIt's number three.\nNumber three.\n\nWhat number is it?\nNumber four.\nIt's number four.\nNumber four.\n\nWhat number is it?\nNumber five.\nIt's number five.\nNumber five.\n\nLet's review.\nWhat number is it?\nIt's number one.\nWhat number is it?\nIt's number two.\nWhat number is it?\nIt's number three.\nWhat number is it?\nIt's number four.\nWhat number is it?\nIt's number five.\n\nGreat job, everyone!\nSee you next time!"
+    },
+    {
+      "id": "starter_w6_o2",
+      "topic": "How many",
+      "level": "STARTER",
+      "lineCount": 40,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m Teacher Sarah. | How are you today?",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m Teacher Sarah.\nHow are you today?\nAre you ready to learn?\nGreat! Let’s start.\n\nToday, we are going to learn how to ask and answer questions about quantity.\nWe use the phrase \"How many\".\nLet’s look at some examples.\n\nLook at these apples.\nHow many apples?\nOne, two, three.\nThree apples.\n\nLet’s try another one.\nHow many cats?\nOne, two.\nTwo cats.\n\nVery good! Now, repeat after me.\nHow many apples?\nThree apples.\nHow many cats?\nTwo cats.\n\nGood job!\nNow, let’s practice with some toys.\nLook! How many cars?\nOne, two, three, four.\nFour cars.\n\nGreat! Let’s do it one more time.\nHow many cars?\nFour cars.\n\nExcellent! You are doing a great job.\nNow, it’s your turn.\nLook at the screen. How many balls?\nYes! That’s right. Two balls.\n\nHow many pencils?\nYes! Very good. Five pencils.\n\nYou are all doing amazing today!\nRemember, we use \"How many\" to ask about the number of things.\nKeep practicing at home.\nSee you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "starter_w6_o3",
+      "topic": "How much",
+      "level": "STARTER",
+      "lineCount": 31,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are going to learn how to ask about price. | Are you ready? Let’s start!",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are going to learn how to ask about price.\nAre you ready? Let’s start!\n\nHow much is this T-shirt?\nIt’s ten dollars.\n\nHow much is this hat?\nIt’s five dollars.\n\nHow much is this dress?\nIt’s fifteen dollars.\n\nHow much are these shoes?\nThey’re twenty dollars.\n\nHow much are these socks?\nThey’re three dollars.\n\nHow much are these shorts?\nThey’re seven dollars.\n\nNow, it’s your turn.\nLook at the pictures and answer the questions.\n\nHow much is this T-shirt?\nIt’s ten dollars.\n\nHow much is this hat?\nIt’s five dollars.\n\nHow much is this dress?\nIt’s fifteen dollars.\n\nHow much are these shoes?\nThey’re twenty dollars.\n\nHow much are these socks?\nThey’re three dollars.\n\nHow much are these shorts?\nIt’s seven dollars.\n\nGreat job, everyone!\nSee you next time!"
+    },
+    {
+      "id": "starter_w7_o1",
+      "topic": "Emotions",
+      "level": "STARTER",
+      "lineCount": 64,
+      "preview": "Hello everyone! | Welcome back to our English class. | I’m so happy to see you today.",
+      "fullScript": "Hello everyone!\nWelcome back to our English class.\nI’m so happy to see you today.\nHow are you feeling today?\nAre you happy?\nAre you sad?\nAre you angry?\nAre you hungry?\nAre you thirsty?\nAre you tired?\nToday, we are going to learn about emotions.\nLet's start!\nListen and repeat.\nHappy.\nHappy.\nSad.\nSad.\nAngry.\nAngry.\nHungry.\nHungry.\nThirsty.\nThirsty.\nTired.\nTired.\nGreat job!\nNow, let's play a game.\nI will show you a picture and you tell me how they feel.\nReady?\nHow does he feel?\nHe is happy.\nGood!\nHow does she feel?\nShe is sad.\nExcellent!\nHow does he feel?\nHe is angry.\nVery good!\nHow does he feel?\nHe is hungry.\nGreat job!\nHow does she feel?\nShe is thirsty.\nWell done!\nHow does he feel?\nHe is tired.\nFantastic!\nNow, let's practice asking and answering.\nHow are you?\nI am happy.\nHow are you?\nI am sad.\nHow are you?\nI am angry.\nHow are you?\nI am hungry.\nHow are you?\nI am thirsty.\nHow are you?\nI am tired.\nYou all did a wonderful job today!\nRemember to practice these words at home.\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w7_o2",
+      "topic": "Weather",
+      "level": "STARTER",
+      "lineCount": 30,
+      "preview": "Hello! Welcome back to class. | Today, we are going to learn about the weather. | Are you ready? Let’s go!",
+      "fullScript": "Hello! Welcome back to class.\nToday, we are going to learn about the weather.\nAre you ready? Let’s go!\n\nListen and repeat.\nSunny.\nSunny.\nIt’s sunny.\n\nCloudy.\nCloudy.\nIt’s cloudy.\n\nRainy.\nRainy.\nIt’s rainy.\n\nWindy.\nWindy.\nIt’s windy.\n\nSnowy.\nSnowy.\nIt’s snowy.\n\nNow, let’s play a game.\nWhat’s the weather like?\nLook at the picture.\nIt’s sunny!\n\nWhat’s the weather like?\nIt’s rainy!\n\nWhat’s the weather like?\nIt’s windy!\n\nGreat job, everyone!\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "starter_w7_o3",
+      "topic": "How's the weather",
+      "level": "STARTER",
+      "lineCount": 56,
+      "preview": "Hello! | Welcome back to our English class. | I’m Teacher Sunny.",
+      "fullScript": "Hello!\nWelcome back to our English class.\nI’m Teacher Sunny.\nToday, we are going to learn about the weather.\nAre you ready?\nLet’s go!\n\nFirst, let’s learn some new words.\nListen and repeat after me.\n\nSunny.\nSunny.\nIt’s sunny.\n\nCloudy.\nCloudy.\nIt’s cloudy.\n\nRainy.\nRainy.\nIt’s rainy.\n\nSnowy.\nSnowy.\nIt’s snowy.\n\nWindy.\nWindy.\nIt’s windy.\n\nGood job, everyone!\n\nNow, let’s learn how to ask and answer about the weather.\nTo ask about the weather, we say: \"How’s the weather?\"\nTo answer, we say: \"It’s...\" plus the weather.\n\nFor example:\nHow’s the weather?\nIt’s sunny.\n\nHow’s the weather?\nIt’s cloudy.\n\nHow’s the weather?\nIt’s rainy.\n\nHow’s the weather?\nIt’s snowy.\n\nHow’s the weather?\nIt’s windy.\n\nExcellent!\n\nNow, let’s play a game.\nI will show you a picture and you say the answer.\nReady?\n\nHow’s the weather?\nIt’s sunny.\n\nHow’s the weather?\nIt’s rainy.\n\nHow’s the weather?\nIt’s windy.\n\nHow’s the weather?\nIt’s snowy.\n\nHow’s the weather?\nIt’s cloudy.\n\nYou did a great job today!\nDon’t forget to practice at home.\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "movers_w1_o1",
+      "topic": "My day",
+      "level": "MOVERS",
+      "lineCount": 43,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are going to learn a new topic: \"My day\". | Are you ready? Let's start!",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are going to learn a new topic: \"My day\".\nAre you ready? Let's start!\n\nFirst, let's look at these pictures and listen.\nGet up.\nHave breakfast.\nGo to school.\nHave lunch.\nGo home.\nDo homework.\nHave dinner.\nGo to bed.\n\nNow, listen and repeat after me.\nGet up.\nHave breakfast.\nGo to school.\nHave lunch.\nGo home.\nDo homework.\nHave dinner.\nGo to bed.\n\nVery good! Now, let's practice asking and answering about our daily routine.\nWhat time do you get up?\nI get up at six o’clock.\nWhat time do you have breakfast?\nI have breakfast at seven o’clock.\n\nGreat job! Now, let's play a game. I will show you the pictures, and you tell me what it is.\nWhat is this?\nThat’s right, it’s \"Go to school\".\nAnd what about this one?\nPerfect, it’s \"Do homework\".\n\nNow, let's try to make some full sentences.\nI get up at six o'clock.\nI have breakfast at seven o'clock.\nI go to school at eight o'clock.\nI have lunch at twelve o'clock.\nI go home at four o'clock.\nI do homework at five o'clock.\nI have dinner at seven o'clock.\nI go to bed at nine o'clock.\n\nFantastic! You all did a great job today.\nRemember to practice these phrases at home.\nSee you in the next lesson! Goodbye!"
+    },
+    {
+      "id": "movers_w1_o2",
+      "topic": "Telephone conversation",
+      "level": "MOVERS",
+      "lineCount": 45,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"Telephone conversation\". | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"Telephone conversation\".\nAre you ready? Let's start!\n\nFirst, let's learn some useful phrases when you are on the phone.\nRepeat after me:\n\"Hello, may I speak to...?\"\n\"Hello, may I speak to...?\"\n\"Hold on a second, please.\"\n\"Hold on a second, please.\"\n\"Can I take a message?\"\n\"Can I take a message?\"\n\"I'll call back later.\"\n\"I'll call back later.\"\n\"Thank you for calling.\"\n\"Thank you for calling.\"\n\nNow, let's practice a short conversation.\nListen carefully:\n\nA: \"Hello, may I speak to Ben?\"\nB: \"Hello! This is Ben. Who is calling, please?\"\nA: \"Hi Ben, this is Anna.\"\nB: \"Oh, hi Anna! How are you?\"\nA: \"I'm great, thanks. Do you want to go to the park?\"\nB: \"I'd love to! Hold on a second, let me ask my mom.\"\nB: \"Yes, I can go! What time?\"\nA: \"At 3 o'clock.\"\nB: \"Okay, see you then!\"\nA: \"See you! Bye!\"\nB: \"Bye!\"\n\nGreat! Now, let's practice again. I will be A, and you will be B.\nAre you ready?\n\nA: \"Hello, may I speak to Ben?\"\nB: [Pause for your turn]\nA: \"Hi Ben, this is Anna.\"\nB: [Pause for your turn]\nA: \"I'm great, thanks. Do you want to go to the park?\"\nB: [Pause for your turn]\nB: \"Yes, I can go! What time?\"\nA: \"At 3 o'clock.\"\nB: [Pause for your turn]\nA: \"See you! Bye!\"\nB: [Pause for your turn]\n\nVery good job!\nRemember to practice these phrases with your friends or parents.\nThank you for watching and see you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "movers_w1_o3",
+      "topic": "Reading a story",
+      "level": "MOVERS",
+      "lineCount": 41,
+      "preview": "Hello everyone! Welcome back to our English class.  | I’m so happy to see you again! | Today, we are going to learn how to read a story.",
+      "fullScript": "Hello everyone! Welcome back to our English class. \n\nI’m so happy to see you again!\n\nToday, we are going to learn how to read a story.\n\nAre you ready? Let’s start!\n\nFirst, look at the picture. \n\nWhat can you see in the picture?\n\nYes, that’s right. I can see a boy and a girl. \n\nThey are in the garden. \n\nAnd look, there is a big tree!\n\nNow, listen and repeat after me.\n\nThe children are in the garden.\n\nGood job!\n\nNow, let’s look at the next picture.\n\nWhat are they doing now?\n\nYes, they are looking at a cat. \n\nThe cat is in the tree.\n\nListen and repeat.\n\nThe cat is in the tree.\n\nVery good!\n\nNow, look at this picture.\n\nThe boy is helping the cat. \n\nHe is climbing the tree.\n\nListen and repeat.\n\nThe boy is climbing the tree.\n\nExcellent!\n\nAnd the last picture.\n\nThe cat is happy. \n\nThe boy and the girl are happy, too.\n\nListen and repeat.\n\nThey are all happy.\n\nPerfect!\n\nNow, let’s read the whole story together.\n\nAre you ready?\n\nThe children are in the garden.\n\nThe cat is in the tree.\n\nThe boy is climbing the tree.\n\nThey are all happy.\n\nGreat work, everyone! \n\nYou did a wonderful job today.\n\nKeep practicing your reading, and I will see you in the next lesson.\n\nGoodbye!"
+    },
+    {
+      "id": "movers_w2_o1",
+      "topic": "Furniture",
+      "level": "MOVERS",
+      "lineCount": 45,
+      "preview": "Hello everyone. Welcome back to our English class. | Today we are going to learn about \"Furniture\". | Are you ready? Let's start.",
+      "fullScript": "Hello everyone. Welcome back to our English class.\nToday we are going to learn about \"Furniture\".\nAre you ready? Let's start.\n\nLook at this. What is this?\nIt's a bed.\nRepeat after me: Bed.\nB-E-D. Bed.\nGood job!\n\nNow, look at this. What is this?\nIt's a chair.\nRepeat after me: Chair.\nC-H-A-I-R. Chair.\nVery good!\n\nNext one. What is this?\nIt's a table.\nRepeat after me: Table.\nT-A-B-L-E. Table.\nExcellent!\n\nWhat about this? What is this?\nIt's a lamp.\nRepeat after me: Lamp.\nL-A-M-P. Lamp.\nWell done!\n\nAnd this one. What is this?\nIt's a cupboard.\nRepeat after me: Cupboard.\nC-U-P-B-O-A-R-D. Cupboard.\nGreat!\n\nLastly, look at this. What is this?\nIt's a sofa.\nRepeat after me: Sofa.\nS-O-F-A. Sofa.\nPerfect!\n\nNow, let's practice together.\nWhere is the lamp?\nThe lamp is on the table.\nRepeat after me: The lamp is on the table.\nVery good.\n\nWhere is the cat?\nThe cat is on the sofa.\nRepeat after me: The cat is on the sofa.\nExcellent.\n\nYou did a great job today.\nRemember to practice these words at home.\nSee you next time! Goodbye!"
+    },
+    {
+      "id": "movers_w2_o2",
+      "topic": "My home",
+      "level": "MOVERS",
+      "lineCount": 52,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"My home\". | Are you ready? Let’s go!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"My home\".\nAre you ready? Let’s go!\n\nFirst, let's learn some new words about rooms in the house.\nRepeat after me:\nLiving room\nLiving room\nKitchen\nKitchen\nBathroom\nBathroom\nBedroom\nBedroom\nDining room\nDining room\nGarden\nGarden\n\nGreat job! Now, let's practice asking and answering questions about where people are.\nWhere is Mom?\nShe is in the kitchen.\nWhere is Dad?\nHe is in the living room.\nWhere is your brother?\nHe is in the bedroom.\nWhere is your sister?\nShe is in the garden.\n\nVery good! Now, let's learn how to describe your home.\nMy home is big.\nMy home is small.\nThere are four rooms in my house.\nThere is a bed in my bedroom.\nThere is a sofa in the living room.\n\nNow, it's time for you to practice.\nLook at the picture and tell me: Where is the cat?\nThe cat is in the bathroom.\nYes, that’s right!\nAnd where is the dog?\nThe dog is in the garden.\nExcellent!\n\nNow, let's play a game.\nI will say a room, and you have to act it out!\nLiving room!\n(Students act out watching TV)\nKitchen!\n(Students act out eating or cooking)\nBedroom!\n(Students act out sleeping)\n\nWell done, everyone!\nYou did a great job today.\nRemember to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "movers_w2_o3",
+      "topic": "In - on - under",
+      "level": "MOVERS",
+      "lineCount": 37,
+      "preview": "Hello everyone!  | Welcome back to our English class. | Today, we are going to learn about prepositions of place: \"In\", \"on\", \"under\".",
+      "fullScript": "Hello everyone! \nWelcome back to our English class.\nToday, we are going to learn about prepositions of place: \"In\", \"on\", \"under\".\nAre you ready? Let's start!\n\nLook at this picture. Where is the cat?\nThe cat is in the box. \nIn. \nRepeat after me: \"The cat is in the box.\"\nGood job!\n\nNow, look at this. Where is the cat?\nThe cat is on the box.\nOn.\nRepeat after me: \"The cat is on the box.\"\nGreat!\n\nAnd now, where is the cat?\nThe cat is under the box.\nUnder.\nRepeat after me: \"The cat is under the box.\"\nExcellent!\n\nLet's practice again.\nWhere is the ball?\nThe ball is in the basket.\nWhere is the ball?\nThe ball is on the table.\nWhere is the ball?\nThe ball is under the chair.\n\nWell done! Now it's your turn.\nLook at the picture and tell me: Where is the apple?\nThat's right! The apple is on the table.\nWhere is the cat?\nYes! The cat is under the table.\nAnd where is the dog?\nExactly! The dog is in the box.\n\nYou did a great job today.\nRemember: \"In\", \"on\", \"under\".\nPractice every day and see you next time.\nGoodbye!"
+    },
+    {
+      "id": "movers_w3_o1",
+      "topic": "Time chants",
+      "level": "MOVERS",
+      "lineCount": 39,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m so happy to see you again! | Today, we are going to learn about \"Time\".",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m so happy to see you again!\nToday, we are going to learn about \"Time\".\nAre you ready? Let’s get started!\n\nListen to the chant and say it with me.\nWhat time is it?\nWhat time is it?\nIs it one o'clock?\nNo, it isn't.\nIs it two o'clock?\nNo, it isn't.\nWhat time is it?\nIt's three o'clock.\nIt's time for lunch.\n\nNow, let's say it again.\nWhat time is it?\nWhat time is it?\nIs it four o'clock?\nNo, it isn't.\nIs it five o'clock?\nNo, it isn't.\nWhat time is it?\nIt's six o'clock.\nIt's time for dinner.\n\nOne more time.\nWhat time is it?\nWhat time is it?\nIs it seven o'clock?\nNo, it isn't.\nIs it eight o'clock?\nNo, it isn't.\nWhat time is it?\nIt's nine o'clock.\nIt's time for bed.\n\nGreat job, everyone!\nYou did a wonderful job today.\nPractice the chant at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "movers_w3_o2",
+      "topic": "What time is it?",
+      "level": "MOVERS",
+      "lineCount": 63,
+      "preview": "Hello everyone! Welcome back to our English class. | How are you today? | Are you ready to start our lesson? Great!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nHow are you today?\nAre you ready to start our lesson? Great!\nToday, we are going to learn about: \"What time is it?\"\nLet’s look at the clock.\nWhat time is it?\nIt's one o'clock.\nIt's two o'clock.\nIt's three o'clock.\nIt's four o'clock.\nIt's five o'clock.\nIt's six o'clock.\nIt's seven o'clock.\nIt's eight o'clock.\nIt's nine o'clock.\nIt's ten o'clock.\nIt's eleven o'clock.\nIt's twelve o'clock.\nNow, let's practice asking and answering.\nListen carefully.\n\"What time is it?\"\n\"It's three o'clock.\"\nYour turn. What time is it?\nVery good!\nNow, let's look at the minute hand.\nWhen the minute hand is at 3, we say: \"It's quarter past...\"\nFor example: It's quarter past one.\nWhen the minute hand is at 6, we say: \"It's half past...\"\nFor example: It's half past one.\nWhen the minute hand is at 9, we say: \"It's quarter to...\"\nFor example: It's quarter to two.\nLet’s practice together.\nWhat time is it?\nIt's quarter past two.\nWhat time is it?\nIt's half past three.\nWhat time is it?\nIt's quarter to four.\nWell done!\nNow, let's try some more examples.\nIt's five past five.\nIt's ten past six.\nIt's twenty past seven.\nIt's twenty-five past eight.\nIt's twenty-five to nine.\nIt's twenty to ten.\nIt's ten to eleven.\nIt's five to twelve.\nExcellent!\nNow, listen to the teacher and repeat after me.\nWhat time is it?\nIt's five o'clock.\nWhat time is it?\nIt's quarter past five.\nWhat time is it?\nIt's half past five.\nWhat time is it?\nIt's quarter to six.\nGreat job, everyone!\nThat is all for today's lesson.\nDon't forget to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "movers_w3_o3",
+      "topic": "We're late",
+      "level": "MOVERS",
+      "lineCount": 45,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m so happy to see you again. | Today, we are going to learn a new lesson.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m so happy to see you again.\nToday, we are going to learn a new lesson.\nAre you ready?\nLet’s get started!\n\nUnit 3: We’re late.\n\nLook at the screen.\nWhat can you see?\nIt’s a clock.\nWhat time is it?\nIt’s eight o’clock.\nWe’re late!\n\nLet’s learn some new words.\nRepeat after me.\nLate.\nLate.\nLate.\n\nHurry.\nHurry.\nHurry.\n\nQuickly.\nQuickly.\nQuickly.\n\nDon’t worry.\nDon’t worry.\nDon’t worry.\n\nNow, let’s listen to the story.\nOh no, look at the clock. It’s eight o’clock!\nWe’re late for school.\nHurry, hurry!\nWalk quickly!\nDon’t worry, Mom. We’re on time.\nIs it eight o’clock?\nNo, it’s seven o’clock.\nOh, I’m sorry.\n\nNow, it’s time to practice.\nRepeat after me.\nWe’re late for school.\nHurry, hurry!\nWalk quickly!\nDon’t worry.\nWe’re on time.\n\nGreat job, everyone!\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "movers_w4_o1",
+      "topic": "Time for lunch",
+      "level": "MOVERS",
+      "lineCount": 53,
+      "preview": "Hello! Welcome back to our English class. | Today, we are going to learn about \"Time for lunch.\" | Are you ready? Let's start!",
+      "fullScript": "Hello! Welcome back to our English class.\nToday, we are going to learn about \"Time for lunch.\"\nAre you ready? Let's start!\n\nFirst, let's look at some food vocabulary.\nLook at the pictures and repeat after me.\n\nPizza.\nPizza.\nSandwich.\nSandwich.\nSalad.\nSalad.\nRice.\nRice.\nChicken.\nChicken.\nPasta.\nPasta.\n\nGreat job! Now, let's practice asking and answering about what we want for lunch.\nListen carefully: \"What would you like for lunch?\"\nAnd the answer is: \"I would like some pizza, please.\"\n\nNow, you try!\n\"What would you like for lunch?\"\n\"I would like some salad, please.\"\n\nVery good!\nNow, let's look at the grammar structure for \"Have you got...?\"\n\"Have you got a sandwich?\"\n\"Yes, I have.\"\n\"No, I haven't.\"\n\nLet's practice again.\n\"Have you got a sandwich?\"\n\"Yes, I have.\"\n\n\"Have you got any rice?\"\n\"No, I haven't.\"\n\nExcellent! Now it's time for our dialogue.\nListen to the conversation.\n\n\"Hi, Tom! Are you hungry?\"\n\"Yes, I am. It's time for lunch!\"\n\"What would you like to eat?\"\n\"I would like some chicken and pasta, please.\"\n\"Have you got any salad?\"\n\"No, I haven't. But I have got a sandwich.\"\n\"That sounds great. Let's eat!\"\n\nNow, let's practice the dialogue together. You are Tom, and I am the teacher.\n\"Hi, Tom! Are you hungry?\"\n(Student: Yes, I am. It's time for lunch!)\n\"What would you like to eat?\"\n(Student: I would like some chicken and pasta, please.)\n\"Have you got any salad?\"\n(Student: No, I haven't. But I have got a sandwich.)\n\"That sounds great. Let's eat!\"\n\nPerfect! You did a wonderful job today.\nRemember to practice your food vocabulary and the phrases at home.\nSee you next time! Goodbye!"
+    },
+    {
+      "id": "movers_w4_o2",
+      "topic": "School Subjects",
+      "level": "MOVERS",
+      "lineCount": 66,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m Teacher Vy, and I’m so happy to see you again. | Today, we are going to learn about: School Subjects.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m Teacher Vy, and I’m so happy to see you again.\nToday, we are going to learn about: School Subjects.\nAre you ready? Let’s get started!\n\nLook at this picture. What can you see?\nYes, you can see a lot of subjects.\nNow, listen and repeat after me.\n\nMath.\nMath.\nMath.\n\nEnglish.\nEnglish.\nEnglish.\n\nScience.\nScience.\nScience.\n\nArt.\nArt.\nArt.\n\nMusic.\nMusic.\nMusic.\n\nP.E.\nP.E.\nP.E.\n\nGreat job! Now, let’s play a game.\nI will show you a picture, and you tell me what subject it is.\n\nWhat subject is this?\nIt’s Art.\nCorrect!\n\nWhat subject is this?\nIt’s P.E.\nWell done!\n\nWhat subject is this?\nIt’s Music.\nExactly!\n\nWhat subject is this?\nIt’s Math.\nGood job!\n\nWhat subject is this?\nIt’s English.\nGreat!\n\nAnd the last one, what subject is this?\nIt’s Science.\nYou are amazing!\n\nNow, let’s learn how to talk about your favorite subjects.\n\"What’s your favorite subject?\"\n\"My favorite subject is...\"\n\nFor example:\n\"What’s your favorite subject?\"\n\"My favorite subject is Art.\"\n\nNow, it’s your turn!\n\"What’s your favorite subject?\"\nGreat!\n\n\"What’s your favorite subject?\"\nExcellent!\n\nBefore we finish, let’s review all the words one more time.\nMath.\nEnglish.\nScience.\nArt.\nMusic.\nP.E.\n\nThank you for joining me today.\nDon’t forget to practice at home.\nSee you next time! Goodbye!"
+    },
+    {
+      "id": "movers_w4_o3",
+      "topic": "School Subjects vocab",
+      "level": "MOVERS",
+      "lineCount": 52,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m Teacher Binh, and I’m so happy to see you again. | Today, we are going to learn about \"School Subjects\".",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m Teacher Binh, and I’m so happy to see you again.\nToday, we are going to learn about \"School Subjects\".\nAre you ready? Let's go!\n\nFirst, look at the picture. What is this?\nIt's Math.\nMath.\nCan you say that? Math.\nGood job!\n\nNext, look at this picture. What subject is this?\nIt's Science.\nScience.\nRepeat after me: Science.\nVery good!\n\nAnd what about this one?\nWe draw and paint. It's Art.\nArt.\nCan you say Art?\nYes, that's right. Art.\n\nNow, look at this picture. We read stories and write poems.\nIt's English.\nEnglish.\nSay it with me: English.\nExcellent!\n\nWhat do we have here? It's Music.\nWe sing songs and play instruments.\nMusic.\nMusic.\nGreat!\n\nAnd this is PE.\nPE stands for Physical Education.\nPE.\nCan you say PE?\nPerfect!\n\nNow, let's play a quick game. I will show you the picture, and you say the word.\nAre you ready?\nWhat subject is this?\nThat's right, it's Math.\n\nHow about this one?\nGood! It's Science.\n\nAnd this one?\nYes, it's Art.\n\nHow about this?\nVery good, it's English.\n\nAnd this one?\nYes, it's Music.\n\nAnd the last one?\nThat's correct, it's PE.\n\nYou all did a great job today.\nNow, remember to practice these words at home.\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "movers_w5_o1",
+      "topic": "Your favourite subject",
+      "level": "MOVERS",
+      "lineCount": 55,
+      "preview": "Hello, everyone! Welcome back to our English class.  | Today, we are going to learn about \"Your favourite subject\".  | Let's start with some vocabulary.",
+      "fullScript": "Hello, everyone! Welcome back to our English class. \n\nToday, we are going to learn about \"Your favourite subject\". \n\nLet's start with some vocabulary.\n\nMaths.\nMaths.\nI love Maths.\n\nScience.\nScience.\nScience is my favourite subject.\n\nArt.\nArt.\nI have an Art lesson on Monday.\n\nMusic.\nMusic.\nI like playing the piano in Music class.\n\nPE.\nPE.\nWe play football in PE.\n\nHistory.\nHistory.\nHistory is very interesting.\n\nGeography.\nGeography.\nI like learning about the world in Geography.\n\nNow, let's look at the structure.\n\"What's your favourite subject?\"\n\"My favourite subject is...\"\n\nRepeat after me.\n\"What's your favourite subject?\"\n\"My favourite subject is Art.\"\n\nVery good!\n\nNow, let's practice more.\n\"What's your favourite subject?\"\n\"My favourite subject is PE.\"\n\nGreat job!\n\n\"Do you like Science?\"\n\"Yes, I do.\"\n\"No, I don't.\"\n\n\"Do you like Maths?\"\n\"Yes, I do.\"\n\n\"Do you like History?\"\n\"No, I don't.\"\n\nNow, let's talk about the days of the week.\nOn Monday, I have English and Maths.\nOn Tuesday, I have Science and PE.\nOn Wednesday, I have Art and Music.\n\nWhat about you? What subjects do you have on Monday?\nThat's nice.\n\nOkay, let's practice the conversation.\n\"Hi, Sam. What's your favourite subject?\"\n\"Hi, Lily. My favourite subject is Science. What about you?\"\n\"I love Art because I like drawing.\"\n\nNow, it's your turn. Practice with your friend.\n\nWell done, everyone! That's all for today. \nSee you in the next lesson. Goodbye!"
+    },
+    {
+      "id": "movers_w5_o2",
+      "topic": "School Conversation",
+      "level": "MOVERS",
+      "lineCount": 34,
+      "preview": "Teacher: Hello everyone! Welcome back to our English class. | Teacher: Today, we are going to learn about \"School Conversation\". | Teacher: Are you ready? Let's start!",
+      "fullScript": "Teacher: Hello everyone! Welcome back to our English class.\nTeacher: Today, we are going to learn about \"School Conversation\".\nTeacher: Are you ready? Let's start!\nTeacher: Look at the screen. What can you see?\nTeacher: Yes, it's a school.\nTeacher: Now, let's learn some common sentences we use at school.\nTeacher: Listen and repeat after me.\nTeacher: \"Can I borrow your pencil, please?\"\nTeacher: \"Can I borrow your pencil, please?\"\nTeacher: Good job!\nTeacher: And the answer is: \"Yes, here you are.\"\nTeacher: \"Yes, here you are.\"\nTeacher: Very good.\nTeacher: Now, let's try another one.\nTeacher: \"Do you want to play with me?\"\nTeacher: \"Do you want to play with me?\"\nTeacher: That's great!\nTeacher: And the answer: \"Sure, let's go!\"\nTeacher: \"Sure, let's go!\"\nTeacher: Perfect!\nTeacher: Now, let's practice with a partner.\nTeacher: Imagine you are at school with your friend.\nTeacher: Person A: \"Can I borrow your eraser, please?\"\nTeacher: Person B: \"Yes, here you are.\"\nTeacher: Person A: \"Thank you.\"\nTeacher: Person B: \"You're welcome.\"\nTeacher: Now, it's your turn. Practice with your friend.\nTeacher: \"Can I borrow your eraser, please?\"\nTeacher: \"Yes, here you are.\"\nTeacher: \"Thank you.\"\nTeacher: \"You're welcome.\"\nTeacher: You did a great job today!\nTeacher: Keep practicing these sentences every day at school.\nTeacher: See you in the next lesson. Goodbye!"
+    },
+    {
+      "id": "movers_w5_o3",
+      "topic": "What do you want",
+      "level": "MOVERS",
+      "lineCount": 54,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn Unit 5, Lesson 3: \"What do you want?\" | Are you ready? Let’s start!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn Unit 5, Lesson 3: \"What do you want?\"\nAre you ready? Let’s start!\n\nFirst, let’s look at some vocabulary.\nRepeat after me:\nBread\nBread\nCake\nCake\nRice\nRice\nFish\nFish\nChicken\nChicken\nSalad\nSalad\n\nGood job! Now, let’s look at the structure.\nTo ask someone what they want to eat, we say:\n\"What do you want?\"\n\nAnd to answer, we say:\n\"I want...\"\nFor example: \"I want bread.\"\n\"I want chicken.\"\n\nLet’s practice together.\nWhat do you want?\nI want rice.\nWhat do you want?\nI want salad.\n\nGreat! Now, let's practice with some questions and answers.\nListen and repeat:\nWhat do you want?\nI want some fish.\nWhat do you want?\nI want some cake.\n\nVery good!\nNow, let’s move to the story part.\nLook at the pictures.\n\"I'm hungry,\" says the boy.\n\"What do you want?\" asks the girl.\n\"I want some chicken and rice, please.\"\n\"Here you are.\"\n\"Thank you!\"\n\nNow, it’s your turn to practice.\nRead the story again and pay attention to the sentences.\n\"I'm hungry.\"\n\"What do you want?\"\n\"I want some chicken and rice, please.\"\n\"Here you are.\"\n\"Thank you.\"\n\nWell done, everyone!\nThat’s the end of our lesson today.\nRemember to practice at home.\nSee you next time! Goodbye!"
+    },
+    {
+      "id": "movers_w6_o1",
+      "topic": "Make smoothies",
+      "level": "MOVERS",
+      "lineCount": 46,
+      "preview": "Teacher: Hello, everyone! Welcome back to our English class.  | Teacher: Today, we are going to learn how to make a smoothie.  | Teacher: Do you like smoothies? ",
+      "fullScript": "Teacher: Hello, everyone! Welcome back to our English class. \n\nTeacher: Today, we are going to learn how to make a smoothie. \n\nTeacher: Do you like smoothies? \n\nTeacher: Yes, I like smoothies too. They are delicious and healthy.\n\nTeacher: Now, let's look at the ingredients. \n\nTeacher: What is this? \n\nTeacher: It's a banana.\n\nTeacher: And this? \n\nTeacher: It's an apple.\n\nTeacher: How about this? \n\nTeacher: These are strawberries. \n\nTeacher: And we also need some yogurt and milk. \n\nTeacher: Okay, are you ready? Let's make a smoothie.\n\nTeacher: First, peel the banana. \n\nTeacher: Peel the banana. \n\nTeacher: Very good. \n\nTeacher: Next, chop the fruit. \n\nTeacher: Chop the fruit. \n\nTeacher: Be careful with the knife.\n\nTeacher: Then, put the fruit into the blender. \n\nTeacher: Put the fruit into the blender. \n\nTeacher: Good job. \n\nTeacher: Now, add some yogurt and milk. \n\nTeacher: Add some yogurt and milk. \n\nTeacher: Perfect. \n\nTeacher: Finally, blend it all together. \n\nTeacher: Blend it all together. \n\nTeacher: And here is our smoothie. \n\nTeacher: It looks great. \n\nTeacher: Let's taste it. \n\nTeacher: Mmm, it's yummy! \n\nTeacher: Now, it's your turn to practice. \n\nTeacher: Repeat after me: Peel the banana.\n\nTeacher: Peel the banana.\n\nTeacher: Chop the fruit.\n\nTeacher: Chop the fruit.\n\nTeacher: Put the fruit into the blender.\n\nTeacher: Put the fruit into the blender.\n\nTeacher: Add some yogurt and milk.\n\nTeacher: Add some yogurt and milk.\n\nTeacher: Blend it all together.\n\nTeacher: Blend it all together.\n\nTeacher: Excellent! \n\nTeacher: You did a great job today. \n\nTeacher: Don't forget to practice at home. \n\nTeacher: See you next time. Goodbye!"
+    },
+    {
+      "id": "movers_w6_o2",
+      "topic": "What's your favourite food",
+      "level": "MOVERS",
+      "lineCount": 72,
+      "preview": "Hello everyone!  | Welcome back to our English class.  | I’m so happy to see you again! ",
+      "fullScript": "Hello everyone! \nWelcome back to our English class. \nI’m so happy to see you again! \nToday, we are going to continue with our theme: \"What’s your favourite food?\"\nAre you ready? Let’s start!\n\nLook at the screen. What can you see?\nYes, it’s a lot of food!\nNow, listen and repeat after me.\nFood.\nAgain, food.\nVery good!\n\nNow, let's learn some new words.\nWhat is this?\nIt’s bread.\nBread.\nDo you like bread?\nMe too!\n\nAnd what about this?\nIt’s rice.\nRice.\nRice is very popular, right?\n\nNext one. \nThis is cheese.\nCheese. \nCan you say \"cheese\"?\nGreat!\n\nMoving on.\nWhat are these?\nThese are grapes.\nGrapes.\nGrapes are sweet and yummy.\n\nAnd these are...\nDo you know?\nYes, tomatoes.\nTomatoes.\nBe careful, it’s plural. Tomatoes.\n\nAnd one more.\nThis is chicken.\nChicken.\nDo you like chicken?\nI love chicken!\n\nNow, let’s practice the main question.\n\"What’s your favourite food?\"\nListen again: \"What’s your favourite food?\"\nTo answer, we say: \"My favourite food is...\"\nFor example: \"My favourite food is chicken.\"\nNow, your turn.\nWhat’s your favourite food?\n...\nExcellent!\n\nLet’s play a small game.\nI will point to the picture, and you say the word as fast as you can.\nReady?\nWhat is it?\nYes, bread!\nWhat is it?\nCorrect, rice!\nWhat is it?\nVery good, cheese!\nWhat are they?\nThat’s right, grapes!\nWhat are they?\nTomatoes! \nAnd the last one?\nChicken!\n\nYou did a great job today!\nRemember to practice these words and the question at home.\n\"What’s your favourite food?\"\n\"My favourite food is...\"\nThank you for joining the lesson today.\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "movers_w6_o3",
+      "topic": "May I take your order",
+      "level": "MOVERS",
+      "lineCount": 40,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn how to order food. | Are you hungry? Let’s start!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn how to order food.\nAre you hungry? Let’s start!\nIn this lesson, we will learn the phrase: \"May I take your order?\"\n\"May I take your order?\"\n\nNow, let's look at the menu.\nWe have some food and drinks.\nWhat would you like to eat or drink?\n\nListen and repeat after me:\n\"May I take your order?\"\n\"May I take your order?\"\n\nGreat!\nNow, let's practice how to answer.\nIf you want a burger, you can say:\n\"I would like a burger, please.\"\n\"I would like a burger, please.\"\n\nIf you want some fries, you can say:\n\"I would like some fries, please.\"\n\"I would like some fries, please.\"\n\nAnd if you want a drink, for example, orange juice:\n\"I would like some orange juice, please.\"\n\"I would like some orange juice, please.\"\n\nVery good!\nNow, let’s try a role-play.\nI am the waiter, and you are the customer.\n\nWaitress: \"Hello! Welcome to our restaurant. May I take your order?\"\nCustomer: \"I would like a burger and some fries, please.\"\nWaitress: \"Anything to drink?\"\nCustomer: \"Yes, I would like some orange juice, please.\"\nWaitress: \"Sure! Coming right up!\"\n\nThat was perfect!\nNow, it is your turn to practice.\nTry to say it out loud:\n\"May I take your order?\"\n\"I would like a pizza, please.\"\n\"I would like an apple juice, please.\"\n\nWell done, everyone!\nThat is all for today’s lesson.\nDon't forget to practice at home.\nSee you next time! Goodbye!"
+    },
+    {
+      "id": "movers_w7_o1",
+      "topic": "It's lunch time",
+      "level": "MOVERS",
+      "lineCount": 75,
+      "preview": "Hello everyone! | Welcome back to our English class. | Today, we are going to learn a new lesson.",
+      "fullScript": "Hello everyone!\nWelcome back to our English class.\nToday, we are going to learn a new lesson.\nAre you ready?\nLet's start!\nOur topic today is \"It's lunch time\".\nNow, look at these pictures.\nWhat are they?\nThey are food and drinks.\nLet's learn the new words.\nListen and repeat after me.\nBread.\nBread.\nPasta.\nPasta.\nSalad.\nSalad.\nSoup.\nSoup.\nChicken.\nChicken.\nPizza.\nPizza.\nGreat!\nNow, let's practice.\nWhat's for lunch?\nWhat's for lunch?\nI want some pasta.\nI want some pasta.\nWhat's for lunch?\nI want some pizza.\nI want some pizza.\nNow, let's look at the grammar structure.\nI like...\nI don't like...\nFor example:\nI like soup.\nI don't like salad.\nHow about you?\nWhat do you like?\nLet's practice together.\nDo you like chicken?\nYes, I do.\nDo you like bread?\nNo, I don't.\nGood job, everyone!\nNow, let's play a game.\nLook at the screen.\nWhat is it?\nIt's bread.\nDo you like bread?\nYes, I do.\nWhat is it?\nIt's soup.\nDo you like soup?\nNo, I don't.\nVery good!\nNow, open your books to page 32.\nLet's do the exercises together.\nRead the sentences and circle the correct answer.\nNumber one: \"What's for lunch?\"\n\"I want some pizza.\"\nCircle \"pizza\".\nNumber two: \"Do you like salad?\"\n\"No, I don't.\"\nCircle \"No, I don't\".\nYou are doing great!\nNow, let's review what we learned today.\nWe learned about food: bread, pasta, salad, soup, chicken, pizza.\nWe learned how to ask and answer about lunch.\nWe learned how to express our likes and dislikes.\nThat's all for today.\nDon't forget to practice at home.\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "movers_w7_o2",
+      "topic": "What would you like for lunch",
+      "level": "MOVERS",
+      "lineCount": 46,
+      "preview": "Hello! Welcome back to our English class. | Today, we are going to learn how to talk about food for lunch. | The topic for today is: \"What would you like for lunch?\"",
+      "fullScript": "Hello! Welcome back to our English class.\nToday, we are going to learn how to talk about food for lunch.\nThe topic for today is: \"What would you like for lunch?\"\n\nFirst, let’s look at some vocabulary. \nRepeat after me:\nPizza.\nPizza.\nSalad.\nSalad.\nSoup.\nSoup.\nChicken.\nChicken.\nPasta.\nPasta.\nBurger.\nBurger.\n\nGreat! Now, let’s learn the question and answer.\nIf you want to ask someone what they want for lunch, you say:\n\"What would you like for lunch?\"\n\nAnd the answer is:\n\"I’d like some pizza, please.\"\n\"I’d like some salad, please.\"\n\nNow, let's practice together.\nI will ask, and you answer. \nAre you ready?\n\nWhat would you like for lunch?\n(Pause for student)\nGreat!\n\nLet’s try another one.\nWhat would you like for lunch?\n(Pause for student)\nVery good!\n\nNow, let’s practice with a friend.\nImagine you are at a restaurant.\nOne person asks, one person answers.\nLet's practice the conversation:\n\nA: What would you like for lunch?\nB: I’d like some chicken and pasta, please.\nA: And what would you like to drink?\nB: I’d like some apple juice, please.\n\nNow, it’s your turn. Practice with your partner.\n(Pause for students to practice)\n\nExcellent work today! \nRemember to practice at home.\nSee you in the next lesson!"
+    },
+    {
+      "id": "movers_w7_o3",
+      "topic": "Dinner",
+      "level": "MOVERS",
+      "lineCount": 85,
+      "preview": "Hello everyone. | Welcome back to our English class. | Today we are going to learn about \"Dinner\".",
+      "fullScript": "Hello everyone.\nWelcome back to our English class.\nToday we are going to learn about \"Dinner\".\nAre you hungry?\nMe too.\nLet’s see what we have for dinner today.\nFirst, repeat after me.\nDinner.\nDinner.\nGreat.\nNow, look at the picture.\nWhat is this?\nIt’s rice.\nRice.\nDo you like rice?\nI love rice.\nAnd what is this?\nIt’s chicken.\nChicken.\nDo you like chicken?\nYummy.\nWhat is this?\nIt’s fish.\nFish.\nDo you like fish?\nAnd this one.\nIt’s bread.\nBread.\nDo you like bread?\nAnd what are these?\nThey are vegetables.\nVegetables.\nDo you like vegetables?\nThey are very healthy.\nAnd what is this?\nIt’s soup.\nSoup.\nDo you like soup?\nNow, let's practice the sentence.\n\"I want some...\"\nRepeat after me.\nI want some rice.\nI want some chicken.\nI want some fish.\nI want some bread.\nI want some vegetables.\nI want some soup.\nGood job.\nNow, let’s play a game.\nI will say a word, and you point to the picture.\nReady?\nFish.\nYes, that’s right.\nChicken.\nGood job.\nRice.\nExcellent.\nVegetables.\nGreat.\nSoup.\nVery good.\nBread.\nPerfect.\nNow, let's learn how to ask someone.\n\"What do you want for dinner?\"\nRepeat after me.\nWhat do you want for dinner?\nAnd the answer is: \"I want some...\"\nLet’s practice together.\nWhat do you want for dinner?\nI want some chicken.\nWhat do you want for dinner?\nI want some rice.\nVery good.\nNow, let’s do a quick review.\nRice.\nChicken.\nFish.\nBread.\nVegetables.\nSoup.\nYou did a great job today.\nRemember to practice at home.\nSee you next time.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w1_o1",
+      "topic": "Countries",
+      "level": "FLYERS",
+      "lineCount": 40,
+      "preview": "Hello everyone! Welcome back to our English class.  | Today, we are going to learn about countries.  | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class. \n\nToday, we are going to learn about countries. \n\nAre you ready? Let's start!\n\nLook at the map. \n\nWhere are you from? \n\nI'm from Vietnam. \n\nNow, listen and repeat after me.\n\nVietnam. \n\nGreat!\n\nThe next one is: The USA.\n\nThe USA.\n\nVery good.\n\nThe next one is: The UK. \n\nThe UK. \n\nWell done.\n\nAnd this one is: Japan. \n\nJapan. \n\nExcellent.\n\nAnd this one is: Australia. \n\nAustralia. \n\nPerfect.\n\nAnd the last one is: Thailand. \n\nThailand. \n\nVery good. \n\nNow, let's practice asking and answering.\n\nWhere are you from? \n\nI'm from Vietnam. \n\nWhere are you from? \n\nI'm from the USA. \n\nWhere are you from? \n\nI'm from the UK. \n\nWhere are you from? \n\nI'm from Japan. \n\nWhere are you from? \n\nI'm from Australia. \n\nWhere are you from? \n\nI'm from Thailand. \n\nThat's all for today. \n\nRemember to practice at home. \n\nSee you next time!"
+    },
+    {
+      "id": "flyers_w1_o2",
+      "topic": "Where are you from",
+      "level": "FLYERS",
+      "lineCount": 53,
+      "preview": "Hello everyone! Welcome back to our English class.  | Today we are going to learn lesson 2: \"Where are you from?\" | Are you ready? Let’s go!",
+      "fullScript": "Hello everyone! Welcome back to our English class. \n\nToday we are going to learn lesson 2: \"Where are you from?\"\n\nAre you ready? Let’s go!\n\nFirst, let’s look at the countries.\nRepeat after me:\nVietnam.\nVietnam.\nI am from Vietnam.\n\nAmerica.\nAmerica.\nI am from America.\n\nEngland.\nEngland.\nI am from England.\n\nAustralia.\nAustralia.\nI am from Australia.\n\nJapan.\nJapan.\nI am from Japan.\n\nGreat job! Now, let’s learn the question: \"Where are you from?\"\n\nWhen you want to ask someone where they live or their nationality, you say: \"Where are you from?\"\n\nAnd the answer is: \"I am from...\"\n\nLet’s practice.\nWhere are you from?\nI am from Vietnam.\n\nWhere are you from?\nI am from Japan.\n\nWhere are you from?\nI am from Australia.\n\nGood! Now, let’s talk about nationalities.\nIf you are from Vietnam, you are Vietnamese.\nI am Vietnamese.\n\nIf you are from America, you are American.\nI am American.\n\nIf you are from England, you are English.\nI am English.\n\nIf you are from Australia, you are Australian.\nI am Australian.\n\nIf you are from Japan, you are Japanese.\nI am Japanese.\n\nVery good! Now, let’s play a game.\nI will ask, and you answer.\n\nWhere are you from?\n... (I am from Vietnam)\n\nWhere are you from?\n... (I am from England)\n\nWhere are you from?\n... (I am from Japan)\n\nExcellent! You did a great job today.\nRemember to practice at home.\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w1_o3",
+      "topic": "Flags",
+      "level": "FLYERS",
+      "lineCount": 52,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m so happy to see you again. | Today, we have a very interesting topic.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m so happy to see you again.\nToday, we have a very interesting topic.\nDo you know what it is?\nLook at these pictures.\nYes, today we are going to learn about \"Flags\".\nAre you ready? Let’s go!\n\nFirst, let’s look at some countries and their flags.\nListen and repeat after me.\nThe first one: Vietnam.\nVietnam.\nThe flag of Vietnam is red with a yellow star in the middle.\nVietnam.\n\nNext one: The UK.\nThe UK.\nThe flag of the UK is blue, white, and red.\nThe UK.\n\nNumber three: The USA.\nThe USA.\nThe flag of the USA has red and white stripes and white stars on a blue background.\nThe USA.\n\nAnd the last one for now: Japan.\nJapan.\nThe flag of Japan is white with a red circle in the middle.\nJapan.\n\nGreat job! Now, let’s practice asking and answering about flags.\nIf you want to ask someone which country a flag belongs to, you can say:\n\"Which country is this flag from?\"\nAnd the answer is:\n\"It’s from...\"\nFor example: \"Which country is this flag from?\"\n\"It’s from Vietnam.\"\n\nLet’s try another one.\n\"Which country is this flag from?\"\n\"It’s from the UK.\"\n\nNow, it’s your turn.\n\"Which country is this flag from?\"\n(Pause for answer)\n\"It’s from the USA.\"\n\nVery good!\nYou can also ask: \"Is this the flag of Japan?\"\nAnd the answer is: \"Yes, it is.\" or \"No, it isn’t.\"\n\"Is this the flag of Japan?\"\n\"Yes, it is.\"\n\n\"Is this the flag of Vietnam?\"\n\"No, it isn’t. It’s the flag of the UK.\"\n\nYou are doing a great job!\nRemember to practice these sentences at home.\nLook at the flags around you and try to name the countries.\nThat’s all for today’s lesson.\nThank you for joining me.\nGoodbye and see you next time!"
+    },
+    {
+      "id": "flyers_w2_o1",
+      "topic": "Countries and nationalities",
+      "level": "FLYERS",
+      "lineCount": 51,
+      "preview": "Hello class! Welcome back to our English lesson today. | Today, we are going to learn about \"Countries and Nationalities\". | Are you ready? Let's go!",
+      "fullScript": "Hello class! Welcome back to our English lesson today.\n\nToday, we are going to learn about \"Countries and Nationalities\".\n\nAre you ready? Let's go!\n\nFirst, let's learn some countries.\n\nVietnam.\nI am from Vietnam.\n\nThailand.\nI am from Thailand.\n\nJapan.\nI am from Japan.\n\nAustralia.\nI am from Australia.\n\nFrance.\nI am from France.\n\nBrazil.\nI am from Brazil.\n\nNow, let's learn the nationalities.\n\nVietnam -> Vietnamese.\nI am Vietnamese.\n\nThailand -> Thai.\nI am Thai.\n\nJapan -> Japanese.\nI am Japanese.\n\nAustralia -> Australian.\nI am Australian.\n\nFrance -> French.\nI am French.\n\nBrazil -> Brazilian.\nI am Brazilian.\n\nNow, let's practice.\nListen and repeat after me.\n\nWhere are you from?\nI am from Vietnam.\n\nWhat is your nationality?\nI am Vietnamese.\n\nWhere are you from?\nI am from Australia.\n\nWhat is your nationality?\nI am Australian.\n\nWhere are you from?\nI am from Brazil.\n\nWhat is your nationality?\nI am Brazilian.\n\nGreat job, everyone!\n\nNow, it's your turn.\nWhere are you from?\nAnd what is your nationality?\n\nTell me in the comments below.\n\nThat is all for today's lesson.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w2_o2",
+      "topic": "People around the world",
+      "level": "FLYERS",
+      "lineCount": 80,
+      "preview": "Hello everyone! Welcome back to our English class. | I’m so happy to see you again! | Today, we are going to learn a new topic.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nI’m so happy to see you again!\nToday, we are going to learn a new topic.\nAre you ready?\nLet’s start!\nOur topic today is: \"People around the world\".\nIn this lesson, we are going to learn about nationalities.\nFirst, let’s look at some countries.\nWhere are you from?\nI am from Vietnam.\nHow about you?\nNow, look at the screen.\nHere are some flags and countries.\nListen and repeat after me.\nVietnam.\nVietnamese.\nEngland.\nEnglish.\nFrance.\nFrench.\nJapan.\nJapanese.\nChina.\nChinese.\nThailand.\nThai.\nAustralia.\nAustralian.\nGreat!\nNow, let’s practice the sentence structure.\n\"Where are you from?\"\n\"I am from Vietnam.\"\n\"What is your nationality?\"\n\"I am Vietnamese.\"\nVery good!\nNow, let’s try with another country.\n\"Where is he from?\"\n\"He is from Japan.\"\n\"What is his nationality?\"\n\"He is Japanese.\"\nPerfect!\nNow, it’s your turn.\nLook at the picture and answer my questions.\nWho is this?\nHe is from France.\nWhat is his nationality?\nYes, he is French.\nHow about her?\nShe is from Australia.\nWhat is her nationality?\nCorrect, she is Australian.\nYou are doing a great job!\nNow, let’s play a small game.\nI will say the country, and you say the nationality.\nAre you ready?\nLet's go!\nEngland.\nEnglish.\nThailand.\nThai.\nChina.\nChinese.\nWell done!\nNow, let’s move to the next part.\nRead the short paragraph on the screen.\n\"Hi! My name is Nam. I am from Vietnam. I am Vietnamese. My friend is Tom. He is from England. He is English.\"\nNow, please repeat after me.\nHi! My name is Nam.\nI am from Vietnam.\nI am Vietnamese.\nMy friend is Tom.\nHe is from England.\nHe is English.\nExcellent!\nYou can practice this at home with your friends.\nRemember, practice makes perfect!\nThat is all for today’s lesson.\nThank you for joining me.\nSee you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w2_o3",
+      "topic": "Give directions",
+      "level": "FLYERS",
+      "lineCount": 38,
+      "preview": "Hello everyone! Welcome back to our English class.  | Today, we are going to learn how to give directions.  | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class. \n\nToday, we are going to learn how to give directions. \n\nAre you ready? Let's start!\n\nFirst, let's look at some important words.\n\nGo straight on. \n\nTurn left. \n\nTurn right. \n\nGo past the bank. \n\nIt's on your left. \n\nIt's on your right. \n\nIt's next to the library. \n\nIt's opposite the park. \n\nIt's between the supermarket and the school. \n\nNow, listen and repeat after me. \n\nGo straight on. \n\nTurn left. \n\nTurn right. \n\nGo past the bank. \n\nIt's on your left. \n\nIt's on your right. \n\nIt's next to the library. \n\nIt's opposite the park. \n\nIt's between the supermarket and the school. \n\nExcellent! Now, let's practice asking for directions. \n\nExcuse me, how do I get to the park? \n\nGo straight on, turn left at the corner. \n\nIt's on your right, next to the supermarket. \n\nGreat! Now it's your turn. \n\nExcuse me, how do I get to the hospital? \n\nGo straight on, go past the bank. \n\nTurn right. \n\nIt's on your left, opposite the school. \n\nWell done! \n\nRemember, practice makes perfect. \n\nKeep practicing these phrases every day. \n\nThat's all for today's lesson. \n\nSee you next time! \n\nGoodbye!"
+    },
+    {
+      "id": "flyers_w3_o1",
+      "topic": "Where is it?",
+      "level": "FLYERS",
+      "lineCount": 43,
+      "preview": "Hello everyone! | Welcome back to our English class. | Today, we are going to learn a new lesson.",
+      "fullScript": "Hello everyone!\nWelcome back to our English class.\nToday, we are going to learn a new lesson.\nThe topic today is: \"Where is it?\"\nAre you ready? Let's go!\n\nNow, look at these pictures.\nWhere is the ball?\nIt’s in the box.\nWhere is the ball?\nIt’s on the box.\nWhere is the ball?\nIt’s under the box.\n\nNow, listen and repeat after me.\nIn.\nOn.\nUnder.\n\nNext, let’s look at these sentences.\nWhere is the cat?\nIt’s in the bag.\nWhere is the dog?\nIt’s on the chair.\nWhere is the bird?\nIt’s under the table.\n\nNow, it’s your turn.\nLook at the picture and answer my question.\nWhere is the book?\nIt’s on the desk.\nGreat job!\n\nWhere is the pencil?\nIt’s in the pencil case.\nExcellent!\n\nWhere is the cat?\nIt’s under the bed.\nVery good!\n\nNow, let’s practice more.\nListen and repeat.\nThe ball is in the box.\nThe ball is on the box.\nThe ball is under the box.\n\nThat is all for today’s lesson.\nRemember to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w3_o2",
+      "topic": "Asking and giving directions",
+      "level": "FLYERS",
+      "lineCount": 28,
+      "preview": "Hello everyone! Welcome to our English class. | Today, we are going to learn about \"Asking and giving directions\". | Are you ready? Let's go!",
+      "fullScript": "Hello everyone! Welcome to our English class.\nToday, we are going to learn about \"Asking and giving directions\".\nAre you ready? Let's go!\n\nPart 1: Asking for directions.\nWhen you want to go to a place but you don't know the way, you can ask:\n\"Excuse me, how do I get to the library?\"\n\"Excuse me, where is the supermarket?\"\n\"Could you tell me the way to the post office?\"\n\nPart 2: Giving directions.\nHere are some common phrases to give directions. Listen and repeat after me.\nGo straight on.\nTurn left.\nTurn right.\nIt’s on your left.\nIt’s on your right.\nIt’s next to the bank.\nIt’s opposite the park.\nIt’s between the cinema and the bakery.\n\nPart 3: Let's practice.\nLook at the map. You are at the school. You want to go to the museum.\n\"Excuse me, how do I get to the museum?\"\n\"Go straight on. Turn left at the corner. Go past the supermarket. It’s on your right, next to the park.\"\n\nNow, let's try another one. You are at the hospital. You want to go to the cinema.\n\"Excuse me, where is the cinema?\"\n\"Go straight on. Turn right at the traffic lights. It’s on your left, opposite the bank.\"\n\nGreat job, everyone!\nRemember to practice these phrases with your friends and family.\nThat’s all for today. See you in the next lesson! Bye-bye!"
+    },
+    {
+      "id": "flyers_w3_o3",
+      "topic": "Where's the bank",
+      "level": "FLYERS",
+      "lineCount": 45,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn Unit 3: Where's the bank? | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn Unit 3: Where's the bank?\nAre you ready? Let's start!\n\nFirst, let's look at some places in our neighborhood.\nRepeat after me.\nLibrary.\nLibrary.\nMuseum.\nMuseum.\nPost office.\nPost office.\nBank.\nBank.\nPolice station.\nPolice station.\nShopping mall.\nShopping mall.\n\nGreat job! Now, let's learn how to ask for directions.\n\"Excuse me, where is the bank?\"\n\"Excuse me, where is the bank?\"\n\"It's next to the library.\"\n\"It's next to the library.\"\n\n\"Excuse me, where is the police station?\"\n\"Excuse me, where is the police station?\"\n\"It's opposite the museum.\"\n\"It's opposite the museum.\"\n\n\"Excuse me, where is the shopping mall?\"\n\"Excuse me, where is the shopping mall?\"\n\"It's between the post office and the bank.\"\n\"It's between the post office and the bank.\"\n\nNow, let's practice with some prepositions of place.\nNext to.\nOpposite.\nBetween.\n\nLet's try again.\nWhere is the bank?\nIt's next to the library.\n\nWhere is the police station?\nIt's opposite the museum.\n\nWhere is the shopping mall?\nIt's between the post office and the bank.\n\nVery good! You did a great job today.\nRemember to practice these sentences at home.\nSee you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w4_o1",
+      "topic": "Health problems",
+      "level": "FLYERS",
+      "lineCount": 47,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"Health problems\". | Are you ready? Let's go!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"Health problems\".\nAre you ready? Let's go!\n\nFirst, let's learn some new words.\nLook at the picture.\nHe has a headache.\nRepeat after me: Headache.\nHeadache.\nVery good!\n\nNext one.\nShe has a stomach ache.\nRepeat after me: Stomach ache.\nStomach ache.\nWell done!\n\nOh, look at this.\nHe has a cough.\nRepeat after me: Cough.\nCough.\nGreat!\n\nAnd this one.\nShe has a cold.\nRepeat after me: Cold.\nCold.\nGood job!\n\nNow, let's look at this.\nHe has a fever.\nRepeat after me: Fever.\nFever.\nExcellent!\n\nAnd the last one.\nHe has a toothache.\nRepeat after me: Toothache.\nToothache.\nPerfect!\n\nNow, let's practice using these words in sentences.\nWe use \"have\" or \"has\" to talk about health problems.\n\"I have a headache.\"\n\"She has a stomach ache.\"\n\nLet's practice together.\nWhat’s the matter?\nI have a cough.\nWhat’s the matter?\nHe has a toothache.\n\nGood job, everyone!\nThat is the end of our lesson today.\nDon't forget to practice at home.\nSee you next time!"
+    },
+    {
+      "id": "flyers_w4_o2",
+      "topic": "Diseases and hospital",
+      "level": "FLYERS",
+      "lineCount": 69,
+      "preview": "Hello everyone! Welcome back to our English class. | How are you today? | Are you ready for our lesson?",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nHow are you today?\nAre you ready for our lesson?\nToday, we are going to learn about \"Diseases and Hospital\".\nNow, let's look at some new words.\n\nHeadache.\nI have a headache.\nSore throat.\nI have a sore throat.\nStomachache.\nI have a stomachache.\nEarache.\nI have an earache.\nToothache.\nI have a toothache.\nCough.\nI have a cough.\nCold.\nI have a cold.\nFever.\nI have a fever.\n\nNow, let's practice the structure.\nWhen you feel sick, you can say: \"I have a...\"\nFor example: \"I have a headache.\"\n\"I have a sore throat.\"\n\"I have a fever.\"\n\nNow, let's talk about the doctor.\nWhen you are sick, you go to the hospital.\nAnd who do you see?\nYou see a doctor.\nThe doctor will check your health.\nHe or she will give you some medicine.\nMedicine.\nYou should take medicine.\nYou should drink a lot of water.\nYou should get some rest.\n\nNow, let's look at some hospital vocabulary.\nHospital.\nDoctor.\nNurse.\nMedicine.\nPatient.\nWheelchair.\nX-ray.\nCheck-up.\n\nNow, listen and repeat after me.\nHospital.\nDoctor.\nNurse.\nMedicine.\nPatient.\nWheelchair.\nX-ray.\nCheck-up.\n\nGood job!\nNow, let's practice the dialogue.\n- Hello, how can I help you?\n- Hello, I have a stomachache.\n- Oh, I am sorry to hear that. Let me check you.\n- Thank you.\n- You should take this medicine and drink more water.\n- Thank you, doctor.\n\nNow, it's your turn. Practice with your partner.\nRemember to use the structure: \"I have a...\"\nAnd the advice: \"You should...\"\n\nThat is the end of our lesson today.\nI hope you enjoyed it.\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w4_o3",
+      "topic": "Doctor check ups",
+      "level": "FLYERS",
+      "lineCount": 51,
+      "preview": "Hello everyone! Welcome back to our English class.  | Today, we are going to learn about \"Doctor check ups\". | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class. \n\nToday, we are going to learn about \"Doctor check ups\".\n\nAre you ready? Let's start!\n\nFirst, let's learn some new words.\n\nListen and repeat after me.\n\nStomachache.\nStomachache.\n\nCough.\nCough.\n\nSore throat.\nSore throat.\n\nFever.\nFever.\n\nHeadache.\nHeadache.\n\nEarache.\nEarache.\n\nGreat job! Now, let's move on to the sentence structures.\n\nHow do you feel?\nI have a stomachache.\n\nHow do you feel?\nI have a cough.\n\nHow do you feel?\nI have a sore throat.\n\nHow do you feel?\nI have a fever.\n\nHow do you feel?\nI have a headache.\n\nHow do you feel?\nI have an earache.\n\nVery good! Now, let's practice what the doctor says.\n\nListen and repeat after me.\n\nOpen your mouth, please.\nOpen your mouth, please.\n\nBreathe in and out.\nBreathe in and out.\n\nTake this medicine.\nTake this medicine.\n\nRest at home.\nRest at home.\n\nDrink more water.\nDrink more water.\n\nNow, let's practice the dialogue.\n\nDoctor: Hello! How do you feel today?\nPatient: I have a sore throat and a fever.\nDoctor: Let me check. Open your mouth, please.\nPatient: Ahh.\nDoctor: You have a cold. Take this medicine and rest at home.\nPatient: Thank you, doctor.\n\nExcellent! That's all for today's lesson.\n\nSee you next time!"
+    },
+    {
+      "id": "flyers_w5_o1",
+      "topic": "Flu symptoms",
+      "level": "FLYERS",
+      "lineCount": 40,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"Flu symptoms\". | Are you ready? Let's start!",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"Flu symptoms\".\nAre you ready? Let's start!\n\nFlu symptoms.\nFlu symptoms.\n\nNow, look at the pictures and repeat after me.\n\nCough.\nCough.\nI have a cough.\n\nSneeze.\nSneeze.\nI have a sneeze.\n\nFever.\nFever.\nI have a fever.\n\nSore throat.\nSore throat.\nI have a sore throat.\n\nHeadache.\nHeadache.\nI have a headache.\n\nRunny nose.\nRunny nose.\nI have a runny nose.\n\nNow, let's practice with the question: \"What's the matter?\"\n\"What's the matter?\"\n\"I have a...\"\n\nWhat's the matter?\nI have a cough.\n\nWhat's the matter?\nI have a fever.\n\nWhat's the matter?\nI have a sore throat.\n\nWhat's the matter?\nI have a headache.\n\nWhat's the matter?\nI have a runny nose.\n\nGreat job, everyone!\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w5_o2",
+      "topic": "Yesterday",
+      "level": "FLYERS",
+      "lineCount": 44,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"Yesterday\". | Are you ready? Let's start.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"Yesterday\".\nAre you ready? Let's start.\n\nLook at the screen, everyone.\nWhat is the past form of \"is\"?\nIt is \"was\".\nWhat is the past form of \"are\"?\nIt is \"were\".\nVery good!\n\nNow, let's practice together.\nI say \"is\", you say \"was\".\n\"Is\" -> \"Was\".\n\"Are\" -> \"Were\".\n\nGreat job!\nNow, let's look at some sentences.\n\"Today is Monday.\"\n\"Yesterday was Sunday.\"\n\n\"Today we are at school.\"\n\"Yesterday we were at home.\"\n\nNow, repeat after me.\n\"Today is Monday.\"\n\"Yesterday was Sunday.\"\n\"Today we are at school.\"\n\"Yesterday we were at home.\"\n\nExcellent!\nNow, can you make your own sentences?\nWhat did you do yesterday?\n\"Yesterday, I was happy.\"\n\"Yesterday, I was at the park.\"\n\nLet's practice the negative form.\n\"Is not\" becomes \"was not\" or \"wasn't\".\n\"Are not\" becomes \"were not\" or \"weren't\".\n\nRepeat after me.\n\"Wasn't.\"\n\"Weren't.\"\n\nGood!\n\"Yesterday, I wasn't at school.\"\n\"We weren't at the cinema.\"\n\nNow, it's your turn to practice.\nTry to make three sentences about yesterday using \"was\", \"were\", \"wasn't\", or \"weren't\".\n\nThat is all for today's lesson.\nDon't forget to practice at home.\nSee you next time!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w5_o3",
+      "topic": "What did you draw",
+      "level": "FLYERS",
+      "lineCount": 39,
+      "preview": "Hello, everyone! Welcome back to our English class. | Today, we are going to learn a new lesson.  | The topic for today is: \"What did you draw?\"",
+      "fullScript": "Hello, everyone! Welcome back to our English class.\nToday, we are going to learn a new lesson. \nThe topic for today is: \"What did you draw?\"\nAre you ready? Let’s start!\n\nFirst, let’s look at some new words.\nPlease listen and repeat after me.\n\nPainting.\nPainting.\nDrawing.\nDrawing.\nArt lesson.\nArt lesson.\nBrushes.\nBrushes.\nPaints.\nPaints.\n\nVery good! Now, let’s move to the sentence pattern.\n\"What did you draw?\"\n\"I drew a picture of my family.\"\n\nLet’s practice together.\nWhat did you draw?\nI drew a picture of a park.\nWhat did you draw?\nI drew a picture of my pet.\n\nGreat job! Now, let’s look at the pictures on the screen.\nCan you tell me what they drew?\nLook at picture number one. \nWhat did he draw?\nHe drew a tree.\n\nLook at picture number two.\nWhat did she draw?\nShe drew a house.\n\nLook at picture number three.\nWhat did they draw?\nThey drew a beach.\n\nExcellent! You all did a great job today.\nRemember to practice these sentences at home.\nSee you in the next lesson.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w6_o1",
+      "topic": "What did you do",
+      "level": "FLYERS",
+      "lineCount": 46,
+      "preview": "Hello everyone! Welcome back to our English class. | Today we are going to learn a new lesson. | The topic today is: \"What did you do?\"",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday we are going to learn a new lesson.\nThe topic today is: \"What did you do?\"\nNow, let’s start with some new words.\nListen and repeat after me.\n\nPlay football.\nPlayed football.\nWatch TV.\nWatched TV.\nListen to music.\nListened to music.\nCook dinner.\nCooked dinner.\nVisit my grandparents.\nVisited my grandparents.\nPaint a picture.\nPainted a picture.\nStudy English.\nStudied English.\n\nNow, let's move to the grammar part.\nTo ask about past activities, we use the question:\n\"What did you do yesterday?\"\nAnd the answer is:\n\"I + verb-ed.\"\nFor example:\n\"What did you do yesterday?\"\n\"I played football.\"\n\"What did you do yesterday?\"\n\"I watched TV.\"\n\nNow, let's practice together.\nI will ask, and you answer.\nWhat did you do yesterday?\nI listened to music.\nVery good!\nWhat did you do yesterday?\nI cooked dinner.\nGreat job!\n\nNow, it's time for the listening practice.\nListen carefully and choose the correct answer.\nOne: What did you do yesterday? I visited my grandparents.\nTwo: What did you do yesterday? I painted a picture.\nThree: What did you do yesterday? I studied English.\n\nWell done, everyone!\nThat is the end of our lesson today.\nRemember to practice at home and see you in the next video.\nGoodbye!"
+    },
+    {
+      "id": "flyers_w6_o2",
+      "topic": "What did you do yesterday",
+      "level": "FLYERS",
+      "lineCount": 36,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"What did you do yesterday?\" | Before we start, look at the screen. Can you tell me what you see?",
+      "fullScript": "Hello everyone! Welcome back to our English class.\n\nToday, we are going to learn about \"What did you do yesterday?\"\n\nBefore we start, look at the screen. Can you tell me what you see?\n\nYes, that's right. These are verbs. And today, we are going to learn about the past tense.\n\nLet's look at the first one. \n\"Go\" – \"Went\". \nRepeat after me: Go – Went. \n\nVery good!\n\nNext one: \"See\" – \"Saw\". \nRepeat after me: See – Saw.\n\nGood job!\n\nNow, let's practice with \"What did you do yesterday?\"\n\nTeacher: What did you do yesterday?\nStudent: I went to the park.\n\nTeacher: What did you do yesterday?\nStudent: I saw my friends.\n\nNow, it's your turn. Practice with your partner.\n\nWhat did you do yesterday?\n\nVery good!\n\nNow, let's look at the activities in the book.\n\nNumber 1: What did she do yesterday?\nShe went to the cinema.\n\nNumber 2: What did he do yesterday?\nHe played football.\n\nNumber 3: What did they do yesterday?\nThey visited their grandmother.\n\nGreat job, everyone!\n\nNow, let's play a game. \n\nI will show you a picture, and you tell me what happened yesterday.\n\nPicture 1: [Picture of a boy reading a book]\nStudent: He read a book.\n\nPicture 2: [Picture of a girl eating an apple]\nStudent: She ate an apple.\n\nPerfect!\n\nRemember to practice these verbs at home: Go – Went, See – Saw, Read – Read, Eat – Ate, Play – Played.\n\nThat's all for today. See you in the next lesson. Goodbye!"
+    },
+    {
+      "id": "flyers_w6_o3",
+      "topic": "How was your summer vacation",
+      "level": "FLYERS",
+      "lineCount": 41,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about \"How was your summer vacation?\" | Let's get started.",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about \"How was your summer vacation?\"\nLet's get started.\n\nListen and repeat:\nHow was your summer vacation?\nIt was great!\nWhere did you go?\nI went to the beach.\n\nNow, let's practice more.\nDid you swim in the sea?\nYes, I did.\nDid you play with sand?\nYes, I did.\nDid you eat ice cream?\nYes, I did.\n\nLet's talk about activities.\nWhat did you do on your summer vacation?\nI visited my grandparents.\nI played soccer with my friends.\nI read some interesting books.\nI learned how to swim.\n\nNow, let's practice the past tense.\nGo – Went\nSwim – Swam\nEat – Ate\nRead – Read\nVisit – Visited\nPlay – Played\n\nLet's put it all together.\nHow was your summer vacation?\nIt was fun!\nI went to the beach with my family.\nWe swam in the sea and ate delicious ice cream.\nI also visited my grandparents and played in their garden.\nIt was the best summer ever!\n\nNow, it's your turn.\nHow was your summer vacation?\nWhat did you do?\nTell me about it!\n\nGreat job, everyone!\nSee you next time."
+    },
+    {
+      "id": "flyers_w7_o1",
+      "topic": "Who invented cellphones",
+      "level": "FLYERS",
+      "lineCount": 44,
+      "preview": "Hello everyone! Welcome back to our English class. | Today, we are going to learn about a very interesting topic. | Can you guess what it is?",
+      "fullScript": "Hello everyone! Welcome back to our English class.\nToday, we are going to learn about a very interesting topic.\nCan you guess what it is?\nLook at this!\nYes, it’s a cellphone.\nAnd our lesson today is: \"Who invented cellphones?\"\n\nNow, let’s learn some new words.\nAre you ready?\nRepeat after me!\n\nTelephone\nInvention\nInventor\nMobile phone\nCommunication\nTechnology\n\nGreat! Now let’s move to our main story.\nWho invented the first cellphone?\nHis name is Martin Cooper.\nHe was an American engineer.\nHe worked for a company called Motorola.\nHe made the first cellphone call on April 3rd, 1973.\nHe called his rival at a competing company.\nImagine that!\nThe first cellphone was very big and heavy.\nIt was called the \"brick phone.\"\nIt could only talk for 30 minutes.\nAnd it took 10 hours to charge!\n\nCan you believe that?\nToday, our phones are small, fast, and smart.\nWe can use them for everything:\nSending messages, taking photos, watching videos, and playing games.\nCommunication has changed a lot!\n\nNow, let’s practice.\nQuestion: Who invented the first cellphone?\nAnswer: Martin Cooper invented the first cellphone.\nQuestion: Which company did he work for?\nAnswer: He worked for Motorola.\nQuestion: When did he make the first call?\nAnswer: He made the first call on April 3rd, 1973.\n\nVery good!\nYou did a great job today.\nDon't forget to practice at home.\nSee you in the next lesson!\nGoodbye!"
+    },
+    {
+      "id": "flyers_w7_o2",
+      "topic": "Read a story: Feeling",
+      "level": "FLYERS",
+      "lineCount": 48,
+      "preview": "Hello, everyone. Welcome back to our English class. | Today, we are going to read a story about feelings. | Are you ready?",
+      "fullScript": "Hello, everyone. Welcome back to our English class.\nToday, we are going to read a story about feelings.\nAre you ready?\nLet's start!\n\nLook at the pictures.\nHow do you think the characters are feeling?\nLet's read the story together to find out.\n\nThe title of the story is \"A New Student.\"\n\n(Page 1)\nToday is the first day of school.\nTim is in the hallway.\nHe feels a little nervous.\nHe doesn't know anyone at this school.\n\n(Page 2)\nTim walks into the classroom.\nThe teacher smiles at him.\n\"Class, this is Tim,\" the teacher says.\n\"He is a new student.\"\n\n(Page 3)\nTim looks at all the students.\nHe feels shy.\nHe sits at an empty desk.\nHe looks down at his book.\n\n(Page 4)\nSuddenly, a girl sits next to him.\nShe has a big smile.\n\"Hi, I'm Sarah,\" she says.\n\"Do you want to play at recess?\"\n\n(Page 5)\nTim feels happy now.\nHe smiles at Sarah.\n\"Yes, I would love to!\" he says.\n\"I'm Tim. Nice to meet you.\"\n\n(Page 6)\nTim, Sarah, and their new friends play tag.\nThey run and laugh.\nThey are having a great time.\nTim is so glad he came to this school.\n\nNow, let's practice some words from the story.\nNervous.\nShy.\nHappy.\nSmile.\nFriend.\n\nGreat job, everyone!\nYou did a wonderful job reading today.\nKeep practicing your reading at home.\nSee you next time!"
+    },
+    {
+      "id": "flyers_w7_o3",
+      "topic": "Read a story",
+      "level": "FLYERS",
+      "lineCount": 46,
+      "preview": "Hello everyone. Welcome back to our English class.  | Today, we are going to continue with our Flyers level.  | This is Week 7, Lesson 3. ",
+      "fullScript": "Hello everyone. Welcome back to our English class. \n\nToday, we are going to continue with our Flyers level. \n\nThis is Week 7, Lesson 3. \n\nThe topic for today is: Read a story. \n\nAre you ready? Let's get started. \n\nFirst, let's look at some new words. \n\nRepeat after me. \n\nExplore. \n\nAdventure. \n\nDiscovery. \n\nExcited. \n\nSurprised. \n\nGreat job. Now, let's look at the story. \n\nPlease listen carefully. \n\n\"Last summer, Tom went to the forest with his friends.\" \n\n\"They wanted to explore the deep woods.\" \n\n\"Suddenly, they saw a strange cave.\" \n\n\"Tom was a bit scared, but he was also excited.\" \n\n\"They decided to go inside.\" \n\n\"Inside the cave, they made a big discovery.\" \n\n\"There were old coins and a golden key.\" \n\n\"They were so surprised.\" \n\nNow, let's read it together. \n\n\"Last summer, Tom went to the forest with his friends.\" \n\n\"They wanted to explore the deep woods.\" \n\n\"Suddenly, they saw a strange cave.\" \n\n\"Tom was a bit scared, but he was also excited.\" \n\n\"They decided to go inside.\" \n\n\"Inside the cave, they made a big discovery.\" \n\n\"There were old coins and a golden key.\" \n\n\"They were so surprised.\" \n\nVery good! \n\nNow, let's answer some questions about the story. \n\nWhere did Tom go last summer? \n\nThat's right. He went to the forest with his friends. \n\nWhat did they see in the forest? \n\nYes, they saw a strange cave. \n\nHow did Tom feel? \n\nHe was scared but also excited. \n\nWhat did they find inside the cave? \n\nThey found old coins and a golden key. \n\nExcellent work today! \n\nYou did a great job reading the story and answering the questions. \n\nRemember to practice reading this story at home. \n\nSee you in the next lesson. \n\nGoodbye!"
+    }
+  ],
+  "warnings": []
+}

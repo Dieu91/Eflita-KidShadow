@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'aidieu0411@gmail.com' && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create, update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Lessons collection (curriculum catalog)
+    match /lessons/{lessonId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Submissions collection
+    match /submissions/{submissionId} {
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
+      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.user_id == request.auth.uid);
+    }
+
+    // Reflection posts collection
+    match /reflection_posts/{postId} {
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Contest registrations collection
+    match /contest_registrations/{regId} {
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // App settings (e.g. brand configuration, system settings)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /system_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

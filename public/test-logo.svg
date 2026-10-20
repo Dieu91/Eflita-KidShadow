@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&amp;family=Orbitron:wght@900&amp;family=Rajdhani:wght@700&amp;display=swap');
+      .ef-blue { fill: #00478F; }
+      .ef-red { fill: #E51B24; }
+      .ef-white { fill: #FFFFFF; }
+      .slogan-text {
+        font-family: 'Orbitron', 'Rajdhani', 'Montserrat', -apple-system, sans-serif;
+        font-weight: 900;
+        font-size: 19px;
+        letter-spacing: 3.8px;
+      }
+      .flita-text {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 900;
+        font-size: 122px;
+        letter-spacing: -2px;
+      }
+    </style>
+  </defs>
+
+  <!-- Left Icon: Stylized 'e' with orbital swoosh -->
+  <g class="ef-blue">
+    <!-- Compound path for exact eflita 'e' logo -->
+    <path fill-rule="evenodd" d="
+      M 162 18
+      C 222 18 266 58 268 112
+      L 77 112
+      C 79 70 115 18 162 18 Z
+      
+      M 77 132
+      L 266 132
+      C 264 150 254 168 238 182
+      C 218 200 192 208 160 208
+      C 112 208 72 178 48 140
+      C 32 115 24 95 24 92
+      C 25 96 36 122 55 146
+      C 76 172 112 192 158 192
+      C 185 192 208 184 224 170
+      C 238 158 246 145 248 132
+      L 77 132 Z
+    " />
+  </g>
+</svg>

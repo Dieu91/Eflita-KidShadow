@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 240" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&amp;family=Orbitron:wght@800;900&amp;display=swap');
+      .ef-blue { fill: #00478F; }
+      .ef-red { fill: #E51B24; }
+      .ef-white { fill: #FFFFFF; }
+      .slogan-font {
+        font-family: 'Orbitron', 'Montserrat', -apple-system, sans-serif;
+        font-weight: 800;
+        font-size: 19px;
+        letter-spacing: 4px;
+      }
+    </style>
+  </defs>
+
+  <!-- Left Logo Icon: Stylized energetic lowercase 'e' -->
+  <g class="ef-blue">
+    <!-- Compound path for exact 'e' with orbital swoosh -->
+    <path fill-rule="evenodd" d="
+      M 164 16
+      C 228 16 272 58 274 114
+      L 70 114
+      C 72 68 112 16 164 16 Z
+
+      M 164 42
+      C 126 42 98 72 96 100
+      L 246 100
+      C 244 68 206 42 164 42 Z
+
+      M 26 95
+      C 28 132 58 178 116 206
+      C 152 222 208 220 252 188
+      C 268 176 276 160 276 150
+      L 248 138
+      C 244 148 236 160 224 168
+      C 192 190 148 190 120 176
+      C 94 162 76 142 72 128
+      L 274 128
+      L 274 114
+      L 70 114
+      C 69 118 68 123 68 128
+      C 62 128 42 114 26 95 Z
+    " />
+  </g>
+</svg>

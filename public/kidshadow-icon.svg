@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+
+    <!-- Outer Glow / Shadow -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#B45309" flood-opacity="0.35" />
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.15" />
+    </filter>
+
+    <!-- Lion Mane Gradient -->
+    <linearGradient id="maneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#C2410C" />
+    </linearGradient>
+
+    <!-- Lion Face Gradient -->
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <!-- Headphone Band Gradient -->
+    <linearGradient id="headphoneBand" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <!-- Headphone Ear Cup Gradient -->
+    <linearGradient id="earCupGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Gold Star Gradient -->
+    <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="100%" stop-color="#FCD34D" />
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle App Icon Background -->
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bgGrad)" filter="url(#dropShadow)" />
+
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="28" y="28" width="456" height="456" rx="108" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="4" />
+
+  <!-- Background Decorative Sparkles / Audio Wave Rings -->
+  <g opacity="0.3" stroke="#FFFFFF" stroke-width="4" fill="none">
+    <circle cx="256" cy="270" r="185" stroke-dasharray="8 12" />
+    <circle cx="256" cy="270" r="215" stroke-dasharray="6 14" opacity="0.5" />
+  </g>
+
+  <!-- Sparkle Stars -->
+  <path d="M 400 90 Q 400 115 425 115 Q 400 115 400 140 Q 400 115 375 115 Q 400 115 400 90 Z" fill="url(#starGrad)" />
+  <path d="M 110 130 Q 110 145 125 145 Q 110 145 110 160 Q 110 145 95 145 Q 110 145 110 130 Z" fill="url(#starGrad)" />
+  <circle cx="410" cy="190" r="6" fill="#FFFFFF" opacity="0.8" />
+  <circle cx="95" cy="210" r="5" fill="#FFFFFF" opacity="0.8" />
+
+  <!-- Headphone Over-Head Band (drawn behind ears/head) -->
+  <path d="M 145 235 C 145 130, 367 130, 367 235" fill="none" stroke="url(#headphoneBand)" stroke-width="26" stroke-linecap="round" />
+  <path d="M 145 235 C 145 135, 367 135, 367 235" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.4" />
+
+  <!-- Lion Fluffy Mane -->
+  <g filter="url(#softGlow)">
+    <!-- 8 Rounded Mane Tufts radiating around head -->
+    <circle cx="256" cy="180" r="58" fill="url(#maneGrad)" />
+    <circle cx="330" cy="205" r="54" fill="url(#maneGrad)" />
+    <circle cx="365" cy="275" r="52" fill="url(#maneGrad)" />
+    <circle cx="340" cy="345" r="54" fill="url(#maneGrad)" />
+    <circle cx="256" cy="375" r="56" fill="url(#maneGrad)" />
+    <circle cx="172" cy="345" r="54" fill="url(#maneGrad)" />
+    <circle cx="147" cy="275" r="52" fill="url(#maneGrad)" />
+    <circle cx="182" cy="205" r="54" fill="url(#maneGrad)" />
+  </g>
+
+  <!-- Lion Ears -->
+  <circle cx="180" cy="180" r="32" fill="#EA580C" />
+  <circle cx="180" cy="180" r="20" fill="#FDE68A" />
+  <circle cx="332" cy="180" r="32" fill="#EA580C" />
+  <circle cx="332" cy="180" r="20" fill="#FDE68A" />
+
+  <!-- Lion Face Head -->
+  <circle cx="256" cy="275" r="105" fill="url(#faceGrad)" filter="url(#softGlow)" />
+
+  <!-- Cheerful Rosy Cheeks -->
+  <ellipse cx="195" cy="295" rx="18" ry="12" fill="#F43F5E" opacity="0.45" />
+  <ellipse cx="317" cy="295" rx="18" ry="12" fill="#F43F5E" opacity="0.45" />
+
+  <!-- Big Sparkling Happy Eyes -->
+  <!-- Left Eye -->
+  <g>
+    <ellipse cx="215" cy="255" rx="15" ry="20" fill="#1E293B" />
+    <circle cx="211" cy="248" r="6" fill="#FFFFFF" />
+    <circle cx="222" cy="263" r="3" fill="#FFFFFF" />
+  </g>
+  <!-- Right Eye -->
+  <g>
+    <ellipse cx="297" cy="255" rx="15" ry="20" fill="#1E293B" />
+    <circle cx="293" cy="248" r="6" fill="#FFFFFF" />
+    <circle cx="304" cy="263" r="3" fill="#FFFFFF" />
+  </g>
+
+  <!-- Eyebrows (happy raised curve) -->
+  <path d="M 200 228 Q 215 220 230 226" fill="none" stroke="#9A3412" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 282 226 Q 297 220 312 228" fill="none" stroke="#9A3412" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- White Muzzle Area -->
+  <ellipse cx="256" cy="298" rx="42" ry="28" fill="#FFFBEB" />
+
+  <!-- Cute Heart/Triangle Nose -->
+  <path d="M 256 284 C 251 284, 245 289, 248 295 C 251 300, 256 305, 256 305 C 256 305, 261 300, 264 295 C 267 289, 261 284, 256 284 Z" fill="#E11D48" />
+
+  <!-- Joyful Open Smiling Mouth (Singing/Shadowing) -->
+  <path d="M 244 303 Q 256 312 268 303" fill="none" stroke="#9A3412" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M 246 305 Q 256 325 266 305 Z" fill="#991B1B" />
+  <!-- Tongue -->
+  <path d="M 249 313 Q 256 322 263 313 Z" fill="#FB7185" />
+
+  <!-- Cute Whiskers -->
+  <circle cx="232" cy="295" r="2.5" fill="#B45309" />
+  <circle cx="225" cy="301" r="2.5" fill="#B45309" />
+  <circle cx="280" cy="295" r="2.5" fill="#B45309" />
+  <circle cx="287" cy="301" r="2.5" fill="#B45309" />
+
+  <!-- Headphone Ear Cups (Large, Chunky, Kid-Friendly) -->
+  <!-- Left Ear Cup -->
+  <g filter="url(#softGlow)">
+    <rect x="120" y="225" width="46" height="88" rx="23" fill="url(#earCupGrad)" />
+    <rect x="125" y="233" width="36" height="72" rx="18" fill="#047857" />
+    <circle cx="143" cy="269" r="10" fill="#A7F3D0" />
+    <circle cx="143" cy="269" r="4" fill="#065F46" />
+  </g>
+  <!-- Right Ear Cup -->
+  <g filter="url(#softGlow)">
+    <rect x="346" y="225" width="46" height="88" rx="23" fill="url(#earCupGrad)" />
+    <rect x="351" y="233" width="36" height="72" rx="18" fill="#047857" />
+    <circle cx="369" cy="269" r="10" fill="#A7F3D0" />
+    <circle cx="369" cy="269" r="4" fill="#065F46" />
+  </g>
+
+  <!-- Microphone Boom Arm coming from left headphone to mouth -->
+  <path d="M 143 285 Q 165 355 220 342" fill="none" stroke="#334155" stroke-width="7" stroke-linecap="round" />
+  <!-- Microphone Capsule with glowing mesh & foam -->
+  <ellipse cx="225" cy="340" rx="13" ry="11" fill="#3B82F6" />
+  <circle cx="225" cy="340" r="6" fill="#60A5FA" />
+  <circle cx="223" cy="338" r="2.5" fill="#FFFFFF" />
+
+  <!-- Sound Waves coming from microphone (representing Shadowing Voice) -->
+  <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M 245 330 Q 255 338 245 348" />
+    <path d="M 255 324 Q 270 338 255 354" stroke-width="4" opacity="0.75" />
+    <path d="M 265 318 Q 285 338 265 360" stroke-width="3.5" opacity="0.5" />
+  </g>
+
+  <!-- Bottom App Title Banner inside Icon -->
+  <g transform="translate(0, 420)">
+    <!-- Pill Backing -->
+    <rect x="136" y="0" width="240" height="52" rx="26" fill="#FFFFFF" filter="url(#softGlow)" />
+    <!-- Gradient Text -->
+    <text x="256" y="34" font-family="'Fredoka', 'Nunito', sans-serif" font-weight="900" font-size="28" fill="#D97706" text-anchor="middle" letter-spacing="0.5">KidShadow</text>
+  </g>
+</svg>

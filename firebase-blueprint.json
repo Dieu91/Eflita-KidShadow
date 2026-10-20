@@ -1,0 +1,191 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with student and parent information",
+      "type": "object",
+      "properties": {
+        "student_name": {
+          "type": "string",
+          "description": "Name of the student",
+          "maxLength": 100
+        },
+        "parent_name": {
+          "type": "string",
+          "description": "Name of the parent",
+          "maxLength": 100
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number for contact",
+          "maxLength": 20
+        },
+        "level": {
+          "type": "string",
+          "description": "Selected level: STARTER, MOVERS, FLYERS",
+          "enum": ["STARTER", "MOVERS", "FLYERS"]
+        },
+        "email": {
+          "type": "string",
+          "description": "Google user email",
+          "maxLength": 120
+        },
+        "photo_url": {
+          "type": "string",
+          "description": "Avatar photo URL",
+          "maxLength": 500
+        },
+        "created_at": {
+          "type": "string",
+          "description": "ISO timestamp or server timestamp"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "ISO timestamp or server timestamp"
+        }
+      },
+      "required": ["student_name", "parent_name", "phone", "level"]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "Shadowing lesson content",
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Target level",
+          "enum": ["STARTER", "MOVERS", "FLYERS"]
+        },
+        "week": {
+          "type": "number",
+          "description": "Week number 1 to 7"
+        },
+        "order": {
+          "type": "number",
+          "description": "Order within week 1 to 3"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Title or topic of the lesson",
+          "maxLength": 150
+        },
+        "embed_url": {
+          "type": "string",
+          "description": "YouTube embed URL",
+          "maxLength": 500
+        }
+      },
+      "required": ["level", "week", "order", "topic", "embed_url"]
+    },
+    "Submission": {
+      "title": "Submission",
+      "description": "Video practice submission by user",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "Owner user UID",
+          "maxLength": 128
+        },
+        "lesson_id": {
+          "type": "string",
+          "description": "ID of the lesson document",
+          "maxLength": 128
+        },
+        "drive_link": {
+          "type": "string",
+          "description": "Google Drive view or file link",
+          "maxLength": 500
+        },
+        "duration": {
+          "type": "number",
+          "description": "Video duration in seconds"
+        },
+        "submitted_at": {
+          "type": "string",
+          "description": "Timestamp string of submission"
+        },
+        "level": {
+          "type": "string",
+          "description": "Level at time of submission",
+          "maxLength": 50
+        },
+        "week": {
+          "type": "number",
+          "description": "Week number"
+        },
+        "order": {
+          "type": "number",
+          "description": "Lesson order number"
+        }
+      },
+      "required": ["user_id", "lesson_id", "drive_link", "submitted_at"]
+    },
+    "ReflectionPost": {
+      "title": "ReflectionPost",
+      "description": "Community reflection post submission for Shadowing Champion qualification",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "Owner user UID",
+          "maxLength": 128
+        },
+        "post_url": {
+          "type": "string",
+          "description": "URL to the Facebook or Eflita community post",
+          "maxLength": 500
+        },
+        "submitted_at": {
+          "type": "string",
+          "description": "Timestamp string of submission"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status: pending, approved, or invalid",
+          "enum": ["pending", "approved", "invalid"]
+        }
+      },
+      "required": ["user_id", "post_url", "submitted_at", "status"]
+    },
+    "ContestRegistration": {
+      "title": "ContestRegistration",
+      "description": "Final contest registration",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "User UID",
+          "maxLength": 128
+        },
+        "registered_at": {
+          "type": "string",
+          "description": "Timestamp string of registration"
+        }
+      },
+      "required": ["user_id", "registered_at"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User documents keyed by user UID"
+    },
+    "/lessons/{lessonId}": {
+      "schema": { "$ref": "#/entities/Lesson" },
+      "description": "Lesson documents seeded and public to read"
+    },
+    "/submissions/{submissionId}": {
+      "schema": { "$ref": "#/entities/Submission" },
+      "description": "Practice submissions submitted by students"
+    },
+    "/reflection_posts/{postId}": {
+      "schema": { "$ref": "#/entities/ReflectionPost" },
+      "description": "Reflection posts submitted for Shadowing Champion"
+    },
+    "/contest_registrations/{regId}": {
+      "schema": { "$ref": "#/entities/ContestRegistration" },
+      "description": "Registrations for the Shadowing Champion final contest"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "KidShadow: Shadowing Tiếng Anh Tiểu Học",
+  "description": "Web app luyện tập Shadowing tiếng Anh cho học viên tiểu học (6-12 tuổi) với lộ trình game vui nhộn và tích hợp Google Drive",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

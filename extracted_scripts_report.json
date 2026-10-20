@@ -1,0 +1,382 @@
+{
+  "total": 63,
+  "successCount": 63,
+  "warningCount": 0,
+  "successfulResults": [
+    {
+      "id": "starter_w1_o1",
+      "topic": "Hello",
+      "script": "Hello, I'm [Name]. What's your name?",
+      "originalScript": "Hello! My name is Ben. Nice to meet you!"
+    },
+    {
+      "id": "starter_w1_o2",
+      "topic": "Greeting",
+      "script": "Hello! What's your name? My name is...",
+      "originalScript": "Good morning! How are you today? I'm great, thank you."
+    },
+    {
+      "id": "starter_w1_o3",
+      "topic": "First day",
+      "script": "Hello! What's your name?",
+      "originalScript": "Welcome to our class! We have a lot of fun together."
+    },
+    {
+      "id": "starter_w2_o1",
+      "topic": "School supplies",
+      "script": "What is this? It's a pencil.",
+      "originalScript": "This is my pencil and this is my colorful notebook."
+    },
+    {
+      "id": "starter_w2_o2",
+      "topic": "Art supplies",
+      "script": "What is this? It's a crayon.",
+      "originalScript": "I have bright crayons and glue to draw pictures."
+    },
+    {
+      "id": "starter_w2_o3",
+      "topic": "What's this? What's that?",
+      "script": "What's this? It's a pencil. What's that? It's a book.",
+      "originalScript": "What is this? It is an apple. What is that? It is a bird."
+    },
+    {
+      "id": "starter_w3_o1",
+      "topic": "Birthday",
+      "script": "How old are you? I'm six.",
+      "originalScript": "Happy birthday! Let's sing and eat sweet birthday cake."
+    },
+    {
+      "id": "starter_w3_o2",
+      "topic": "It's ok",
+      "script": "It's okay. Don't worry.",
+      "originalScript": "It is okay! Don't worry, we can try again together."
+    },
+    {
+      "id": "starter_w3_o3",
+      "topic": "Emotions",
+      "script": "How are you today? I'm happy.",
+      "originalScript": "I feel very happy and excited to play with my friends."
+    },
+    {
+      "id": "starter_w4_o1",
+      "topic": "Wake up",
+      "script": "Wake up! It's time to get up.",
+      "originalScript": "Wake up! The warm morning sun is shining brightly."
+    },
+    {
+      "id": "starter_w4_o2",
+      "topic": "Morning routines",
+      "script": "I wash my face.",
+      "originalScript": "I brush my teeth, wash my face, and eat breakfast."
+    },
+    {
+      "id": "starter_w4_o3",
+      "topic": "5 senses",
+      "script": "I use my eyes to see.",
+      "originalScript": "I can see with my eyes and hear with my ears."
+    },
+    {
+      "id": "starter_w5_o1",
+      "topic": "Clothes",
+      "script": "Put on your hat.",
+      "originalScript": "I wear a warm red jacket and clean blue shoes."
+    },
+    {
+      "id": "starter_w5_o2",
+      "topic": "Put on your clothes",
+      "script": "Put on your shoes.",
+      "originalScript": "Put on your shirt, put on your shoes, let's go outside!"
+    },
+    {
+      "id": "starter_w5_o3",
+      "topic": "What does she look like",
+      "script": "What does she look like? She has long hair.",
+      "originalScript": "She has long brown hair and big smiling eyes."
+    },
+    {
+      "id": "starter_w6_o1",
+      "topic": "What number is it?",
+      "script": "What number is it? It's number one.",
+      "originalScript": "What number is it? It is lucky number seven!"
+    },
+    {
+      "id": "starter_w6_o2",
+      "topic": "How many",
+      "script": "How many apples? One, two, three. Three apples.",
+      "originalScript": "How many apples are there on the green tree?"
+    },
+    {
+      "id": "starter_w6_o3",
+      "topic": "How much",
+      "script": "How much is the apple? It's one dollar.",
+      "originalScript": "How much is this yummy chocolate cookie, please?"
+    },
+    {
+      "id": "starter_w7_o1",
+      "topic": "Emotions",
+      "script": "How are you? I'm happy.",
+      "originalScript": "Are you happy today? Yes, I am feeling wonderful!"
+    },
+    {
+      "id": "starter_w7_o2",
+      "topic": "Weather",
+      "script": "How is the weather today? It is sunny.",
+      "originalScript": "Look outside! It is a sunny and warm morning."
+    },
+    {
+      "id": "starter_w7_o3",
+      "topic": "How's the weather",
+      "script": "How's the weather? It's sunny.",
+      "originalScript": "How is the weather today? It is cool and windy."
+    },
+    {
+      "id": "movers_w1_o1",
+      "topic": "My day",
+      "script": "I usually get up at seven o'clock.",
+      "originalScript": "In the morning, I wake up early and get ready for school."
+    },
+    {
+      "id": "movers_w1_o2",
+      "topic": "Telephone conversation",
+      "script": "Hello! Can I speak to Tom, please?",
+      "originalScript": "Hello! May I speak to Peter, please? Speaking!"
+    },
+    {
+      "id": "movers_w2_o1",
+      "topic": "Furniture",
+      "script": "Is there a desk in your bedroom? Yes, there is.",
+      "originalScript": "There is a cozy sofa and a wooden table in our living room."
+    },
+    {
+      "id": "movers_w2_o2",
+      "topic": "My home",
+      "script": "Where is the cat? It's in the kitchen.",
+      "originalScript": "Welcome to my home! My bedroom is upstairs on the second floor."
+    },
+    {
+      "id": "movers_w2_o3",
+      "topic": "In - on - under",
+      "script": "Where is the cat? It's on the box.",
+      "originalScript": "The cat is under the table and the storybook is on the desk."
+    },
+    {
+      "id": "movers_w3_o1",
+      "topic": "Time chants",
+      "script": "What time is it? It's seven o'clock. It's time for school.",
+      "originalScript": "Tick tock goes the clock, it is time to learn and time to play!"
+    },
+    {
+      "id": "movers_w3_o2",
+      "topic": "What time is it?",
+      "script": "What time is it? It's four o'clock.",
+      "originalScript": "Excuse me, what time is it now? It is eight o’clock."
+    },
+    {
+      "id": "movers_w3_o3",
+      "topic": "We're late",
+      "script": "We're late for school. Let's run!",
+      "originalScript": "Hurry up! We are late for our exciting English class."
+    },
+    {
+      "id": "movers_w4_o1",
+      "topic": "Time for lunch",
+      "script": "What's for lunch? I'm having a sandwich and an apple.",
+      "originalScript": "It is twelve o’clock, time for a healthy and delicious lunch."
+    },
+    {
+      "id": "movers_w4_o2",
+      "topic": "School Subjects",
+      "script": "What is your favorite subject? My favorite subject is Science.",
+      "originalScript": "I study English, Mathematics, and Science on Monday morning."
+    },
+    {
+      "id": "movers_w4_o3",
+      "topic": "School Subjects vocab",
+      "script": "What is your favorite subject? My favorite subject is Science.",
+      "originalScript": "Our teacher tells us interesting history and science stories."
+    },
+    {
+      "id": "movers_w5_o1",
+      "topic": "Your favourite subject",
+      "script": "What’s your favourite subject? My favourite subject is English.",
+      "originalScript": "My favourite subject is Art because I love drawing pictures."
+    },
+    {
+      "id": "movers_w5_o2",
+      "topic": "School Conversation",
+      "script": "What do you do at school? I study Maths and English.",
+      "originalScript": "Can you lend me your eraser, please? Sure, here you are!"
+    },
+    {
+      "id": "movers_w5_o3",
+      "topic": "What do you want",
+      "script": "What do you want to eat? I want to eat some pizza.",
+      "originalScript": "What do you want to do after finishing your homework today?"
+    },
+    {
+      "id": "movers_w6_o1",
+      "topic": "Make smoothies",
+      "script": "What do you need to make a strawberry smoothie?",
+      "originalScript": "Let’s put sweet strawberries and bananas into the blender."
+    },
+    {
+      "id": "movers_w6_o2",
+      "topic": "What's your favourite food",
+      "script": "What's your favourite food? My favourite food is pizza.",
+      "originalScript": "What is your favourite food? I like Italian pasta and soup."
+    },
+    {
+      "id": "movers_w6_o3",
+      "topic": "May I take your order",
+      "script": "May I take your order? Yes, I'd like a burger and some fries, please.",
+      "originalScript": "Good afternoon! May I take your order, please?"
+    },
+    {
+      "id": "movers_w7_o1",
+      "topic": "It's lunch time",
+      "script": "It's lunch time. I'm hungry. I want some rice and some chicken.",
+      "originalScript": "It is lunch time! Remember to wash your hands before eating."
+    },
+    {
+      "id": "movers_w7_o3",
+      "topic": "Dinner",
+      "script": "What would you like for dinner? I would like some chicken, please.",
+      "originalScript": "Our family always gathers together for warm dinner every evening."
+    },
+    {
+      "id": "flyers_w1_o1",
+      "topic": "Countries",
+      "script": "Where are you from? I'm from Vietnam.",
+      "originalScript": "There are many fascinating countries and diverse cultures worldwide."
+    },
+    {
+      "id": "flyers_w1_o2",
+      "topic": "Where are you from",
+      "script": "Where are you from? I'm from Vietnam.",
+      "originalScript": "Where are you from? I am from Vietnam and I live in Hanoi."
+    },
+    {
+      "id": "flyers_w1_o3",
+      "topic": "Flags",
+      "script": "What does the flag of the United Kingdom look like?",
+      "originalScript": "Every country has a unique national flag with proud colors."
+    },
+    {
+      "id": "flyers_w2_o1",
+      "topic": "Countries and nationalities",
+      "script": "Where are you from? I'm from Vietnam. I'm Vietnamese.",
+      "originalScript": "People from different nationalities speak many beautiful languages."
+    },
+    {
+      "id": "flyers_w2_o2",
+      "topic": "People around the world",
+      "script": "Where are you from? I'm from Brazil. I'm Brazilian.",
+      "originalScript": "Children around the world enjoy playing sports and making friends."
+    },
+    {
+      "id": "flyers_w2_o3",
+      "topic": "Give directions",
+      "script": "Go straight on and turn left at the traffic lights.",
+      "originalScript": "Turn left at the traffic light and go straight for two blocks."
+    },
+    {
+      "id": "flyers_w3_o1",
+      "topic": "Where is it?",
+      "script": "Where is it? It's under the chair.",
+      "originalScript": "Excuse me, could you tell me where the nearest bookstore is?"
+    },
+    {
+      "id": "flyers_w3_o2",
+      "topic": "Asking and giving directions",
+      "script": "Excuse me, how do I get to the library? Go straight, then turn left at the traffic lights.",
+      "originalScript": "Walk past the green park and the library will be on your right."
+    },
+    {
+      "id": "flyers_w3_o3",
+      "topic": "Where's the bank",
+      "script": "Excuse me, where is the bank? It’s next to the library.",
+      "originalScript": "The central bank is situated directly opposite the big supermarket."
+    },
+    {
+      "id": "flyers_w4_o1",
+      "topic": "Health problems",
+      "script": "I have a headache. I have a stomachache. I have a toothache.",
+      "originalScript": "I have a sore throat and a slight headache this morning."
+    },
+    {
+      "id": "flyers_w4_o2",
+      "topic": "Diseases and hospital",
+      "script": "What’s the matter? I have a stomachache.",
+      "originalScript": "The doctor advised us to drink plenty of warm water and rest."
+    },
+    {
+      "id": "flyers_w4_o3",
+      "topic": "Doctor check ups",
+      "script": "I have a sore throat, and I have a headache.",
+      "originalScript": "The friendly doctor examined my throat and gave me vitamins."
+    },
+    {
+      "id": "flyers_w5_o1",
+      "topic": "Flu symptoms",
+      "script": "What's the matter? I have a headache and a sore throat.",
+      "originalScript": "Common symptoms of flu include sneezing, coughing, and high fever."
+    },
+    {
+      "id": "flyers_w5_o2",
+      "topic": "Yesterday",
+      "script": "What did you do yesterday? I played basketball.",
+      "originalScript": "Yesterday afternoon, I visited my lovely grandparents in the countryside."
+    },
+    {
+      "id": "flyers_w5_o3",
+      "topic": "What did you draw",
+      "script": "What did you draw? I drew a picture of a monster.",
+      "originalScript": "What did you draw in your art class yesterday afternoon?"
+    },
+    {
+      "id": "flyers_w6_o3",
+      "topic": "How was your summer vacation",
+      "script": "How was your summer vacation? It was great! I went to the beach with my family.",
+      "originalScript": "How was your summer vacation? It was wonderful and full of joy!"
+    },
+    {
+      "id": "flyers_w7_o1",
+      "topic": "Who invented cellphones",
+      "script": "Martin Cooper invented the first mobile phone in 1973.",
+      "originalScript": "Martin Cooper invented the first handheld mobile phone in nineteen seventy-three."
+    },
+    {
+      "id": "flyers_w7_o2",
+      "topic": "Read a story: Feeling",
+      "script": "I feel happy when I'm playing with my friends.",
+      "originalScript": "She felt very cheerful and proud after overcoming the difficult challenge."
+    },
+    {
+      "id": "flyers_w7_o3",
+      "topic": "Read a story",
+      "script": "One day, the children found a mysterious old map in the attic.",
+      "originalScript": "The brave little explorer discovered a mysterious hidden path in the castle."
+    },
+    {
+      "id": "movers_w1_o3",
+      "topic": "Routine Chants",
+      "script": "I get up at seven o'clock. I have breakfast at eight o'clock."
+    },
+    {
+      "id": "movers_w7_o2",
+      "topic": "Dinner with friends",
+      "script": "Would you like some salad? Yes, please. No, thank you."
+    },
+    {
+      "id": "flyers_w6_o1",
+      "topic": "What did you do last weekend",
+      "script": "What did you do last weekend? I visited my grandparents."
+    },
+    {
+      "id": "flyers_w6_o2",
+      "topic": "Where did you go",
+      "script": "Where did you go on your holiday? I went to the beach."
+    }
+  ],
+  "manualWarningList": []
+}

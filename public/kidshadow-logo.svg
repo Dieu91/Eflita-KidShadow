@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="100%" height="100%">
+  <defs>
+    <!-- Background Badge Gradient -->
+    <linearGradient id="badgeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="100%" stop-color="#FEF3C7" />
+    </linearGradient>
+
+    <!-- Lion Mane Gradient -->
+    <linearGradient id="maneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+
+    <!-- Lion Face Gradient -->
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <!-- Headphones Band Gradient -->
+    <linearGradient id="hpBand" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <!-- Headphones Cup Gradient -->
+    <linearGradient id="hpCup" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Mic Gradient -->
+    <linearGradient id="micGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#CA8A04" />
+    </linearGradient>
+
+    <!-- Text Brand Gradient -->
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="50%" stop-color="#EA580C" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <!-- Subtitle Gradient -->
+    <linearGradient id="subGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+
+    <filter id="shadowFilter" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#D97706" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- Container Rounded Pill -->
+  <rect x="6" y="6" width="628" height="168" rx="36" fill="url(#badgeBg)" stroke="#FCD34D" stroke-width="3" filter="url(#shadowFilter)" />
+
+  <!-- ================= MASCOT ICON (Left) ================= -->
+  <g transform="translate(18, 10)">
+    <!-- Outer Glow Circle -->
+    <circle cx="80" cy="80" r="72" fill="#F59E0B" opacity="0.15" />
+    <circle cx="80" cy="80" r="64" fill="#FDE68A" />
+
+    <!-- Lion Mane Flower Petals -->
+    <circle cx="80" cy="36" r="22" fill="url(#maneGrad)" />
+    <circle cx="114" cy="46" r="22" fill="url(#maneGrad)" />
+    <circle cx="128" cy="80" r="22" fill="url(#maneGrad)" />
+    <circle cx="114" cy="114" r="22" fill="url(#maneGrad)" />
+    <circle cx="80" cy="124" r="22" fill="url(#maneGrad)" />
+    <circle cx="46" cy="114" r="22" fill="url(#maneGrad)" />
+    <circle cx="32" cy="80" r="22" fill="url(#maneGrad)" />
+    <circle cx="46" cy="46" r="22" fill="url(#maneGrad)" />
+
+    <!-- Lion Ears -->
+    <circle cx="48" cy="46" r="14" fill="#F59E0B" />
+    <circle cx="48" cy="46" r="8" fill="#FDE68A" />
+    <circle cx="112" cy="46" r="14" fill="#F59E0B" />
+    <circle cx="112" cy="46" r="8" fill="#FDE68A" />
+
+    <!-- Lion Face Base -->
+    <circle cx="80" cy="80" r="44" fill="url(#faceGrad)" />
+
+    <!-- Cheeks (Blush) -->
+    <circle cx="56" cy="92" r="8" fill="#FDA4AF" opacity="0.8" />
+    <circle cx="104" cy="92" r="8" fill="#FDA4AF" opacity="0.8" />
+
+    <!-- Eyes (Big Sparkling Anime Eyes) -->
+    <ellipse cx="64" cy="74" rx="6.5" ry="8.5" fill="#1E293B" />
+    <circle cx="62" cy="71" r="2.8" fill="#FFFFFF" />
+    <circle cx="66" cy="78" r="1.2" fill="#FFFFFF" />
+
+    <ellipse cx="96" cy="74" rx="6.5" ry="8.5" fill="#1E293B" />
+    <circle cx="94" cy="71" r="2.8" fill="#FFFFFF" />
+    <circle cx="98" cy="78" r="1.2" fill="#FFFFFF" />
+
+    <!-- Snout & Nose -->
+    <ellipse cx="80" cy="90" rx="14" ry="11" fill="#FEF3C7" />
+    <polygon points="80,85 74,80 86,80" fill="#78350F" />
+    <!-- Happy Smile -->
+    <path d="M 74 91 Q 80 97 86 91" stroke="#78350F" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+    <!-- Headphones Band -->
+    <path d="M 38 74 A 46 46 0 0 1 122 74" fill="none" stroke="url(#hpBand)" stroke-width="7" stroke-linecap="round" />
+
+    <!-- Headphone Ear Cups -->
+    <rect x="26" y="66" width="14" height="28" rx="7" fill="url(#hpCup)" stroke="#FFFFFF" stroke-width="1.5" />
+    <rect x="120" y="66" width="14" height="28" rx="7" fill="url(#hpCup)" stroke="#FFFFFF" stroke-width="1.5" />
+
+    <!-- Golden Microphone with sound wave -->
+    <g transform="translate(102, 94)">
+      <!-- Mic Head -->
+      <circle cx="14" cy="14" r="10" fill="url(#micGrad)" stroke="#B45309" stroke-width="1.5" />
+      <line x1="8" y1="14" x2="20" y2="14" stroke="#78350F" stroke-width="1" />
+      <line x1="14" y1="8" x2="14" y2="20" stroke="#78350F" stroke-width="1" />
+      <!-- Mic Handle -->
+      <rect x="11" y="24" width="6" height="14" rx="3" fill="#334155" />
+      <!-- Small Audio Sparkle -->
+      <polygon points="28,10 31,14 35,15 31,16 28,20 25,16 21,15 25,14" fill="#F59E0B" />
+    </g>
+  </g>
+
+  <!-- ================= TYPOGRAPHY & BRANDING (Right) ================= -->
+  <g transform="translate(188, 30)">
+    <!-- Main Title: KidShadow -->
+    <text x="0" y="56" font-family="'Fredoka', 'Nunito', 'Segoe UI', sans-serif" font-weight="900" font-size="54" fill="url(#textGrad)" letter-spacing="-0.5">
+      KidShadow
+    </text>
+
+    <!-- Star Emblem on top right of Title -->
+    <g transform="translate(295, 12)">
+      <polygon points="12,0 15,8 24,9 17,15 19,24 12,19 5,24 7,15 0,9 9,8" fill="#F59E0B" />
+      <polygon points="12,3 14,9 20,10 15,14 16,20 12,17 8,20 9,14 4,10 10,9" fill="#FDE047" />
+    </g>
+
+    <!-- Subtitle Badge: SHADOWING CHAMPION -->
+    <g transform="translate(0, 72)">
+      <!-- Pill Background -->
+      <rect x="0" y="0" width="280" height="32" rx="16" fill="url(#subGrad)" />
+      <!-- Trophy Icon Inside Pill -->
+      <text x="14" y="22" font-size="16">🏆</text>
+      <!-- Subtitle Text -->
+      <text x="38" y="21" font-family="'Fredoka', 'Nunito', 'Segoe UI', sans-serif" font-weight="800" font-size="14" fill="#FFFFFF" letter-spacing="1.2">
+        SHADOWING CHAMPION
+      </text>
+    </g>
+
+    <!-- Tagline: Luyện Nói Tiếng Anh Chuẩn Bản Xứ -->
+    <text x="2" y="124" font-family="'Nunito', sans-serif" font-weight="800" font-size="14" fill="#78350F" letter-spacing="0.2">
+      Luyện Nói Tiếng Anh Trẻ Em • 21 Ngày Tỏa Sáng
+    </text>
+  </g>
+
+  <!-- Sound wave accents on far right -->
+  <g transform="translate(565, 50)" stroke="#F59E0B" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M 0 20 Q 10 35 0 50" opacity="0.4" />
+    <path d="M 14 10 Q 28 35 14 60" opacity="0.7" />
+    <path d="M 28 0 Q 46 35 28 70" opacity="0.9" />
+  </g>
+</svg>
