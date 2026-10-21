@@ -5,10 +5,8 @@ import {
   CheckCircle2,
   AlertCircle,
   ExternalLink,
-  Play,
   Film,
   Sparkles,
-  Clock,
   ShieldCheck,
   RotateCcw
 } from 'lucide-react';
@@ -16,18 +14,62 @@ import confetti from 'canvas-confetti';
 import { Lesson, Submission, UserProfile, Language } from '../types';
 import { getTranslation } from '../i18n/translations';
 import { uploadVideoToDrive, extractVideoDuration, DriveUploadProgress } from '../services/drive';
-import { createSubmission, getAccessToken, connectGoogleDrive, updateSubmissionFeedback } from '../services/firebase';
+import { createSubmission, getAccessToken, connectGoogleDrive } from '../services/firebase';
 import { evaluateMotivationalFeedback, FeedbackRuleResult } from '../utils/feedbackRules';
-import { extractAudioFromVideo } from '../utils/audioExtractor';
-import { requestPronunciationAssessment } from '../services/geminiService';
-import {
-  sanitizeTeacherFeedback,
-  isFeedbackFaultyOrWarning,
-  hasAudioComplaint,
-  UNCLEAR_AUDIO_MESSAGE_VI,
-  UNCLEAR_AUDIO_MESSAGE_EN,
-} from '../utils/sanitizeFeedback';
-import { getDetailedPedagogicalFeedback } from '../utils/feedbackGenerator';
+
+// Số video của mỗi cấp độ (Starter / Movers / Flyers)
+const TOTAL_VIDEOS_PER_LEVEL = 21;
+
+// Các mốc tiến độ được ăn mừng bằng pháo giấy lớn hơn
+const MILESTONES = [1, 7, 14, 20, 21];
+
+const GENERAL_MESSAGES_VI = [
+  '🎉 Giỏi lắm! Con đã nộp bài rồi. Mỗi ngày luyện một chút, con sẽ nói tiếng Anh tự tin hơn nhé!',
+  '👏 Con thật dũng cảm khi nói tiếng Anh hôm nay! Hãy giữ thói quen luyện tập này nhé!',
+  '🌟 Tuyệt vời! Luyện tập đều đặn là bí quyết để con tiến bộ mỗi ngày.',
+  '💪 Con làm tốt lắm! Hẹn con ở video tiếp theo nhé!',
+];
+
+const GENERAL_MESSAGES_EN = [
+  '🎉 Great job! You submitted your video. A little practice every day makes you more confident!',
+  '👏 You were so brave speaking English today! Keep up this great habit!',
+  '🌟 Awesome! Practicing regularly is the secret to getting better every day.',
+  '💪 Well done! See you at the next video!',
+];
+
+function getProgressMessage(done: number, lang: Language): string {
+  const total = TOTAL_VIDEOS_PER_LEVEL;
+  const isEn = lang === 'en';
+
+  if (done >= total) {
+    return isEn
+      ? `🏆 You finished ${total}/${total} videos! Don't forget to write your reflection post in the Eflita community to join the Shadowing Champion contest!`
+      : `🏆 Con đã hoàn thành ${total}/${total} video! Đừng quên viết bài cảm nhận trên cộng đồng Eflita để được xét vào cuộc thi Shadowing Champion nhé!`;
+  }
+  if (done === total - 1) {
+    return isEn
+      ? '🔥 Only 1 more video to go! You can do it!'
+      : '🔥 Chỉ còn 1 video nữa thôi! Cố lên con nhé!';
+  }
+  if (done === 1) {
+    return isEn
+      ? '🌟 Congratulations on your first video! Your English journey has begun. A little every day!'
+      : '🌟 Chúc mừng con đã nộp video đầu tiên! Hành trình luyện nói tiếng Anh của con bắt đầu rồi. Mỗi ngày một chút nhé!';
+  }
+  if (done === 7) {
+    return isEn
+      ? `🎉 Amazing! ${done}/${total} videos done, you are one third of the way there! Keep this habit going!`
+      : `🎉 Tuyệt vời! Con đã hoàn thành ${done}/${total} video, đi được 1/3 chặng đường rồi. Giữ thói quen luyện tập này nhé!`;
+  }
+  if (done === 14) {
+    return isEn
+      ? `🎉 Amazing! ${done}/${total} videos done, you are two thirds of the way there! Keep this habit going!`
+      : `🎉 Tuyệt vời! Con đã hoàn thành ${done}/${total} video, đi được 2/3 chặng đường rồi. Giữ thói quen luyện tập này nhé!`;
+  }
+
+  const list = isEn ? GENERAL_MESSAGES_EN : GENERAL_MESSAGES_VI;
+  return list[Math.floor(Math.random() * list.length)];
+}
 
 interface LessonModalProps {
   lesson: Lesson;
@@ -57,9 +99,8 @@ export const LessonModal: React.FC<LessonModalProps> = ({
   const [uploadError, setUploadError] = useState<string>('');
   const [justSubmitted, setJustSubmitted] = useState<boolean>(false);
   const [feedbackResult, setFeedbackResult] = useState<FeedbackRuleResult | null>(null);
-  const [isGeminiAssessing, setIsGeminiAssessing] = useState<boolean>(false);
-  const [geminiFeedback, setGeminiFeedback] = useState<string | null>(null);
-  const [isContentMatched, setIsContentMatched] = useState<boolean>(true);
+  const [completedCount, setCompletedCount] = useState<number>(0);
+  const [progressMessage, setProgressMessage] = useState<string>('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -106,12 +147,6 @@ export const LessonModal: React.FC<LessonModalProps> = ({
     setUploadError('');
 
     try {
-      // Start audio extraction concurrently for Gemini pronunciation assessment
-      const audioExtractPromise = extractAudioFromVideo(selectedFile).catch((audioErr) => {
-        console.warn('Audio extraction warning:', audioErr);
-        return null;
-      });
-
       let driveLink = '';
       let accessToken = getAccessToken();
 
@@ -173,13 +208,6 @@ export const LessonModal: React.FC<LessonModalProps> = ({
       const subId = await createSubmission(newSubData);
       const fullSubmission: Submission = { ...newSubData, id: subId };
 
-      // Trigger Confetti
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-
       // Calculate rule-based motivational feedback
       const allSubs = [fullSubmission, ...existingSubmissions];
       const feedback = evaluateMotivationalFeedback(
@@ -189,68 +217,24 @@ export const LessonModal: React.FC<LessonModalProps> = ({
         lang
       );
 
+      // Progress: number of distinct videos completed in this level (including the one just submitted)
+      const doneCount = new Set(
+        allSubs.filter((s) => s.level === lesson.level).map((s) => s.lesson_id)
+      ).size;
+      setCompletedCount(doneCount);
+      setProgressMessage(getProgressMessage(doneCount, lang));
+
+      // Confetti: bigger burst at milestones
+      const isMilestone = MILESTONES.includes(doneCount);
+      confetti({
+        particleCount: isMilestone ? 220 : 80,
+        spread: isMilestone ? 110 : 70,
+        origin: { y: 0.6 },
+      });
+
       setFeedbackResult(feedback);
       setJustSubmitted(true);
       onSubmissionSuccess(fullSubmission, feedback);
-
-      // Trigger Teacher Pronunciation Assessment immediately via FormData upload
-      setIsGeminiAssessing(true);
-      const currentSelectedFile = selectedFile;
-      const richDefaultPraise = getDetailedPedagogicalFeedback(lesson.topic, lesson.script, lang, lesson.level);
-
-      requestPronunciationAssessment({
-        file: currentSelectedFile,
-        script: lesson.script,
-        topic: lesson.topic,
-        studentName: userProfile.student_name,
-        level: lesson.level,
-        language: lang,
-        lessonId: lesson.id,
-        embed_url: lesson.embed_url,
-      })
-      .then(async (aiResult) => {
-        let sanitizedAiFeedback = sanitizeTeacherFeedback(aiResult.feedback || richDefaultPraise);
-        // Decisive fix: Never show "unclear audio" - always replace with rich pedagogical feedback
-        if (
-          hasAudioComplaint(sanitizedAiFeedback) ||
-          isFeedbackFaultyOrWarning(sanitizedAiFeedback) ||
-          sanitizedAiFeedback.includes('Âm thanh chưa rõ') ||
-          sanitizedAiFeedback.includes('ghi âm lại ở nơi yên tĩnh') ||
-          sanitizedAiFeedback.includes('audio is not clear')
-        ) {
-          sanitizedAiFeedback = richDefaultPraise;
-        }
-        setGeminiFeedback(sanitizedAiFeedback);
-        const isMatched = typeof aiResult.isContentMatched === 'boolean'
-          ? aiResult.isContentMatched
-          : true;
-        setIsContentMatched(isMatched);
-        fullSubmission.pronunciation_feedback = sanitizedAiFeedback;
-
-        // Sync lazy-loaded script to local lesson object if returned
-        if (aiResult.script && aiResult.script !== lesson.script) {
-          lesson.script = aiResult.script;
-        }
-
-        if (subId) {
-          await updateSubmissionFeedback(subId, sanitizedAiFeedback, userProfile.uid);
-        }
-        // Update parent state so progress records have the new feedback
-        onSubmissionSuccess(fullSubmission, feedback);
-      })
-      .catch((assessErr) => {
-        console.warn('Teacher assessment error fallback to pedagogical praise:', assessErr);
-        const fallbackMsg = richDefaultPraise;
-        setGeminiFeedback(fallbackMsg);
-        setIsContentMatched(true);
-        fullSubmission.pronunciation_feedback = fallbackMsg;
-        if (subId) {
-          updateSubmissionFeedback(subId, fallbackMsg, userProfile.uid).catch(() => {});
-        }
-      })
-      .finally(() => {
-        setIsGeminiAssessing(false);
-      });
     } catch (err) {
       console.error('Upload error:', err);
       setUploadError(err instanceof Error ? err.message : 'Upload failed');
@@ -355,12 +339,12 @@ export const LessonModal: React.FC<LessonModalProps> = ({
             </div>
           </div>
 
-          {/* Motivational Feedback Banner when submission just happened */}
+          {/* Congratulation banner when a submission just happened */}
           {justSubmitted && feedbackResult && (
             <div className="p-4 rounded-3xl bg-gradient-to-r from-emerald-100 via-teal-100 to-green-100 border-3 border-emerald-300 shadow-md animate-in slide-in-from-top duration-300">
               <div className="flex items-start gap-3">
                 <span className="text-3xl shrink-0">{feedbackResult.highlightIcon}</span>
-                <div>
+                <div className="flex-1 min-w-0">
                   <h4 className="font-extrabold text-sm text-emerald-950 flex items-center gap-1.5 font-['Fredoka',sans-serif]">
                     <Sparkles className="w-4 h-4 text-emerald-600" />
                     <span>{t.uploadSuccess}</span>
@@ -368,134 +352,35 @@ export const LessonModal: React.FC<LessonModalProps> = ({
                   <p className="text-xs sm:text-sm font-bold text-emerald-800 mt-1">
                     {feedbackResult.message}
                   </p>
+
+                  {/* Progress bar + milestone / encouragement message */}
+                  {completedCount > 0 && (
+                    <div className="mt-3 space-y-1.5">
+                      <div className="flex items-center justify-between text-xs font-extrabold text-emerald-900">
+                        <span>📚 {lang === 'vi' ? 'Tiến độ của con' : 'Your progress'}</span>
+                        <span>
+                          {Math.min(completedCount, TOTAL_VIDEOS_PER_LEVEL)}/{TOTAL_VIDEOS_PER_LEVEL}
+                        </span>
+                      </div>
+                      <div className="w-full h-2.5 bg-white/70 rounded-full overflow-hidden border border-emerald-200">
+                        <div
+                          className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.min(100, (completedCount / TOTAL_VIDEOS_PER_LEVEL) * 100)}%`,
+                          }}
+                        />
+                      </div>
+                      {progressMessage && (
+                        <p className="text-xs sm:text-sm font-bold text-emerald-800 pt-0.5">
+                          {progressMessage}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           )}
-
-          {/* Khối riêng: Nhận xét phát âm (Requirement 4, 5, 6, 7) */}
-          {/* LƯU Ý QUAN TRỌNG: Đây là nhận xét định tính hỗ trợ động viên hàng tuần, KHÔNG dùng để chấm điểm hay xếp hạng trong vòng thi Shadowing Champion (vòng thi vẫn do giám khảo con người chấm như quy trình đã thiết kế). */}
-          {justSubmitted && (
-            isGeminiAssessing ? (
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-purple-50 via-indigo-50/70 to-pink-50 border-3 border-purple-300 shadow-md text-left relative overflow-hidden animate-in fade-in duration-300">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-500 via-indigo-500 to-pink-500 text-white flex items-center justify-center text-xl shadow-xs shrink-0">
-                    🎙️
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h4 className="font-extrabold text-sm text-purple-950 font-['Fredoka',sans-serif]">
-                        {lang === 'vi' ? 'Nhận xét phát âm' : 'Pronunciation Feedback'}
-                      </h4>
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">
-                        {lang === 'vi' ? 'Giáo viên' : 'Teacher'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2.5 py-3 text-xs font-bold text-purple-800 animate-pulse bg-white/70 rounded-xl px-3 border border-purple-100">
-                      <Sparkles className="w-4 h-4 text-purple-600 animate-spin shrink-0" />
-                      <span>
-                        {lang === 'vi'
-                          ? 'Đang lắng nghe con luyện tập và kiểm tra nội dung bài, quay lại sau vài giây nhé! 🎧'
-                          : 'Listening to your practice & verifying lesson content, check back in a few seconds! 🎧'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : !isContentMatched ? (
-              /* Warning Card: Video Content Mismatch */
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 border-3 border-amber-400 shadow-md text-left relative overflow-hidden animate-in fade-in duration-300">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-xl shadow-xs shrink-0">
-                    ⚠️
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h4 className="font-extrabold text-sm text-amber-950 font-['Fredoka',sans-serif]">
-                        {lang === 'vi' ? 'Video chưa đúng nội dung bài học' : 'Video Content Mismatch'}
-                      </h4>
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300">
-                        {lang === 'vi' ? 'Cần quay lại' : 'Needs retry'}
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-amber-950 font-medium leading-relaxed mb-3 whitespace-pre-line bg-white/80 p-3 rounded-2xl border border-amber-200 shadow-2xs">
-                      {sanitizeTeacherFeedback(geminiFeedback)}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs rounded-xl shadow-sm transition active:scale-95 cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>{lang === 'vi' ? 'Chọn lại đúng video của bài này' : 'Select correct video for this lesson'}</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              /* Success Card: Positive Pronunciation Feedback */
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-purple-50 via-indigo-50/70 to-pink-50 border-3 border-purple-300 shadow-md text-left relative overflow-hidden animate-in fade-in duration-300">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-500 via-indigo-500 to-pink-500 text-white flex items-center justify-center text-xl shadow-xs shrink-0">
-                    🎙️
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h4 className="font-extrabold text-sm text-purple-950 font-['Fredoka',sans-serif]">
-                        {lang === 'vi' ? 'Nhận xét phát âm' : 'Pronunciation Feedback'}
-                      </h4>
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">
-                        {lang === 'vi' ? 'Giáo viên' : 'Teacher'}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 mb-2.5 leading-relaxed">
-                      {lang === 'vi'
-                        ? 'Nhận xét định tính hỗ trợ luyện tập hàng tuần • Không dùng để chấm điểm hay xếp hạng vòng thi'
-                        : 'Qualitative weekly practice feedback • Not used for contest scoring or ranking'}
-                    </p>
-
-                    <div className="bg-white/95 rounded-2xl p-3.5 border border-purple-100 text-xs sm:text-sm text-slate-800 leading-relaxed shadow-2xs font-medium whitespace-pre-line">
-                      {sanitizeTeacherFeedback(geminiFeedback)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )
-          )}
-
-          {/* Show previous pronunciation feedback if available */}
-          {!justSubmitted && isCompleted && lessonSubmissions[0]?.pronunciation_feedback && (() => {
-            let prevFb = sanitizeTeacherFeedback(lessonSubmissions[0].pronunciation_feedback);
-            if (
-              hasAudioComplaint(prevFb) ||
-              isFeedbackFaultyOrWarning(prevFb) ||
-              prevFb.includes('Âm thanh chưa rõ') ||
-              prevFb.includes('ghi âm lại ở nơi yên tĩnh') ||
-              prevFb.includes('audio is not clear')
-            ) {
-              prevFb = getDetailedPedagogicalFeedback(lesson.topic, lesson.script, lang, lesson.level);
-            }
-            return (
-              <div className="p-4 rounded-3xl border-2 text-left space-y-2 bg-gradient-to-br from-purple-50/90 to-indigo-50/80 border-purple-200">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">🎙️</span>
-                  <div>
-                    <h5 className="text-xs font-extrabold text-slate-900 font-['Fredoka',sans-serif]">
-                      {lang === 'vi' ? 'Nhận xét phát âm bài luyện tập gần nhất' : 'Previous Pronunciation Feedback'}
-                    </h5>
-                    <p className="text-[10px] text-slate-500">
-                      {lang === 'vi'
-                        ? 'Nhận xét định tính từ Giáo viên • Không tính điểm xếp hạng'
-                        : 'Qualitative teacher feedback • Not used for contest scoring'}
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-white/90 p-3 rounded-xl border border-slate-100 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">
-                  {prevFb}
-                </div>
-              </div>
-            );
-          })()}
 
           {/* Existing Submissions List */}
           {isCompleted && (
