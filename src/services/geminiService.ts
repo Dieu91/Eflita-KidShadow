@@ -1,20 +1,4 @@
-/**
- * ==============================================================================
- * LƯU Ý QUAN TRỌNG / IMPORTANT ARCHITECTURAL & EVALUATION NOTICE:
- * ==============================================================================
- * Đây là nhận xét định tính hỗ trợ động viên hàng tuần, KHÔNG dùng để chấm điểm
- * hay xếp hạng trong vòng thi Shadowing Champion (vòng thi vẫn do giám khảo con người
- * chấm như quy trình đã thiết kế).
- *
- * This function provides qualitative formative feedback for weekly encouragement,
- * NOT standardized scoring or ranking for the Shadowing Champion competition.
- * Official contest judging is conducted exclusively by human evaluators.
- * ==============================================================================
- */
-
 import { Language } from '../types';
-import { getDetailedPedagogicalFeedback } from '../utils/feedbackGenerator';
-import { UNCLEAR_AUDIO_MESSAGE_VI, UNCLEAR_AUDIO_MESSAGE_EN } from '../utils/sanitizeFeedback';
 
 export interface AssessPronunciationParams {
   audioBase64?: string;
@@ -27,6 +11,9 @@ export interface AssessPronunciationParams {
   language?: Language;
   lessonId?: string;
   embed_url?: string;
+  // Tùy chọn: số video học viên đã nộp (tính cả bài vừa nộp) và tổng số video
+  completedCount?: number;
+  totalCount?: number;
 }
 
 export interface AssessPronunciationResponse {
@@ -37,105 +24,71 @@ export interface AssessPronunciationResponse {
   language?: Language;
 }
 
+const DEFAULT_TOTAL = 21;
+
+const GENERAL_VI = [
+  '🎉 Giỏi lắm! Con đã nộp bài rồi. Mỗi ngày luyện một chút, con sẽ nói tiếng Anh tự tin hơn nhé!',
+  '👏 Con thật dũng cảm khi nói tiếng Anh hôm nay! Hãy giữ thói quen luyện tập này nhé!',
+  '🌟 Tuyệt vời! Luyện tập đều đặn là bí quyết để con tiến bộ mỗi ngày.',
+  '💪 Con làm tốt lắm! Hẹn con ở video tiếp theo nhé!',
+];
+
+const GENERAL_EN = [
+  '🎉 Great job! You submitted your video. A little practice every day makes you more confident!',
+  '👏 You were so brave speaking English today! Keep up this great habit!',
+  '🌟 Awesome! Practicing regularly is the secret to getting better every day.',
+  '💪 Well done! See you at the next video!',
+];
+
+function pick(items: string[]): string {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function buildMessage(params: AssessPronunciationParams): string {
+  const isEn = params.language === 'en';
+  const done = params.completedCount;
+  const total = params.totalCount || DEFAULT_TOTAL;
+
+  if (typeof done === 'number' && done > 0) {
+    if (done >= total) {
+      return isEn
+        ? `🏆 You finished ${total}/${total} videos! Don't forget to write your reflection post in the Eflita community to join the Shadowing Champion contest!`
+        : `🏆 Con đã hoàn thành ${total}/${total} video! Đừng quên viết bài cảm nhận trên cộng đồng Eflita để được xét vào cuộc thi Shadowing Champion nhé!`;
+    }
+    if (done === total - 1) {
+      return isEn
+        ? '🔥 Only 1 more video to go! You can do it!'
+        : '🔥 Chỉ còn 1 video nữa thôi! Cố lên con nhé!';
+    }
+    if (done === 1) {
+      return isEn
+        ? '🌟 Congratulations on your first video! Your English journey has begun. A little every day!'
+        : '🌟 Chúc mừng con đã nộp video đầu tiên! Hành trình luyện nói tiếng Anh của con bắt đầu rồi. Mỗi ngày một chút nhé!';
+    }
+    if (done === 7 || done === 14) {
+      const part = done === 7 ? (isEn ? 'one third' : '1/3') : (isEn ? 'two thirds' : '2/3');
+      return isEn
+        ? `🎉 Amazing! ${done}/${total} videos done, you are ${part} of the way there! Keep this habit going!`
+        : `🎉 Tuyệt vời! Con đã hoàn thành ${done}/${total} video, đi được ${part} chặng đường rồi. Giữ thói quen luyện tập này nhé!`;
+    }
+    const base = pick(isEn ? GENERAL_EN : GENERAL_VI);
+    return isEn
+      ? `${base}\n📚 You have completed ${done}/${total} videos.`
+      : `${base}\n📚 Con đã hoàn thành ${done}/${total} video.`;
+  }
+
+  return pick(isEn ? GENERAL_EN : GENERAL_VI);
+}
+
+// Không còn gửi video lên server hay gọi Gemini: chỉ trả về lời chúc mừng ngay lập tức.
 export async function requestPronunciationAssessment(
   params: AssessPronunciationParams
 ): Promise<AssessPronunciationResponse> {
-  const isEn = params.language === 'en';
-  try {
-    let res!: globalThis.Response;
-
-    // If direct file is provided
-    if (params.file) {
-      // For large files (>20MB) such as 8-10 min videos, upload in 10MB chunks
-      // to easily bypass Cloud Run's strict 32MB single HTTP request body limit
-      if (params.file.size > 20 * 1024 * 1024) {
-        const CHUNK_SIZE = 10 * 1024 * 1024; // 10MB
-        const totalChunks = Math.ceil(params.file.size / CHUNK_SIZE);
-        const uploadId = `up_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-
-        for (let i = 0; i < totalChunks; i++) {
-          const start = i * CHUNK_SIZE;
-          const end = Math.min(params.file.size, start + CHUNK_SIZE);
-          const chunkBlob = params.file.slice(start, end);
-
-          const formData = new FormData();
-          formData.append('chunk', chunkBlob, params.file.name);
-          if (params.script) formData.append('script', params.script);
-          if (params.topic) formData.append('topic', params.topic);
-          if (params.studentName) formData.append('studentName', params.studentName);
-          if (params.level) formData.append('level', params.level);
-          if (params.language) formData.append('language', params.language);
-          if (params.lessonId) formData.append('lessonId', params.lessonId);
-          if (params.embed_url) formData.append('embed_url', params.embed_url);
-
-          res = await fetch('/api/assess-pronunciation-chunk', {
-            method: 'POST',
-            headers: {
-              'x-upload-id': uploadId,
-              'x-chunk-index': String(i),
-              'x-total-chunks': String(totalChunks),
-            },
-            body: formData,
-          });
-
-          if (!res.ok) {
-            const errData = await res.json().catch(() => ({}));
-            throw new Error(errData.details || errData.error || `Chunk ${i} failed`);
-          }
-        }
-      } else {
-        // Direct FormData upload for files <= 20MB
-        const formData = new FormData();
-        formData.append('file', params.file);
-        if (params.script) formData.append('script', params.script);
-        if (params.topic) formData.append('topic', params.topic);
-        if (params.studentName) formData.append('studentName', params.studentName);
-        if (params.level) formData.append('level', params.level);
-        if (params.language) formData.append('language', params.language);
-        if (params.lessonId) formData.append('lessonId', params.lessonId);
-        if (params.embed_url) formData.append('embed_url', params.embed_url);
-
-        res = await fetch('/api/assess-pronunciation', {
-          method: 'POST',
-          body: formData,
-        });
-      }
-    } else {
-      res = await fetch('/api/assess-pronunciation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params),
-      });
-    }
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      console.warn('Backend assessment returned status:', res.status, errorData);
-      throw new Error(errorData.details || errorData.error || 'Assessment failed');
-    }
-
-    const data: AssessPronunciationResponse = await res.json();
-    return {
-      feedback: data.feedback,
-      isContentMatched: typeof data.isContentMatched === 'boolean' ? data.isContentMatched : true,
-      script: data.script,
-      topic: data.topic,
-      language: data.language,
-    };
-  } catch (error) {
-    console.error('requestPronunciationAssessment error fallback:', error);
-    const fallbackMsg = getDetailedPedagogicalFeedback(
-      params.topic,
-      params.script,
-      params.language || 'vi',
-      params.level
-    );
-    return {
-      feedback: fallbackMsg,
-      isContentMatched: true,
-      script: params.script,
-    };
-  }
+  return {
+    feedback: buildMessage(params),
+    isContentMatched: true,
+    script: params.script,
+    topic: params.topic,
+    language: params.language,
+  };
 }
