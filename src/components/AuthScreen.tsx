@@ -3,6 +3,17 @@ import { Sparkles, Trophy, Video, Calendar, ShieldCheck, Heart, Palette } from '
 import { Language, BrandConfig } from '../types';
 import { getTranslation } from '../i18n/translations';
 
+// App chạy ở đường dẫn con (ví dụ /Eflita-KidShadow/), nên đường dẫn ảnh dạng "/logo.png"
+// cần được thêm tiền tố này để trình duyệt tìm đúng file.
+const resolveAssetUrl = (url?: string): string | undefined => {
+  if (url && url.startsWith('/') && !url.startsWith('//')) {
+    const rawBase = ((import.meta as any).env?.BASE_URL as string | undefined) || '/';
+    const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+    return `${base}${url.slice(1)}`;
+  }
+  return url;
+};
+
 interface AuthScreenProps {
   onSignIn: () => void;
   onOpenMobileQr?: () => void;
@@ -31,7 +42,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         <div className="flex items-center gap-2">
           {brandConfig?.logoUrl ? (
             <img
-              src={brandConfig.logoUrl}
+              src={resolveAssetUrl(brandConfig.logoUrl)}
               alt="Logo"
               className="h-8 w-auto max-w-[140px] rounded-lg object-contain bg-white border border-amber-300 p-0.5 shadow-2xs"
             />
@@ -73,7 +84,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* Crisp Logo Card */}
         <div className="max-w-[280px] sm:max-w-[320px] mx-auto mb-5 bg-white rounded-3xl p-3 sm:p-4 border-3 border-amber-300 shadow-lg shadow-amber-300/35 flex items-center justify-center transform hover:scale-102 transition-transform">
           <img
-            src={brandConfig?.logoUrl || '/eflita-logo.png'}
+            src={resolveAssetUrl(brandConfig?.logoUrl || '/eflita-logo.png')}
             alt="KidShadow Logo"
             className="h-16 sm:h-20 w-auto object-contain mx-auto"
           />
