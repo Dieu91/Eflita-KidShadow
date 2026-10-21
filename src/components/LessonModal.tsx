@@ -534,11 +534,6 @@ export const LessonModal: React.FC<LessonModalProps> = ({
               </div>
             )}
 
-            {/* Note on Google Drive storage */}
-            <p className="text-[11px] text-slate-500 font-medium text-center">
-              {t.driveFolderNote}
-            </p>
-
             {uploadError && (
               <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold rounded-2xl flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-500 mt-0.5" />
