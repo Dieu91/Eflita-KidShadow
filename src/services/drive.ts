@@ -5,6 +5,36 @@
 
 const FOLDER_NAME = 'Shadowing Submissions';
 
+/**
+ * Email của tài khoản Google (Gmail hoặc Google Workspace) của Eflita sẽ được cấp quyền XEM
+ * mỗi video học viên nộp. Điền email vào giữa hai dấu nháy, ví dụ: 'ten-tai-khoan@gmail.com'.
+ * Để trống ('') thì app KHÔNG chia sẻ video cho ai.
+ */
+export const TEACHER_SHARE_EMAIL = 'feed.eflita01@gmail.com';
+
+/**
+ * Share a video the learner just uploaded (view-only) with the Eflita teacher account.
+ * No notification email is sent, so the teacher inbox is not flooded.
+ */
+export async function shareFileWithTeacher(accessToken: string, fileId: string, email: string): Promise<void> {
+  const res = await fetch(
+    `https://www.googleapis.com/drive/v3/files/${fileId}/permissions?sendNotificationEmail=false&supportsAllDrives=true`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ role: 'reader', type: 'user', emailAddress: email }),
+    }
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to share video with teacher: ${res.status} ${errorText}`);
+  }
+}
+
 export interface DriveUploadProgress {
   percent: number;
   status: 'locating_folder' | 'creating_folder' | 'uploading' | 'finishing' | 'done' | 'error';
@@ -130,9 +160,14 @@ export async function uploadVideoToDrive(
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
             const data = JSON.parse(xhr.responseText);
+            if (!data || !data.id) {
+              reject(new Error('Google Drive did not confirm the uploaded file.'));
+              return;
+            }
             resolve(data);
           } catch {
-            resolve({ id: 'uploaded' });
+            // Do not pretend the upload succeeded when Drive's reply cannot be read
+            reject(new Error('Google Drive returned an unexpected response after upload.'));
           }
         } else {
           reject(new Error(`Upload failed with HTTP status ${xhr.status}: ${xhr.responseText}`));
@@ -146,6 +181,19 @@ export async function uploadVideoToDrive(
     onProgress?.({ percent: 95, status: 'finishing', message: 'Finalizing file details...' });
 
     const fileId = fileResult.id;
+
+    // Share the video (view-only) with the Eflita teacher account; retry once if it fails.
+    // If it still fails, the error is thrown so the submission is NOT counted.
+    if (TEACHER_SHARE_EMAIL) {
+      onProgress?.({ percent: 97, status: 'finishing', message: 'Sharing video with Eflita teachers...' });
+      try {
+        await shareFileWithTeacher(accessToken, fileId, TEACHER_SHARE_EMAIL);
+      } catch (firstShareErr) {
+        console.warn('Sharing video with teacher failed, retrying once:', firstShareErr);
+        await shareFileWithTeacher(accessToken, fileId, TEACHER_SHARE_EMAIL);
+      }
+    }
+
     // Construct standard web view link
     const webViewLink = fileResult.webViewLink || `https://drive.google.com/file/d/${fileId}/view?usp=drivesdk`;
 
