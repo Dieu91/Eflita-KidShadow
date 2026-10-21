@@ -4,6 +4,17 @@ import { UserProfile, Language, LevelType, BrandConfig } from '../types';
 import { getTranslation } from '../i18n/translations';
 import { isUserAdmin } from '../services/firebase';
 
+// App chạy ở đường dẫn con (ví dụ /Eflita-KidShadow/), nên đường dẫn ảnh dạng "/logo.png"
+// cần được thêm tiền tố này để trình duyệt tìm đúng file.
+const resolveAssetUrl = (url?: string): string | undefined => {
+  if (url && url.startsWith('/') && !url.startsWith('//')) {
+    const rawBase = ((import.meta as any).env?.BASE_URL as string | undefined) || '/';
+    const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+    return `${base}${url.slice(1)}`;
+  }
+  return url;
+};
+
 interface NavbarProps {
   userProfile: UserProfile | null;
   userEmail: string | null;
@@ -76,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {brandConfig?.logoUrl ? (
             <div className="bg-white px-2 py-1 rounded-2xl border-2 border-amber-300 shadow-xs flex items-center h-10 group-hover:border-amber-400 transition-colors">
               <img
-                src={brandConfig.logoUrl}
+                src={resolveAssetUrl(brandConfig.logoUrl)}
                 alt={brandConfig.brandName || 'Brand Logo'}
                 className="h-7 sm:h-8 w-auto max-w-[105px] sm:max-w-[190px] object-contain transform group-hover:scale-105 transition-transform"
               />
