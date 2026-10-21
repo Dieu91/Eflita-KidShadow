@@ -13,7 +13,12 @@ import {
 import confetti from 'canvas-confetti';
 import { Lesson, Submission, UserProfile, Language } from '../types';
 import { getTranslation } from '../i18n/translations';
-import { uploadVideoToDrive, extractVideoDuration, DriveUploadProgress } from '../services/drive';
+import {
+  uploadVideoToDrive,
+  extractVideoDuration,
+  DriveUploadProgress,
+  TEACHER_SHARE_EMAIL,
+} from '../services/drive';
 import { createSubmission, getAccessToken, connectGoogleDrive } from '../services/firebase';
 import { evaluateMotivationalFeedback, FeedbackRuleResult } from '../utils/feedbackRules';
 
@@ -69,6 +74,62 @@ function getProgressMessage(done: number, lang: Language): string {
 
   const list = isEn ? GENERAL_MESSAGES_EN : GENERAL_MESSAGES_VI;
   return list[Math.floor(Math.random() * list.length)];
+}
+
+function errorToText(err: unknown): string {
+  if (err instanceof Error) return err.message.toLowerCase();
+  if (!err) return '';
+  try {
+    return JSON.stringify(err).toLowerCase();
+  } catch {
+    return String(err).toLowerCase();
+  }
+}
+
+// Detects an expired / invalid Google sign-in token (Drive API answers 401)
+function isDriveAuthExpired(err: unknown): boolean {
+  const text = errorToText(err);
+  return /\b401\b/.test(text) || text.includes('invalid credentials') || text.includes('unauthenticated');
+}
+
+// Detects a failure while sharing the uploaded video with the Eflita teacher account
+function isDriveShareFailed(err: unknown): boolean {
+  return errorToText(err).includes('share video with teacher');
+}
+
+// Detects the "Google Drive storage is full" error returned by the Drive API
+function isDriveStorageFull(err: unknown): boolean {
+  const text = errorToText(err);
+  return (
+    text.includes('storagequotaexceeded') ||
+    text.includes('storage quota') ||
+    text.includes('not enough storage') ||
+    text.includes('insufficient storage') ||
+    text.includes('out of storage') ||
+    text.includes('storage is full') ||
+    text.includes('drive is full')
+  );
+}
+
+function getDriveUploadErrorMessage(err: unknown, lang: Language): string {
+  if (isDriveStorageFull(err)) {
+    return lang === 'vi'
+      ? 'Google Drive của con đã đầy nên chưa lưu được video, và bài này chưa được tính.\nCon nhờ ba mẹ dọn bớt dung lượng (xóa file không cần, dọn thùng rác của Drive) hoặc mua thêm dung lượng, rồi nộp lại nhé.\nMẹo: quay video ở chất lượng thấp hơn (720p) sẽ nhẹ hơn nhiều.'
+      : 'Your Google Drive is full, so the video could not be saved and this submission has not been counted.\nPlease ask a parent to free up some space (delete files you do not need, empty the Drive trash) or buy more storage, then submit again.\nTip: recording at a lower quality (720p) makes the video much smaller.';
+  }
+  if (isDriveAuthExpired(err)) {
+    return lang === 'vi'
+      ? 'Phiên kết nối Google Drive của con đã hết hạn nên bài này chưa được tính. Con tải lại trang (hoặc đăng xuất rồi đăng nhập lại) rồi nộp lại nhé!'
+      : 'Your Google Drive connection has expired, so this submission has not been counted. Please reload the page (or sign out and sign in again) and submit again!';
+  }
+  if (isDriveShareFailed(err)) {
+    return lang === 'vi'
+      ? 'Video đã lưu vào Drive của con nhưng chưa chia sẻ được cho giáo viên Eflita nên bài này chưa được tính.\nNếu con đang dùng tài khoản Google của trường, hãy đăng nhập bằng Gmail cá nhân rồi nộp lại, hoặc liên hệ Eflita để được hỗ trợ nhé.'
+      : 'Your video was saved to your Drive but could not be shared with the Eflita teachers, so this submission has not been counted.\nIf you are using a school Google account, please sign in with a personal Gmail and submit again, or contact Eflita for help.';
+  }
+  return lang === 'vi'
+    ? 'Chưa lưu được video lên Google Drive nên bài này chưa được tính. Con kiểm tra mạng rồi thử nộp lại nhé!'
+    : 'The video could not be saved to Google Drive, so this submission has not been counted. Please check your connection and try again!';
 }
 
 interface LessonModalProps {
@@ -150,7 +211,7 @@ export const LessonModal: React.FC<LessonModalProps> = ({
       let driveLink = '';
       let accessToken = getAccessToken();
 
-      // Gracefully attempt Drive connection if not yet authorized
+      // Attempt Drive connection if not yet authorized
       if (!accessToken) {
         setUploadProgress({
           percent: 15,
@@ -160,39 +221,46 @@ export const LessonModal: React.FC<LessonModalProps> = ({
         try {
           accessToken = await connectGoogleDrive();
         } catch (driveErr) {
-          console.warn('Google Drive authorization skipped, proceeding directly:', driveErr);
+          console.warn('Google Drive authorization was not granted:', driveErr);
         }
       }
 
-      // If Drive access is available, upload to Google Drive
-      if (accessToken) {
-        try {
-          setUploadProgress({
-            percent: 30,
-            status: 'uploading',
-            message: lang === 'vi' ? 'Đang lưu video vào Google Drive của con...' : 'Uploading video to Google Drive...'
-          });
-          const driveResult = await uploadVideoToDrive(
-            accessToken,
-            selectedFile,
-            lesson.topic,
-            userProfile.student_name,
-            (progress) => setUploadProgress(progress)
-          );
-          driveLink = driveResult.driveLink;
-        } catch (uploadErr) {
-          console.warn('Google Drive upload failed, continuing with direct practice record:', uploadErr);
-        }
-      } else {
-        // Direct practice submission without Drive blocker
+      // A submission only counts when the video is saved to the learner's Google Drive
+      if (!accessToken) {
+        setUploadError(
+          lang === 'vi'
+            ? 'Con cần cho phép kết nối Google Drive để lưu video thì bài nộp mới được tính. Con chọn lại video và bấm "Cho phép" nhé!'
+            : 'Please allow the Google Drive connection so your video can be saved. Your submission only counts once the video is saved. Select the video again and tap "Allow"!'
+        );
+        return;
+      }
+
+      try {
         setUploadProgress({
-          percent: 45,
+          percent: 30,
           status: 'uploading',
-          message: lang === 'vi' ? 'Đang gửi bài nói đến Giáo viên...' : 'Submitting speaking practice to teacher...'
+          message: lang === 'vi' ? 'Đang lưu video vào Google Drive của con...' : 'Uploading video to Google Drive...'
         });
+        const driveResult = await uploadVideoToDrive(
+          accessToken,
+          selectedFile,
+          lesson.topic,
+          userProfile.student_name,
+          (progress) => setUploadProgress(progress)
+        );
+        driveLink = driveResult.driveLink;
+      } catch (uploadErr) {
+        console.warn('Google Drive upload failed:', uploadErr);
+        setUploadError(getDriveUploadErrorMessage(uploadErr, lang));
+        return;
       }
 
-      // Create submission document in Firestore
+      if (!driveLink) {
+        setUploadError(getDriveUploadErrorMessage(null, lang));
+        return;
+      }
+
+      // Create submission document in Firestore (only reached after a successful Drive upload)
       const newSubData: Omit<Submission, 'id'> = {
         user_id: userProfile.uid,
         lesson_id: lesson.id,
@@ -474,7 +542,7 @@ export const LessonModal: React.FC<LessonModalProps> = ({
             {uploadError && (
               <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold rounded-2xl flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-500 mt-0.5" />
-                <span>{uploadError}</span>
+                <span className="whitespace-pre-line">{uploadError}</span>
               </div>
             )}
           </div>
@@ -504,6 +572,13 @@ export const LessonModal: React.FC<LessonModalProps> = ({
             <p className="text-xs text-slate-600 mt-2 text-center leading-relaxed">
               {t.confirmDriveUploadDesc}
             </p>
+            {TEACHER_SHARE_EMAIL && (
+              <p className="text-[11px] text-slate-500 mt-2 text-center leading-relaxed">
+                {lang === 'vi'
+                  ? '🔒 Video sẽ được chia sẻ với giáo viên Eflita để tổng hợp tư liệu cho cuộc thi. Chỉ video tham gia thi mới được chấm. Giáo viên không thể sửa hay xóa video của con.'
+                  : '🔒 Your video will be shared with Eflita teachers to compile materials for the contest. Only videos submitted to enter the contest are judged. Teachers cannot edit or delete your video.'}
+              </p>
+            )}
 
             {/* Selected File Details */}
             <div className="my-4 p-3 bg-amber-50/80 rounded-2xl border border-amber-200 text-xs space-y-1 text-slate-700">
