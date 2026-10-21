@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-               - run: npm install --legacy-peer-deps
+      - run: npm install --legacy-peer-deps
       - run: npm run build -- --base=/Eflita-KidShadow/
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v4
