@@ -41,12 +41,12 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
             </div>
             <div>
               <h3 className="font-black text-lg sm:text-xl font-['Fredoka',sans-serif] leading-tight">
-                {lang === 'vi' ? 'Hướng Dẫn Tự Học & Vận Hành Tự Động' : 'Self-Paced Learning & Automation Guide'}
+                {lang === 'vi' ? 'Hướng Dẫn Tự Học Cùng KidShadow' : 'KidShadow Self-Paced Learning Guide'}
               </h3>
               <p className="text-xs font-bold text-amber-950/85 mt-0.5">
                 {lang === 'vi'
-                  ? 'Quy trình học thông minh • Tự động nhận xét • Không cần chờ giáo viên'
-                  : 'Smart 3-step loop • Instant feedback • 100% automated'}
+                  ? 'Quy trình học đơn giản • Tự động ghi nhận tiến độ • Luyện tập mỗi ngày'
+                  : 'Simple 3-step routine • Automatic progress tracking • Practice every day'}
               </p>
             </div>
           </div>
@@ -113,34 +113,18 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
                 <div className="flex-1 min-w-0">
                   <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
                     <span>Quay video bài nói & Bấm "Nộp bài"</span>
-                    <span className="text-[10px] bg-sky-200 text-sky-900 px-2 py-0.2 rounded-md font-bold">Tự động 100%</span>
+                    <span className="text-[10px] bg-sky-200 text-sky-900 px-2 py-0.2 rounded-md font-bold">Lưu vào Drive</span>
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Dùng điện thoại quay video bài nói của bé rồi bấm <strong>"Tải video của con lên"</strong>. Hệ thống tự động ghi nhận bài nộp, trích xuất âm thanh và gửi đến Giáo viên chấm ngay lập tức (kèm sao lưu Drive an toàn nếu có kết nối).
+                    Dùng điện thoại quay video bài nói của bé rồi bấm <strong>"Tải video của con lên"</strong>. Video được lưu vào Google Drive của gia đình và hệ thống tự động ghi nhận bài nộp. Bài nộp chỉ được tính khi video đã lưu thành công.
                   </p>
                 </div>
               </div>
 
               {/* Step 3 */}
-              <div className="p-4 rounded-2xl bg-purple-50/80 border-2 border-purple-200 flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-purple-500 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-xs">
-                  3
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
-                    <span>Giáo viên nhận xét tức thì</span>
-                    <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.2 rounded-md font-bold">3 giây phản hồi</span>
-                  </h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Ngay sau khi nộp, Giáo viên sẽ lắng nghe âm thanh và gửi ngay lời khen ngợi, góp ý 1-2 từ cần chú ý cách phát âm. Phụ huynh và học viên không cần chờ đợi giáo viên chấm điểm thủ công.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 4 */}
               <div className="p-4 rounded-2xl bg-emerald-50/80 border-2 border-emerald-200 flex items-start gap-3">
                 <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-xs">
-                  4
+                  3
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
@@ -148,7 +132,7 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
                     <span className="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.2 rounded-md font-bold">Huy hiệu & Bằng khen</span>
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Hoàn thành 3 video/tuần trong 7 tuần (tổng 21 bài) để mở khóa Giấy khen tốt nghiệp và tự động đủ điều kiện tham dự vòng thi Chung kết Shadowing Champion có ban giám khảo chấm giải!
+                    Hoàn thành 3 video/tuần trong 7 tuần (tổng 21 bài) để mở khóa Giấy khen tốt nghiệp. Sau đó đăng bài cảm nhận lên cộng đồng Eflita để đủ điều kiện tham dự vòng thi Chung kết Shadowing Champion có ban giám khảo chấm giải!
                   </p>
                 </div>
               </div>
@@ -171,7 +155,7 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
                   <span>Video bài tập của con được lưu ở đâu? Có yêu cầu cấp quyền gì không?</span>
                 </h5>
                 <p className="text-slate-600 leading-relaxed">
-                  Học viên có thể nộp bài và nhận nhận xét phát âm từ Giáo viên ngay lập tức mà không cần bất kỳ cài đặt phức tạp nào. Nếu phụ huynh có kết nối Google Drive, video sẽ tự động được sao lưu vào thư mục "Shadowing Submissions" trên Drive của riêng gia đình để lưu giữ kỷ niệm.
+                  Video được lưu vào thư mục "Shadowing Submissions" trên Google Drive của riêng gia đình. Khi nộp bài lần đầu, phụ huynh cần cho phép ứng dụng kết nối Google Drive. Video cũng được chia sẻ cho giáo viên Eflita để tổng hợp tư liệu cho cuộc thi. Bài nộp chỉ được tính khi video đã lưu thành công, vì vậy hãy chắc chắn Drive còn đủ dung lượng trống (nếu Drive đầy, phụ huynh dọn bớt dung lượng rồi nộp lại).
                 </p>
               </div>
 
@@ -188,10 +172,10 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
                 <h5 className="font-black text-slate-900 mb-1 flex items-center gap-1.5">
                   <span className="text-amber-500">❓</span>
-                  <span>Nhận xét của Giáo viên có dùng để chấm giải không?</span>
+                  <span>Video luyện tập hàng tuần có được giáo viên chấm không?</span>
                 </h5>
                 <p className="text-slate-600 leading-relaxed">
-                  Nhận xét của Giáo viên là nhận xét định tính mang tính động viên và hướng dẫn hàng ngày. Vòng thi chính thức "Shadowing Champion" sẽ do Hội đồng giám khảo chuyên môn của Eflita trực tiếp đánh giá video chung cuộc của các thí sinh đủ điều kiện.
+                  Không. Video luyện tập hàng tuần giúp con rèn thói quen luyện nói và theo dõi tiến độ, không được chấm điểm. Vòng thi chính thức "Shadowing Champion" do Hội đồng giám khảo chuyên môn của Eflita đánh giá video tham gia thi của các thí sinh đủ điều kiện.
                 </p>
               </div>
             </div>
@@ -202,7 +186,7 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
         <div className="bg-slate-50 px-5 py-3 border-t border-slate-200 flex items-center justify-between">
           <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Eflita Education • Hệ thống tự động hóa</span>
+            <span>Eflita Education • KidShadow</span>
           </span>
           <button
             onClick={onClose}
