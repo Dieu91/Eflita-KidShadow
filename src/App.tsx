@@ -15,6 +15,7 @@ import {
   isAdminTestModeActive,
   setAdminTestMode,
   isUserExpired,
+  getUserDatesInfo,
   getSystemSettings,
   deleteUserAccount,
   auth
@@ -120,6 +121,7 @@ export default function App() {
   // Expiration & System Settings State
   const [systemSettings, setSystemSettings] = useState<SystemSettings | null>(null);
   const [showExpiredModal, setShowExpiredModal] = useState<boolean>(false);
+  const [isExpiryBannerDismissed, setIsExpiryBannerDismissed] = useState<boolean>(false);
 
   // Load brand config and system settings on mount
   useEffect(() => {
@@ -351,7 +353,10 @@ export default function App() {
   }) => {
     if (!currentUser) return;
     const now = new Date().toISOString();
+    // Giữ nguyên các trường hạn học/vai trò đã có (role, status, expires_at, first_login_at...)
+    // để việc sửa hồ sơ không làm đổi hạn học của học viên.
     const updated: UserProfile = {
+      ...(userProfile || {}),
       uid: currentUser.uid,
       student_name: data.student_name,
       parent_name: data.parent_name,
@@ -509,6 +514,18 @@ export default function App() {
   // Calculate Streak
   const streak = calculateStreak(submissions);
 
+  // Cảnh báo sắp hết hạn khóa học (còn <= 7 ngày) cho học viên
+  const expiryInfo =
+    userProfile && !isGuestPreview && !showFirstTimeProfile && !isAdmin
+      ? getUserDatesInfo(userProfile, systemSettings)
+      : null;
+  const expiryBannerText =
+    expiryInfo && expiryInfo.status === 'warning' && expiryInfo.diffDays !== null
+      ? lang === 'vi'
+        ? `Khóa học của con còn ${expiryInfo.diffDays} ngày (đến hết ngày ${expiryInfo.expiresDateFormatted}). Con hãy hoàn thành các video còn lại nhé!`
+        : `Your course has ${expiryInfo.diffDays} day(s) left (until ${expiryInfo.expiresDateFormatted}). Let's finish the remaining videos!`
+      : null;
+
   // Check if champion qualified (>= 21 submissions)
   const completedLessonsCount = new Set(submissions.map((s) => s.lesson_id)).size;
   const isChampionQualified = completedLessonsCount >= 21;
@@ -639,6 +656,20 @@ export default function App() {
         onToggleAdminTestBar={() => setShowAdminTestBar((prev) => !prev)}
         isAdminTestActive={showAdminTestBar}
       />
+
+      {/* Expiry warning banner (<= 7 days left) */}
+      {expiryBannerText && !isExpiryBannerDismissed && !showExpiredModal && (
+        <div className="bg-amber-100 border-b-2 border-amber-300 px-4 py-2 text-xs sm:text-sm font-bold text-amber-950 flex items-center justify-between gap-3">
+          <span>⏰ {expiryBannerText}</span>
+          <button
+            onClick={() => setIsExpiryBannerDismissed(true)}
+            className="shrink-0 text-amber-900/70 hover:text-amber-950 px-2 cursor-pointer"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Main Content Area */}
       <main className="flex-1 w-full min-w-0 max-w-full overflow-x-hidden">
