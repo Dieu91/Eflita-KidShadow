@@ -127,9 +127,14 @@ function getDriveUploadErrorMessage(err: unknown, lang: Language): string {
       ? 'Video đã lưu vào Drive của con nhưng chưa chia sẻ được cho giáo viên Eflita nên bài này chưa được tính.\nNếu con đang dùng tài khoản Google của trường, hãy đăng nhập bằng Gmail cá nhân rồi nộp lại, hoặc liên hệ Eflita để được hỗ trợ nhé.'
       : 'Your video was saved to your Drive but could not be shared with the Eflita teachers, so this submission has not been counted.\nIf you are using a school Google account, please sign in with a personal Gmail and submit again, or contact Eflita for help.';
   }
-  return lang === 'vi'
+  // Mã lỗi kỹ thuật (ngắn) để phụ huynh/admin chụp màn hình gửi hỗ trợ
+  const rawDetail = (err instanceof Error ? err.message : err ? String(err) : '')
+    .replace(/\s+/g, ' ')
+    .slice(0, 180);
+  const detail = rawDetail ? `\n(Mã lỗi: ${rawDetail})` : '';
+  return (lang === 'vi'
     ? 'Chưa lưu được video lên Google Drive nên bài này chưa được tính. Con kiểm tra mạng rồi thử nộp lại nhé!'
-    : 'The video could not be saved to Google Drive, so this submission has not been counted. Please check your connection and try again!';
+    : 'The video could not be saved to Google Drive, so this submission has not been counted. Please check your connection and try again!') + detail;
 }
 
 interface LessonModalProps {
