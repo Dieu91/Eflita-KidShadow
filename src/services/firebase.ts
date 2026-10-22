@@ -44,17 +44,16 @@ export const ADMIN_EMAILS = [
 let cachedAdminEmails: string[] = ['aidieu0411@gmail.com'];
 
 export const isUserAdmin = (email?: string | null, userProfile?: UserProfile | null): boolean => {
-  if (typeof window !== 'undefined' && localStorage.getItem('eflita_admin_test_mode') === 'true') {
-    return true;
-  }
+  // Lưu ý: chỉ dựa vào email/vai trò đã lưu. Không còn "chế độ test" trong localStorage
+  // và không còn quy tắc "email chứa chữ admin" (ai cũng có thể đặt email như vậy).
   if (userProfile?.role === 'admin') {
     return true;
   }
   if (!email) {
-    return typeof window !== 'undefined' && localStorage.getItem('eflita_admin_test_mode') === 'true';
+    return false;
   }
   const lower = email.toLowerCase().trim();
-  if (ADMIN_EMAILS.includes(lower) || lower.endsWith('@eflita.com') || lower.includes('admin')) {
+  if (ADMIN_EMAILS.includes(lower) || lower.endsWith('@eflita.com')) {
     return true;
   }
   if (cachedAdminEmails.map(e => e.toLowerCase().trim()).includes(lower)) {
@@ -310,7 +309,9 @@ export const saveUserProfile = async (profile: UserProfile): Promise<void> => {
     profile.first_login_at = profile.created_at || now;
   }
   if (!profile.role) {
-    profile.role = isUserAdmin(profile.email, profile) ? 'admin' : 'user';
+    // Chỉ tài khoản admin gốc được ghi role 'admin' khi tự tạo hồ sơ (quy tắc Firebase yêu cầu).
+    // Các admin khác vẫn được nhận diện qua email/danh sách admin.
+    profile.role = ADMIN_EMAILS.includes((profile.email || '').toLowerCase().trim()) ? 'admin' : 'user';
   }
   if (!profile.status) {
     profile.status = 'active';
