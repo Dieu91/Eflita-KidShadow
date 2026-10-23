@@ -10,43 +10,125 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.email == 'aidieu0411@gmail.com' && request.auth.token.email_verified == true;
     }
 
+    // Giám khảo / nhân sự: các email admin do admin gốc thêm trong trang Admin (mục "Thêm Admin").
+    // Họ được XEM dữ liệu học viên và duyệt bài cảm nhận, nhưng không được sửa hồ sơ, bài học hay cài đặt.
+    function isStaff() {
+      return isAdmin()
+        || (isSignedIn()
+            && request.auth.token.email_verified == true
+            && request.auth.token.email in get(/databases/$(database)/documents/system_settings/config).data.get('adminEmails', []));
+    }
+
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    // Học viên đã có hồ sơ (chỉ tạo được khi dùng mã kích hoạt) và chưa hết hạn
+    function hasAccess() {
+      let p = /databases/$(database)/documents/users/$(request.auth.uid);
+      return exists(p) && get(p).data.get('status', 'active') != 'expired';
+    }
+
+    // Mã kích hoạt: trước lần ghi mã còn chỗ và chưa có người này; sau lần ghi (cùng batch) người này đã có trong mã
+    function codeClaimedNow() {
+      let c = /databases/$(database)/documents/activation_codes/$(request.resource.data.get('activation_code', 'none'));
+      return exists(c)
+        && !(request.auth.uid in get(c).data.used_by)
+        && get(c).data.used_by.size() < get(c).data.seats
+        && request.auth.uid in getAfter(c).data.used_by;
+    }
+
+    // Trường này không bị đổi trong lần ghi này (hoặc chưa từng có trong hồ sơ cũ)
+    function untouched(key) {
+      return !(key in resource.data)
+        || !request.resource.data.diff(resource.data).affectedKeys().hasAny([key]);
+    }
+
+    // Gia hạn: đổi sang MỘT MÃ MỚI còn chỗ và giữ chỗ trong mã đó ngay trong cùng lần ghi
+    function renewalNow() {
+      return request.resource.data.get('activation_code', 'none') != resource.data.get('activation_code', 'none')
+        && request.resource.data.get('status', 'active') == 'active'
+        && codeClaimedNow();
+    }
+
+    // Học viên không được tự nâng vai trò: role chỉ được giữ nguyên hoặc là 'user'
+    function roleOk() {
+      return request.resource.data.get('role', 'user') == resource.data.get('role', 'user')
+        || request.resource.data.get('role', 'user') == 'user';
+    }
+
     // Users collection
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
-      allow create, update: if isOwner(userId) || isAdmin();
+      allow read: if isOwner(userId) || isStaff();
+      allow create: if isAdmin()
+        || (isOwner(userId) && isStaff())
+        || (isOwner(userId)
+            && request.resource.data.get('role', 'user') == 'user'
+            && request.resource.data.get('status', 'active') == 'active'
+            && codeClaimedNow());
+      // Học viên không được tự sửa vai trò, trạng thái, hạn học, ngày bắt đầu (trừ khi gia hạn bằng mã mới)
+      allow update: if isAdmin()
+        || (isOwner(userId)
+            && roleOk()
+            && untouched('role')
+            && untouched('created_at')
+            && ((untouched('status')
+                 && untouched('expires_at')
+                 && untouched('first_login_at')
+                 && untouched('activation_code'))
+                || renewalNow()));
       allow delete: if isAdmin();
     }
 
-    // Lessons collection (curriculum catalog)
+    // Mã kích hoạt khóa học (mỗi mã có "seats" chỗ, ví dụ 1 phụ huynh mua cho 2-3 bé):
+    // chỉ admin tạo/xem danh sách; học viên đọc được 1 mã khi biết mã, và chỉ được thêm CHÍNH MÌNH vào mã còn chỗ.
+    match /activation_codes/{code} {
+      allow get: if isSignedIn();
+      allow list: if isAdmin();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+        || (isSignedIn()
+            && !(request.auth.uid in resource.data.used_by)
+            && resource.data.used_by.size() < resource.data.seats
+            && request.resource.data.used_by == resource.data.used_by.concat([request.auth.uid])
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['used_by', 'used_at']));
+    }
+
+    // Lessons collection (curriculum catalog) - chỉ admin được sửa
     match /lessons/{lessonId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
-    // Submissions collection
+    // Submissions collection - hết hạn thì không nộp thêm được, vẫn xem lại được
     match /submissions/{submissionId} {
-      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
-      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.user_id == request.auth.uid);
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isStaff();
+      // Link phải là link Google Drive; bài đã nộp thì học viên không được sửa hay xóa
+      allow create: if isSignedIn()
+        && request.resource.data.user_id == request.auth.uid
+        && request.resource.data.drive_link is string
+        && request.resource.data.drive_link.matches('https://drive\\.google\\.com/.*')
+        && hasAccess();
+      allow update, delete: if isAdmin();
     }
 
-    // Reflection posts collection
+    // Reflection posts collection - bài mới luôn ở trạng thái 'pending'
     match /reflection_posts/{postId} {
-      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
-      allow update: if isAdmin();
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isStaff();
+      allow create: if isSignedIn()
+        && request.resource.data.user_id == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && hasAccess();
+      allow update: if isStaff();
       allow delete: if isAdmin();
     }
 
     // Contest registrations collection
     match /contest_registrations/{regId} {
-      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
-      allow update, delete: if isAdmin();
+      allow read: if (isSignedIn() && resource.data.user_id == request.auth.uid) || isStaff();
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid && hasAccess();
+      allow update: if isStaff();
+      allow delete: if isAdmin();
     }
 
     // App settings (e.g. brand configuration, system settings)
