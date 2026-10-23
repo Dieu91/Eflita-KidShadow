@@ -162,8 +162,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <span>📤 {t.stepSubmit}</span>
         </div>
 
-        <p className="text-[11px] font-bold text-amber-800 -mt-2 mb-3">{t.needCodeNote}</p>
-
         {/* ============================================================== */}
         {/* REQUIREMENT 2: IN-APP BROWSER INSTRUCTION CARD                 */}
         {/* ============================================================== */}
