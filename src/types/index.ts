@@ -14,6 +14,7 @@ export interface UserProfile {
   first_login_at?: string;
   expires_at?: string;
   status?: 'active' | 'expired';
+  activation_code?: string; // mã kích hoạt đã dùng khi đăng ký
   created_at: string;
   updated_at: string;
 }
@@ -80,4 +81,14 @@ export interface BrandConfig {
   brandSubtitle?: string;
   logoUrl?: string; // Image URL or base64 data URI
   websiteUrl?: string;
+}
+
+export interface ActivationCode {
+  id: string; // 10 ký tự, không có dấu gạch
+  seats: number; // số tài khoản được dùng mã này
+  used_by: string[]; // uid các tài khoản đã kích hoạt
+  used_at?: string;
+  note?: string;
+  created_at: string;
+  created_by?: string;
 }

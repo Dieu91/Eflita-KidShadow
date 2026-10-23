@@ -15,16 +15,18 @@ import {
   getDoc,
   getDocFromServer,
   setDoc,
+  writeBatch,
   updateDoc,
   deleteDoc,
   collection,
   query,
   where,
   getDocs,
-  onSnapshot
+  onSnapshot,
+  arrayUnion
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
-import { UserProfile, Submission, ReflectionPost, ContestRegistration, Lesson, SystemSettings } from '../types';
+import { UserProfile, Submission, ReflectionPost, ContestRegistration, Lesson, SystemSettings, ActivationCode } from '../types';
 import { SAMPLE_LESSONS, getLessonDocId, STANDARD_LESSON_IDS, isStandardLessonDocId } from '../data/lessonsData';
 import { sanitizeTeacherFeedback, isFeedbackFaultyOrWarning } from '../utils/sanitizeFeedback';
 import { getDetailedPedagogicalFeedback } from '../utils/feedbackGenerator';
@@ -200,15 +202,13 @@ export const initAuth = (
   });
 };
 
-export const signInWithGoogle = async (): Promise<{ user: User; accessToken: string | null } | null> => {
+export const signInWithGoogle = async (): Promise<{ user: User; accessToken: string | null }> => {
   try {
     isSigningIn = true;
     const result = await signInWithPopup(auth, googleProvider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    if (credential?.accessToken) {
-      cachedAccessToken = credential.accessToken;
-    }
-    return { user: result.user, accessToken: cachedAccessToken };
+    // Lưu ý: token của lần đăng nhập thường KHÔNG có quyền Google Drive, nên không lưu làm token Drive.
+    // Token Drive chỉ được lấy qua connectGoogleDrive() khi học viên nộp bài.
+    return { user: result.user, accessToken: null };
   } catch (error: any) {
     // Gracefully handle user cancelling or closing the popup
     if (
@@ -299,7 +299,7 @@ export const getUserProfile = async (uid: string): Promise<UserProfile | null> =
   return null;
 };
 
-export const saveUserProfile = async (profile: UserProfile): Promise<void> => {
+export const saveUserProfile = async (profile: UserProfile, activationCode?: string): Promise<void> => {
   const path = `users/${profile.uid}`;
   const cacheKey = `kidshadow_profile_${profile.uid}`;
 
@@ -325,12 +325,27 @@ export const saveUserProfile = async (profile: UserProfile): Promise<void> => {
     }
   }
 
+  if (activationCode) {
+    profile.activation_code = activationCode;
+  }
+
   try {
     localStorage.setItem(cacheKey, JSON.stringify(profile));
   } catch {}
 
   try {
-    await setDoc(doc(db, 'users', profile.uid), profile, { merge: true });
+    if (activationCode) {
+      // Tạo hồ sơ và giữ 1 chỗ trong mã kích hoạt trong CÙNG một lần ghi (mã hết chỗ thì cả hai cùng thất bại)
+      const batch = writeBatch(db);
+      batch.set(doc(db, 'users', profile.uid), profile, { merge: true });
+      batch.update(doc(db, 'activation_codes', activationCode), {
+        used_by: arrayUnion(profile.uid),
+        used_at: now
+      });
+      await batch.commit();
+    } else {
+      await setDoc(doc(db, 'users', profile.uid), profile, { merge: true });
+    }
   } catch (error: any) {
     if (isOfflineOrNetworkError(error)) {
       console.warn(`[Firestore] Client offline while saving ${path}. Cached locally.`);
@@ -1210,4 +1225,132 @@ export const deleteUserAccount = async (uid: string): Promise<void> => {
     localStorage.removeItem(`kidshadow_profile_${uid}`);
     localStorage.removeItem(`kidshadow_subs_${uid}`);
   } catch {}
+};
+
+
+// ---------------------------------------------------------------------------
+// Mã kích hoạt (cổng kiểm tra "đã mua khóa học")
+// ---------------------------------------------------------------------------
+const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // bỏ I, L, O, 0, 1 cho dễ đọc
+export const ACTIVATION_CODE_LENGTH = 10;
+
+export const normalizeActivationCode = (raw: string): string =>
+  (raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+export const formatActivationCode = (id: string): string =>
+  id.length > 5 ? `${id.slice(0, 5)}-${id.slice(5)}` : id;
+
+const generateActivationCodeId = (): string => {
+  let out = '';
+  while (out.length < ACTIVATION_CODE_LENGTH) {
+    const buf = new Uint8Array(32);
+    crypto.getRandomValues(buf);
+    for (const b of buf) {
+      // 248 = 31 * 8: bỏ giá trị lệch để mỗi ký tự có xác suất như nhau
+      if (b < 248 && out.length < ACTIVATION_CODE_LENGTH) {
+        out += CODE_ALPHABET[b % CODE_ALPHABET.length];
+      }
+    }
+  }
+  return out;
+};
+
+// Admin: tạo nhiều mã một lúc
+export const createActivationCodes = async (
+  count: number,
+  seats: number,
+  note: string,
+  createdBy: string
+): Promise<ActivationCode[]> => {
+  const total = Math.min(Math.max(Math.floor(count) || 1, 1), 100);
+  const seatCount = Math.min(Math.max(Math.floor(seats) || 1, 1), 5);
+  const now = new Date().toISOString();
+  const ids = new Set<string>();
+  while (ids.size < total) ids.add(generateActivationCodeId());
+
+  const batch = writeBatch(db);
+  const created: ActivationCode[] = [];
+  ids.forEach((id) => {
+    const data: ActivationCode = {
+      id,
+      seats: seatCount,
+      used_by: [],
+      note: note.trim(),
+      created_at: now,
+      created_by: createdBy
+    };
+    batch.set(doc(db, 'activation_codes', id), data);
+    created.push(data);
+  });
+  await batch.commit();
+  return created;
+};
+
+// Admin: xem tất cả mã
+export const listActivationCodes = async (): Promise<ActivationCode[]> => {
+  const snap = await getDocs(collection(db, 'activation_codes'));
+  const list: ActivationCode[] = [];
+  snap.forEach((d) => {
+    const data = d.data() as ActivationCode;
+    list.push({ ...data, id: d.id, used_by: Array.isArray(data.used_by) ? data.used_by : [] });
+  });
+  return list.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+};
+
+// Admin: xóa mã (chỉ nên xóa mã chưa dùng)
+export const deleteActivationCode = async (id: string): Promise<void> => {
+  await deleteDoc(doc(db, 'activation_codes', id));
+};
+
+// Học viên: kiểm tra mã (chỉ ĐỌC, chưa giữ chỗ). Việc giữ chỗ xảy ra cùng lúc tạo hồ sơ (xem saveUserProfile).
+// Trả về mã đã chuẩn hóa. Lỗi: 'INVALID_CODE', 'CODE_USED_UP', 'NETWORK'.
+export const checkActivationCode = async (rawCode: string, uid: string): Promise<string> => {
+  const id = normalizeActivationCode(rawCode);
+  if (id.length !== ACTIVATION_CODE_LENGTH) throw new Error('INVALID_CODE');
+  let snap;
+  try {
+    snap = await getDoc(doc(db, 'activation_codes', id));
+  } catch (err: any) {
+    if (err?.code === 'permission-denied') throw new Error('INVALID_CODE');
+    throw new Error('NETWORK');
+  }
+  if (!snap.exists()) throw new Error('INVALID_CODE');
+  const data = snap.data() as ActivationCode;
+  const usedBy = Array.isArray(data.used_by) ? data.used_by : [];
+  const seats = typeof data.seats === 'number' ? data.seats : 1;
+  if (usedBy.includes(uid) || usedBy.length >= seats) throw new Error('CODE_USED_UP');
+  return id;
+};
+
+// Học viên hết hạn nhập mã mới để học tiếp (mỗi mã = 1 tài khoản = 1 đợt học mới).
+// Hồ sơ và mã được ghi trong CÙNG một lần: nếu mã không dùng được thì hạn học cũng không đổi.
+export const renewWithActivationCode = async (
+  profile: UserProfile,
+  rawCode: string,
+  validityWeeks: number
+): Promise<UserProfile> => {
+  const id = await checkActivationCode(rawCode, profile.uid);
+  const now = new Date();
+  const weeks = validityWeeks > 0 ? validityWeeks : 8;
+  const patch = {
+    activation_code: id,
+    status: 'active' as const,
+    first_login_at: now.toISOString(), // bắt đầu đợt học mới
+    expires_at: new Date(now.getTime() + weeks * 7 * 86400000).toISOString(),
+    updated_at: now.toISOString()
+  };
+  const batch = writeBatch(db);
+  batch.update(doc(db, 'users', profile.uid), patch);
+  batch.update(doc(db, 'activation_codes', id), { used_by: arrayUnion(profile.uid), used_at: now.toISOString() });
+  try {
+    await batch.commit();
+  } catch (error: any) {
+    if (error?.code === 'unavailable' || error?.code === 'deadline-exceeded') throw new Error('NETWORK');
+    throw new Error('CODE_USED_UP');
+  }
+  const updated: UserProfile = { ...profile, ...patch };
+  try {
+    localStorage.setItem(`kidshadow_profile_${profile.uid}`, JSON.stringify(updated));
+  } catch {}
+  return updated;
 };

@@ -30,7 +30,6 @@ interface NavbarProps {
   onLogout: () => void;
   onOpenChampionModal?: () => void;
   isChampionQualified?: boolean;
-  onOpenMobileQr?: () => void;
   onOpenBrandSettings?: () => void;
   onOpenStudentGuide?: () => void;
   onToggleAdminTestBar?: () => void;
@@ -52,7 +51,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   onOpenChampionModal,
   isChampionQualified,
-  onOpenMobileQr,
   onOpenBrandSettings,
   onOpenStudentGuide,
   onToggleAdminTestBar,
@@ -257,18 +255,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          {/* Mobile QR Button (Desktop/Tablet only) */}
-          {onOpenMobileQr && (
-            <button
-              onClick={onOpenMobileQr}
-              className="hidden md:inline-flex items-center gap-1 bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 font-bold px-2 py-1 rounded-full text-xs shadow-xs transition-colors cursor-pointer"
-              title={lang === 'vi' ? 'Xem trên điện thoại (Mã QR)' : 'View on Mobile (QR Code)'}
-            >
-              <Smartphone className="w-3.5 h-3.5 text-amber-800" />
-              <span className="hidden lg:inline">{lang === 'vi' ? 'Điện thoại' : 'Mobile'}</span>
-            </button>
-          )}
-
           {/* Language Switcher */}
           <button
             onClick={onToggleLang}
@@ -374,19 +360,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     >
                       <span>🛠️</span>
                       <span>{isAdminTestActive ? 'Tắt thanh Test Champion' : 'Bật thanh Test Champion'}</span>
-                    </button>
-                  )}
-
-                  {onOpenMobileQr && (
-                    <button
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        onOpenMobileQr();
-                      }}
-                      className="w-full text-left px-2.5 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-amber-50 hover:text-amber-950 flex items-center gap-2 transition cursor-pointer"
-                    >
-                      <Smartphone className="w-3.5 h-3.5 text-amber-800" />
-                      <span>{lang === 'vi' ? 'Mã QR xem điện thoại' : 'Mobile QR Code'}</span>
                     </button>
                   )}
 

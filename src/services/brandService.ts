@@ -1,6 +1,6 @@
-import { BrandConfig } from '../types';
-import { db } from './firebase';
+import { db, auth } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { BrandConfig } from '../types';
 
 export const DEFAULT_BRAND_CONFIG: BrandConfig = {
   brandName: 'KidShadow',
@@ -63,10 +63,19 @@ export const getStoredBrandConfig = async (): Promise<BrandConfig> => {
 };
 
 export const saveBrandConfig = async (config: BrandConfig): Promise<void> => {
-  // Save locally
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(config));
+  // Always save locally
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(config));
+  } catch (e) {
+    console.warn('Failed to save brand config to localStorage:', e);
+  }
 
-  // Try to persist to Firestore
+  // Do NOT write to Firestore if user is not logged in (prevents permission denied error)
+  if (!auth.currentUser) {
+    return;
+  }
+
+  // Persist to Firestore when authenticated
   try {
     const brandDocRef = doc(db, 'settings', 'brand');
     await setDoc(brandDocRef, config, { merge: true });

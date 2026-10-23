@@ -19,7 +19,7 @@ import {
   DriveUploadProgress,
   TEACHER_SHARE_EMAIL,
 } from '../services/drive';
-import { createSubmission, getAccessToken, connectGoogleDrive } from '../services/firebase';
+import { createSubmission, getAccessToken, setAccessToken, connectGoogleDrive } from '../services/firebase';
 import { evaluateMotivationalFeedback, FeedbackRuleResult } from '../utils/feedbackRules';
 
 // Số video của mỗi cấp độ (Starter / Movers / Flyers)
@@ -97,6 +97,13 @@ function isDriveShareFailed(err: unknown): boolean {
   return errorToText(err).includes('share video with teacher');
 }
 
+// Detects a token that was granted WITHOUT the Google Drive permission (403 "insufficient authentication scopes").
+// Happens when the Drive checkbox is left unticked on Google's consent screen.
+function isDriveScopeMissing(err: unknown): boolean {
+  const text = errorToText(err);
+  return text.includes('insufficient authentication scopes') || text.includes('insufficient permission');
+}
+
 // Detects the "Google Drive storage is full" error returned by the Drive API
 function isDriveStorageFull(err: unknown): boolean {
   const text = errorToText(err);
@@ -126,6 +133,11 @@ function getDriveUploadErrorMessage(err: unknown, lang: Language): string {
     return lang === 'vi'
       ? 'Video đã lưu vào Drive của con nhưng chưa chia sẻ được cho giáo viên Eflita nên bài này chưa được tính.\nNếu con đang dùng tài khoản Google của trường, hãy đăng nhập bằng Gmail cá nhân rồi nộp lại, hoặc liên hệ Eflita để được hỗ trợ nhé.'
       : 'Your video was saved to your Drive but could not be shared with the Eflita teachers, so this submission has not been counted.\nIf you are using a school Google account, please sign in with a personal Gmail and submit again, or contact Eflita for help.';
+  }
+  if (isDriveScopeMissing(err)) {
+    return lang === 'vi'
+      ? 'Con chưa cho phép ứng dụng lưu file vào Google Drive nên bài này chưa được tính.\nCon bấm "Tải video của con lên" một lần nữa. Khi Google hỏi quyền Google Drive, con (hoặc ba mẹ) nhớ tích chọn ô quyền Google Drive rồi bấm "Tiếp tục" nhé!'
+      : 'The app was not allowed to save files to Google Drive, so this submission has not been counted.\nPlease tap "Upload your video" again. When Google asks for Google Drive access, make sure the Google Drive checkbox is ticked, then tap "Continue".';
   }
   // Mã lỗi kỹ thuật (ngắn) để phụ huynh/admin chụp màn hình gửi hỗ trợ
   const rawDetail = (err instanceof Error ? err.message : err ? String(err) : '')
@@ -256,6 +268,10 @@ export const LessonModal: React.FC<LessonModalProps> = ({
         driveLink = driveResult.driveLink;
       } catch (uploadErr) {
         console.warn('Google Drive upload failed:', uploadErr);
+        // Token thiếu quyền Drive hoặc đã hết hạn: bỏ token để lần nộp sau hỏi lại quyền từ đầu
+        if (isDriveScopeMissing(uploadErr) || isDriveAuthExpired(uploadErr)) {
+          setAccessToken(null);
+        }
         setUploadError(getDriveUploadErrorMessage(uploadErr, lang));
         return;
       }

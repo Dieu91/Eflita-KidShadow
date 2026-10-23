@@ -13,6 +13,15 @@ export const translations = {
     signingIn: 'Đang đăng nhập...',
     logout: 'Đăng xuất',
     parentAccount: 'Tài khoản Phụ huynh',
+    learningIntro: 'Luyện nói tiếng Anh tự nhiên cho bé 6–12 tuổi, 15 phút mỗi lần',
+    stepListen: 'Nghe',
+    stepRecord: 'Ghi âm',
+    stepSubmit: 'Nộp bài',
+    privacySecure: 'Bảo mật thông tin',
+    nurtureLove: 'Nuôi dưỡng tình yêu tiếng Anh tự nhiên',
+    privacyPolicy: 'Chính sách bảo mật',
+    supportZalo: 'Hỗ trợ Zalo',
+    needCodeNote: 'Dành cho học viên E-Pro / EST, cần mã kích hoạt khóa học',
 
     // Onboarding & Profile
     completeProfileTitle: 'Hoàn tất thông tin học viên 🌟',
@@ -214,6 +223,15 @@ export const translations = {
     signingIn: 'Signing in...',
     logout: 'Sign out',
     parentAccount: 'Parent Account',
+    learningIntro: 'Natural English speaking practice for kids aged 6–12, 15 minutes a time',
+    stepListen: 'Listen',
+    stepRecord: 'Record',
+    stepSubmit: 'Submit',
+    privacySecure: 'Your data is protected',
+    nurtureLove: 'Nurturing a natural love for English',
+    privacyPolicy: 'Privacy policy',
+    supportZalo: 'Zalo support',
+    needCodeNote: 'For E-Pro / EST learners — a course activation code is required',
 
     // Onboarding & Profile
     completeProfileTitle: 'Complete Student Profile 🌟',

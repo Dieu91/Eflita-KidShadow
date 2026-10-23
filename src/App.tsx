@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { User } from 'firebase/auth';
 import {
   initAuth,
@@ -12,12 +12,12 @@ import {
   getContestRegistration,
   seedLessonsIfNeeded,
   isUserAdmin,
+  ADMIN_EMAILS,
   isAdminTestModeActive,
   setAdminTestMode,
   isUserExpired,
   getUserDatesInfo,
   getSystemSettings,
-  deleteUserAccount,
   auth
 } from './services/firebase';
 import { UserProfile, Lesson, Submission, ReflectionPost, ContestRegistration, Language, LevelType, BrandConfig, SystemSettings } from './types';
@@ -35,13 +35,15 @@ import { ChampionArenaPage } from './components/ChampionArenaPage';
 import { AdminPage } from './components/AdminPage';
 import { AdminChampionTestBar } from './components/AdminChampionTestBar';
 import { WeeklyReminderToast, WEEKLY_TARGET } from './components/WeeklyReminderToast';
-import { MobileQrModal } from './components/MobileQrModal';
 import { BrandModal } from './components/BrandModal';
 import { StudentGuideModal } from './components/StudentGuideModal';
-import { ExpiredNoticeModal } from './components/ExpiredNoticeModal';
+import { ActivationScreen } from './components/ActivationScreen';
+import { ActivationCodesPanel } from './components/ActivationCodesPanel';
+import { ExpiredRenewalModal } from './components/ExpiredRenewalModal';
 import { SAMPLE_LESSONS, getLessonDocId } from './data/lessonsData';
 import { getStoredBrandConfig, saveBrandConfig, DEFAULT_BRAND_CONFIG } from './services/brandService';
 import { getTranslation } from './i18n/translations';
+import { detectEnv } from './utils/envDetector';
 
 /**
  * Calculate user's current study week:
@@ -79,6 +81,7 @@ export default function App() {
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
   const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [forceInAppCard, setForceInAppCard] = useState<boolean>(false);
   const [showFirstTimeProfile, setShowFirstTimeProfile] = useState<boolean>(false);
   const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
   const [showLevelModal, setShowLevelModal] = useState<boolean>(false);
@@ -108,9 +111,6 @@ export default function App() {
   // Admin Champion Test Dock state
   const [showAdminTestBar, setShowAdminTestBar] = useState<boolean>(() => isAdminTestModeActive());
 
-  // Mobile QR modal
-  const [showMobileQrModal, setShowMobileQrModal] = useState<boolean>(false);
-
   // Student Learning Guide & FAQ modal
   const [showStudentGuide, setShowStudentGuide] = useState<boolean>(false);
 
@@ -123,13 +123,17 @@ export default function App() {
   const [showExpiredModal, setShowExpiredModal] = useState<boolean>(false);
   const [isExpiryBannerDismissed, setIsExpiryBannerDismissed] = useState<boolean>(false);
 
+  // Activation code gate (học viên mới phải nhập mã kích hoạt)
+  const [needsActivation, setNeedsActivation] = useState<boolean>(false);
+  const [loadError, setLoadError] = useState<boolean>(false);
+  const [activationError, setActivationError] = useState<string | null>(null);
+  const activationCodeRef = useRef<string | null>(null);
+
   // Load brand config and system settings on mount
   useEffect(() => {
     getStoredBrandConfig().then((cfg) => {
       if (cfg) {
         setBrandConfig(cfg);
-        // Persist cleaned brand config if it had old naming
-        saveBrandConfig(cfg).catch(console.warn);
       }
     });
     getSystemSettings().then((s) => {
@@ -172,9 +176,18 @@ export default function App() {
   const loadUserProfileAndData = async (user: User) => {
     try {
       setIsDataLoading(true);
+      setLoadError(false);
       const profile = await getUserProfile(user.uid);
 
       if (!profile || !profile.student_name || !profile.level) {
+        // Học viên mới: cần mã kích hoạt (admin/giám khảo được miễn)
+        if (!activationCodeRef.current && !profile?.activation_code) {
+          await getSystemSettings().catch(() => null); // làm mới danh sách admin
+          if (!isUserAdmin(user.email)) {
+            setNeedsActivation(true);
+            return;
+          }
+        }
         // Needs first-time onboarding
         const initialProfile: UserProfile = {
           uid: user.uid,
@@ -204,18 +217,6 @@ export default function App() {
         if (currentSettings) {
           setSystemSettings(currentSettings);
           if (isUserExpired(profile, currentSettings)) {
-            if (currentSettings.expirationMode === 'delete' && !isUserAdmin(profile.email, profile) && profile.role !== 'admin') {
-              try {
-                await deleteUserAccount(profile.uid);
-              } catch (delErr) {
-                console.warn('Auto delete expired user failed:', delErr);
-              }
-              alert(lang === 'vi' 
-                ? 'Thời hạn tham gia khóa học đã kết thúc. Tài khoản và dữ liệu đã được hệ thống tự động dọn dẹp theo chính sách khóa học. Cảm ơn con và gia đình đã đồng hành!' 
-                : 'Your course challenge period has ended. The account has been automatically cleaned up according to system policy.');
-              await handleLogout();
-              return;
-            }
             setShowExpiredModal(true);
           } else {
             setShowExpiredModal(false);
@@ -226,21 +227,8 @@ export default function App() {
       }
     } catch (err) {
       console.warn('Profile load warning:', err);
-      // Safe fallback profile so UI remains responsive
-      const fallbackProfile: UserProfile = {
-        uid: user.uid,
-        student_name: user.displayName || '',
-        parent_name: '',
-        phone: '',
-        level: 'STARTER',
-        email: user.email || '',
-        photo_url: user.photoURL || undefined,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      setUserProfile((prev) => prev || fallbackProfile);
-      setShowFirstTimeProfile(true);
-      await loadLessonsAndSubmissions(fallbackProfile).catch(console.warn);
+      // Không giả làm "học viên mới" khi lỗi mạng/quyền: báo lỗi và cho thử lại
+      setLoadError(true);
     } finally {
       setIsAuthLoading(false);
       setIsDataLoading(false);
@@ -251,7 +239,7 @@ export default function App() {
   const loadLessonsAndSubmissions = async (profile: UserProfile) => {
     try {
       // Ensure seed lessons exist
-      seedLessonsIfNeeded().catch(console.warn);
+      if (isUserAdmin(profile.email, profile)) seedLessonsIfNeeded().catch(console.warn);
 
       const [lessonsList, userSubs, reflection, reg] = await Promise.all([
         getLessonsByLevel(profile.level).catch(() => []),
@@ -271,35 +259,59 @@ export default function App() {
     }
   };
 
-  // Handle Google Sign In
-  const handleSignIn = async () => {
-    try {
-      setAuthError(null);
-      setIsSigningIn(true);
-      const result = await signInWithGoogle();
-      if (result?.user) {
-        setCurrentUser(result.user);
-        await loadUserProfileAndData(result.user);
-      }
-    } catch (err: any) {
-      if (
-        err?.code !== 'auth/popup-closed-by-user' &&
-        err?.code !== 'auth/cancelled-popup-request'
-      ) {
-        if (err?.code === 'auth/popup-blocked') {
+  // Handle Google Sign In - called directly in click event without preceding await
+  const handleSignIn = () => {
+    setAuthError(null);
+    setIsSigningIn(true);
+    const env = detectEnv();
+
+    // Call signInWithGoogle directly in the user click event
+    signInWithGoogle()
+      .then(async (result) => {
+        if (result?.user) {
+          // Hồ sơ sẽ được tải bởi bộ lắng nghe đăng nhập (initAuth), không tải lần hai ở đây.
+          setCurrentUser(result.user);
+        }
+      })
+      .catch((err: any) => {
+        const errorCode = err?.code || '';
+        const isPopupBlockedOrRestricted = [
+          'auth/popup-blocked',
+          'auth/popup-closed-by-user',
+          'auth/cancelled-popup-request',
+          'auth/operation-not-supported-in-this-environment',
+          'auth/web-storage-unsupported',
+        ].includes(errorCode);
+
+        if (isPopupBlockedOrRestricted) {
+          if (env.inApp) {
+            setForceInAppCard(true);
+          } else {
+            setAuthError(
+              'Điện thoại đang chặn cửa sổ đăng nhập. Ba mẹ vui lòng cho phép cửa sổ bật lên (pop-up) cho trang này, hoặc thử mở bằng Chrome/Safari, rồi bấm đăng nhập lại.'
+            );
+          }
+        } else {
+          // Never display raw Firebase technical errors in UI
           setAuthError(
             lang === 'vi'
-              ? 'Trình duyệt đang chặn cửa sổ đăng nhập (popup). Ba mẹ vui lòng cho phép cửa sổ bật lên để tiếp tục nhé.'
-              : 'Popup was blocked by the browser. Please allow popups to continue.'
-          );
-        } else {
-          setAuthError(
-            err instanceof Error ? err.message : 'Đăng nhập không thành công. Vui lòng thử lại.'
+              ? 'Đăng nhập chưa hoàn tất hoặc bị gián đoạn. Ba mẹ vui lòng thử lại nhé.'
+              : 'Sign-in was not completed or was interrupted. Please try again.'
           );
         }
-      }
-    } finally {
-      setIsSigningIn(false);
+      })
+      .finally(() => {
+        setIsSigningIn(false);
+      });
+  };
+
+  // Học viên nhập mã đúng -> tiếp tục điền hồ sơ lần đầu
+  const handleActivationVerified = async (code: string) => {
+    activationCodeRef.current = code;
+    setActivationError(null);
+    setNeedsActivation(false);
+    if (currentUser) {
+      await loadUserProfileAndData(currentUser);
     }
   };
 
@@ -333,6 +345,9 @@ export default function App() {
         return;
       }
       setShowExpiredModal(false);
+      setNeedsActivation(false);
+      setActivationError(null);
+      activationCodeRef.current = null;
       await logOutUser();
       setCurrentUser(null);
       setUserProfile(null);
@@ -390,9 +405,26 @@ export default function App() {
     } catch {}
 
     // 4. Save to Firestore in background without blocking the UI
-    saveUserProfile(updated).catch((err) => {
-      console.warn('Background profile save warning:', err);
-    });
+    const codeToClaim = activationCodeRef.current || undefined;
+    saveUserProfile(updated, codeToClaim)
+      .then(() => {
+        if (codeToClaim) activationCodeRef.current = null;
+      })
+      .catch((err) => {
+        console.warn('Background profile save warning:', err);
+        if (codeToClaim) {
+          // Mã không dùng được (ví dụ vừa có người khác dùng): quay lại màn hình nhập mã
+          activationCodeRef.current = null;
+          setUserProfile(null);
+          setShowFirstTimeProfile(false);
+          setActivationError(
+            lang === 'vi'
+              ? 'Mã kích hoạt không dùng được (có thể vừa được người khác sử dụng). Ba mẹ nhập lại mã hoặc liên hệ Eflita nhé.'
+              : 'The activation code could not be used (it may have just been taken). Please re-enter it or contact Eflita.'
+          );
+          setNeedsActivation(true);
+        }
+      });
 
     // 5. Background sync for latest submissions and reflection
     loadLessonsAndSubmissions(updated).catch(console.warn);
@@ -533,7 +565,7 @@ export default function App() {
   // Handle "Học ngay" button click from weekly reminder toast
   const handleLearnNow = () => {
     setActiveTab('map');
-    const currentWeek = calculateCurrentStudyWeek(userProfile?.created_at);
+    const currentWeek = calculateCurrentStudyWeek(userProfile?.first_login_at || userProfile?.created_at);
     const completedLessonIds = new Set(submissions.map((s) => s.lesson_id));
 
     // First try finding uncompleted lesson in the current week
@@ -579,17 +611,12 @@ export default function App() {
       <>
         <AuthScreen
           onSignIn={handleSignIn}
-          onOpenMobileQr={() => setShowMobileQrModal(true)}
           brandConfig={brandConfig}
           isLoading={isSigningIn}
           lang={lang}
           onToggleLang={handleToggleLang}
           errorMessage={authError}
-        />
-        <MobileQrModal
-          isOpen={showMobileQrModal}
-          onClose={() => setShowMobileQrModal(false)}
-          lang={lang}
+          forceInAppCard={forceInAppCard}
         />
         <BrandModal
           isOpen={showBrandModal}
@@ -599,6 +626,52 @@ export default function App() {
           lang={lang}
         />
       </>
+    );
+  }
+
+  // Lỗi tải dữ liệu (mất mạng, hết quota, bị từ chối quyền): không cho vào như học viên mới
+  if (currentUser && loadError && !isGuestPreview) {
+    return (
+      <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4">
+        <div className="max-w-sm w-full bg-white rounded-3xl border-4 border-amber-200 shadow-xl p-6 text-center space-y-4">
+          <div className="text-4xl">📶</div>
+          <h2 className="font-black text-amber-950 text-lg font-['Fredoka',sans-serif]">
+            {lang === 'vi' ? 'Chưa tải được dữ liệu của con' : 'We could not load your data'}
+          </h2>
+          <p className="text-sm font-bold text-amber-900/80 leading-relaxed">
+            {lang === 'vi'
+              ? 'Ba mẹ kiểm tra kết nối mạng rồi bấm "Thử lại" nhé. Dữ liệu học của con vẫn an toàn.'
+              : 'Please check your connection and tap "Try again". Your learning data is safe.'}
+          </p>
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={() => { setIsAuthLoading(true); loadUserProfileAndData(currentUser); }}
+              className="px-4 py-2 bg-amber-400 hover:bg-amber-500 text-amber-950 font-black rounded-2xl text-sm cursor-pointer"
+            >
+              {lang === 'vi' ? 'Thử lại' : 'Try again'}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-white border-2 border-amber-300 text-amber-900 font-black rounded-2xl text-sm cursor-pointer"
+            >
+              {t.logout}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentUser && needsActivation) {
+    return (
+      <ActivationScreen
+        lang={lang}
+        uid={currentUser.uid}
+        email={currentUser.email || ''}
+        errorMessage={activationError}
+        onVerified={handleActivationVerified}
+        onLogout={handleLogout}
+      />
     );
   }
 
@@ -650,7 +723,6 @@ export default function App() {
         onLogout={handleLogout}
         onOpenChampionModal={() => setShowChampionModal(true)}
         isChampionQualified={isChampionQualified}
-        onOpenMobileQr={() => setShowMobileQrModal(true)}
         onOpenBrandSettings={() => setShowBrandModal(true)}
         onOpenStudentGuide={() => setShowStudentGuide(true)}
         onToggleAdminTestBar={() => setShowAdminTestBar((prev) => !prev)}
@@ -693,6 +765,10 @@ export default function App() {
             onOpenChampionModal={() => setShowChampionModal(true)}
             lang={lang}
           />
+        )}
+
+        {activeTab === 'admin' && ADMIN_EMAILS.includes((currentUser?.email || '').toLowerCase().trim()) && (
+          <ActivationCodesPanel />
         )}
 
         {activeTab === 'admin' && (
@@ -793,10 +869,10 @@ export default function App() {
       {/* Weekly Target Reminder Toast (Shows when submissions in current week < WEEKLY_TARGET) */}
       {userProfile && !isGuestPreview && !showFirstTimeProfile && !isWeeklyToastDismissed && (
         <WeeklyReminderToast
-          currentWeek={calculateCurrentStudyWeek(userProfile.created_at)}
+          currentWeek={calculateCurrentStudyWeek(userProfile.first_login_at || userProfile.created_at)}
           submittedCountInWeek={
             submissions.filter(
-              (s) => s.week === calculateCurrentStudyWeek(userProfile.created_at)
+              (s) => s.week === calculateCurrentStudyWeek(userProfile.first_login_at || userProfile.created_at)
             ).length
           }
           onLearnNow={handleLearnNow}
@@ -804,13 +880,6 @@ export default function App() {
           lang={lang}
         />
       )}
-
-      {/* Mobile QR Modal */}
-      <MobileQrModal
-        isOpen={showMobileQrModal}
-        onClose={() => setShowMobileQrModal(false)}
-        lang={lang}
-      />
 
       {/* Brand & Logo Settings Modal */}
       <BrandModal
@@ -830,11 +899,15 @@ export default function App() {
 
       {/* Course Expiration Notice Modal */}
       {userProfile && showExpiredModal && !isAdmin && (
-        <ExpiredNoticeModal
-          isOpen={showExpiredModal}
+        <ExpiredRenewalModal
           userProfile={userProfile}
           lang={lang}
           validityWeeks={systemSettings?.validityWeeks || 8}
+          onRenewed={(renewed) => {
+            setUserProfile(renewed);
+            setShowExpiredModal(false);
+            setIsExpiryBannerDismissed(false);
+          }}
           onLogout={handleLogout}
         />
       )}
