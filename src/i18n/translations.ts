@@ -89,6 +89,7 @@ export const translations = {
 
     // Navigation & Tabs
     mapTab: 'Lộ trình học',
+    extraTab: 'Luyện thêm',
     progressTab: 'Tiến độ học tập',
     adminTab: 'Quản trị (Admin)',
     streakDays: 'ngày liên tục',
@@ -299,6 +300,7 @@ export const translations = {
 
     // Navigation & Tabs
     mapTab: 'Learning Map',
+    extraTab: 'Extra Practice',
     progressTab: 'My Progress',
     adminTab: 'Admin Panel',
     streakDays: 'day streak',

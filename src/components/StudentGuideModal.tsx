@@ -128,11 +128,11 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
-                    <span>Tích lũy Streak & Tham gia Shadowing Champion</span>
+                    <span>Tích lũy Streak & nhận Giấy khen</span>
                     <span className="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.2 rounded-md font-bold">Huy hiệu & Bằng khen</span>
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Hoàn thành 3 video/tuần trong 7 tuần (tổng 21 bài) để mở khóa Giấy khen tốt nghiệp. Sau đó đăng bài cảm nhận lên cộng đồng Eflita để đủ điều kiện tham dự vòng thi Chung kết Shadowing Champion có ban giám khảo chấm giải!
+                    Hoàn thành 3 video/tuần trong 7 tuần (tổng 21 bài) để mở khóa Giấy khen tốt nghiệp. Con có thể luyện thêm mỗi ngày với các video trong mục "Luyện thêm"!
                   </p>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({
                   <span>Video luyện tập hàng tuần có được giáo viên chấm không?</span>
                 </h5>
                 <p className="text-slate-600 leading-relaxed">
-                  Không. Video luyện tập hàng tuần giúp con rèn thói quen luyện nói và theo dõi tiến độ, không được chấm điểm. Vòng thi chính thức "Shadowing Champion" do Hội đồng giám khảo chuyên môn của Eflita đánh giá video tham gia thi của các thí sinh đủ điều kiện.
+                  Không. Video luyện tập giúp con rèn thói quen luyện nói và theo dõi tiến độ, không được chấm điểm.
                 </p>
               </div>
             </div>

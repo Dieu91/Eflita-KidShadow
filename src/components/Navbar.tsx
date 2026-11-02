@@ -3,6 +3,7 @@ import { Sparkles, Flame, User as UserIcon, LogOut, ShieldAlert, Award, Smartpho
 import { UserProfile, Language, LevelType, BrandConfig } from '../types';
 import { getTranslation } from '../i18n/translations';
 import { isUserAdmin } from '../services/firebase';
+import { ENABLE_CHAMPION } from '../config';
 
 // App chạy ở đường dẫn con (ví dụ /Eflita-KidShadow/), nên đường dẫn ảnh dạng "/logo.png"
 // cần được thêm tiền tố này để trình duyệt tìm đúng file.
@@ -22,8 +23,8 @@ interface NavbarProps {
   lang: Language;
   onToggleLang: () => void;
   streak: number;
-  activeTab: 'map' | 'progress' | 'admin' | 'champion';
-  onChangeTab: (tab: 'map' | 'progress' | 'admin' | 'champion') => void;
+  activeTab: 'map' | 'progress' | 'extra' | 'admin' | 'champion';
+  onChangeTab: (tab: 'map' | 'progress' | 'extra' | 'admin' | 'champion') => void;
   onOpenProfile: () => void;
   onOpenLevelSelector: () => void;
   onSelectLevel?: (level: LevelType) => void;
@@ -200,7 +201,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Champion Trophy Button (if qualified or admin) */}
-          {(isChampionQualified || isAdmin) && (
+          {ENABLE_CHAMPION && (isChampionQualified || isAdmin) && (
             <button
               onClick={() => onChangeTab('champion')}
               className={`flex items-center gap-1 font-black px-2 py-1 sm:px-2.5 rounded-full text-xs shadow-md border cursor-pointer transition ${
@@ -228,7 +229,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           {/* Test Champion Dock Button - Admin only (Desktop) */}
-          {isAdmin && onToggleAdminTestBar && (
+          {ENABLE_CHAMPION && isAdmin && onToggleAdminTestBar && (
             <button
               onClick={onToggleAdminTestBar}
               className={`hidden lg:inline-flex items-center gap-1 border px-2.5 py-1 rounded-full text-xs shadow-xs transition-colors cursor-pointer ${
@@ -350,7 +351,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </button>
                   )}
 
-                  {isAdmin && onToggleAdminTestBar && (
+                  {ENABLE_CHAMPION && isAdmin && onToggleAdminTestBar && (
                     <button
                       onClick={() => {
                         setIsMobileMenuOpen(false);
@@ -405,7 +406,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             📊 {t.progressTab}
           </button>
-          {(isChampionQualified || isAdmin) && (
+          <button
+            onClick={() => onChangeTab('extra')}
+            className={`flex-1 py-1.5 rounded-xl text-center transition-all ${
+              activeTab === 'extra'
+                ? 'bg-amber-400 text-amber-950 shadow-xs'
+                : 'text-amber-800/80 hover:bg-amber-200/50'
+            }`}
+          >
+            ✨ {t.extraTab}
+          </button>
+          {ENABLE_CHAMPION && (isChampionQualified || isAdmin) && (
             <button
               onClick={() => onChangeTab('champion')}
               className={`flex-1 py-1.5 rounded-xl text-center transition-all flex items-center justify-center gap-1 ${

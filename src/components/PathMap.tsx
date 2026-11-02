@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Check, Lock, Play, Star, Sparkles, Gift, Film, Map as MapIcon, ArrowRight, Video } from 'lucide-react';
 import { Lesson, Submission, Language, LevelType } from '../types';
 import { getTranslation } from '../i18n/translations';
+import { ENABLE_CHAMPION } from '../config';
 
 interface PathMapProps {
   lessons: Lesson[];
   submissions: Submission[];
   onSelectLesson: (lesson: Lesson) => void;
   onOpenChampionModal: () => void;
+  onOpenExtra?: () => void;
   lang: Language;
   currentLevel?: LevelType;
   onChangeLevel?: (level: LevelType) => void;
@@ -18,6 +20,7 @@ export const PathMap: React.FC<PathMapProps> = ({
   submissions,
   onSelectLesson,
   onOpenChampionModal,
+  onOpenExtra,
   lang,
   currentLevel,
   onChangeLevel,
@@ -419,7 +422,28 @@ export const PathMap: React.FC<PathMapProps> = ({
         </div>
       )}
 
+      {/* Luyện thêm: hiện khi phần thi Champion đang tắt */}
+      {!ENABLE_CHAMPION && onOpenExtra && (
+        <div className="mt-14 pt-8 text-center border-t-2 border-dashed border-amber-300">
+          <div
+            onClick={onOpenExtra}
+            className="p-6 rounded-3xl border-4 bg-gradient-to-r from-amber-100 via-orange-50 to-amber-100 border-amber-300 shadow-md cursor-pointer hover:shadow-lg transition"
+          >
+            <div className="w-16 h-16 mx-auto mb-3 rounded-3xl bg-white/90 shadow-md flex items-center justify-center text-3xl">✨</div>
+            <h3 className="text-lg font-black font-['Fredoka',sans-serif] text-slate-800">
+              {lang === 'vi' ? 'Luyện thêm' : 'Extra Practice'}
+            </h3>
+            <p className="text-xs font-bold text-slate-600 mt-1 max-w-xs mx-auto">
+              {lang === 'vi'
+                ? 'Thêm nhiều video ngắn để con luyện nói mỗi ngày. Bấm vào để xem nhé!'
+                : 'More short videos for daily speaking practice. Tap to explore!'}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Final Champion Castle / Trophy Stage at the end of Week 7 */}
+      {ENABLE_CHAMPION && (
       <div className="mt-14 pt-8 text-center border-t-2 border-dashed border-amber-300">
         <div
           onClick={allCompleted ? onOpenChampionModal : undefined}
@@ -451,6 +475,7 @@ export const PathMap: React.FC<PathMapProps> = ({
           )}
         </div>
       </div>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { ENABLE_CHAMPION } from '../config';
 import React, { useState } from 'react';
 import {
   Trophy,
@@ -155,7 +156,7 @@ export const ProgressPage: React.FC<ProgressPageProps> = ({
       )}
 
       {/* Champion Unlock CTA Banner if 21/21 completed */}
-      {completedCount >= 21 && onOpenChampionModal && (
+      {ENABLE_CHAMPION && completedCount >= 21 && onOpenChampionModal && (
         <div
           onClick={onOpenChampionModal}
           className="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 rounded-3xl p-4 sm:p-5 border-3 border-yellow-500 shadow-lg text-yellow-950 flex items-center justify-between cursor-pointer hover:opacity-95 transition"
