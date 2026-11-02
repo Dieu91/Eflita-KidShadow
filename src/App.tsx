@@ -31,6 +31,8 @@ import { PathMap } from './components/PathMap';
 import { LessonModal } from './components/LessonModal';
 import { ProgressPage } from './components/ProgressPage';
 import { ChampionModal } from './components/ChampionModal';
+import { ExtraPracticePage } from './components/ExtraPracticePage';
+import { ENABLE_CHAMPION } from './config';
 import { ChampionArenaPage } from './components/ChampionArenaPage';
 import { AdminPage } from './components/AdminPage';
 import { AdminChampionTestBar } from './components/AdminChampionTestBar';
@@ -87,7 +89,7 @@ export default function App() {
   const [showLevelModal, setShowLevelModal] = useState<boolean>(false);
 
   // Tab navigation
-  const [activeTab, setActiveTab] = useState<'map' | 'progress' | 'admin' | 'champion'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'progress' | 'extra' | 'admin' | 'champion'>('map');
 
   // Lessons & Submissions data
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -468,7 +470,7 @@ export default function App() {
 
     // Check if 21 submissions achieved for Champion modal
     const uniqueLessonIds = new Set([newSub.lesson_id, ...submissions.map((s) => s.lesson_id)]);
-    if (uniqueLessonIds.size >= 21 && !reflectionPost) {
+    if (ENABLE_CHAMPION && uniqueLessonIds.size >= 21 && !reflectionPost) {
       setTimeout(() => {
         setShowChampionModal(true);
       }, 1500);
@@ -560,7 +562,7 @@ export default function App() {
 
   // Check if champion qualified (>= 21 submissions)
   const completedLessonsCount = new Set(submissions.map((s) => s.lesson_id)).size;
-  const isChampionQualified = completedLessonsCount >= 21;
+  const isChampionQualified = ENABLE_CHAMPION && completedLessonsCount >= 21;
 
   // Handle "Học ngay" button click from weekly reminder toast
   const handleLearnNow = () => {
@@ -751,6 +753,7 @@ export default function App() {
             submissions={submissions}
             onSelectLesson={(lesson) => setSelectedLesson(lesson)}
             onOpenChampionModal={() => setShowChampionModal(true)}
+            onOpenExtra={() => setActiveTab('extra')}
             lang={lang}
             currentLevel={userProfile?.level}
             onChangeLevel={handleQuickChangeLevel}
@@ -785,7 +788,11 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'champion' && userProfile && (
+        {activeTab === 'extra' && userProfile && (
+          <ExtraPracticePage userProfile={userProfile} lang={lang} />
+        )}
+
+        {ENABLE_CHAMPION && activeTab === 'champion' && userProfile && (
           <ChampionArenaPage
             userProfile={userProfile}
             reflectionPost={reflectionPost}
@@ -846,7 +853,7 @@ export default function App() {
       )}
 
       {/* Champion Modal (Step 1 & Step 2) */}
-      {showChampionModal && userProfile && (
+      {ENABLE_CHAMPION && showChampionModal && userProfile && (
         <ChampionModal
           isOpen={showChampionModal}
           onClose={() => setShowChampionModal(false)}
@@ -913,7 +920,7 @@ export default function App() {
       )}
 
       {/* Floating Admin Champion Test Dock */}
-      {isAdmin && showAdminTestBar && userProfile && (
+      {ENABLE_CHAMPION && isAdmin && showAdminTestBar && userProfile && (
         <AdminChampionTestBar
           lessons={lessons}
           submissions={submissions}
