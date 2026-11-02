@@ -230,7 +230,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       reflections.forEach((r) => reflectionMap.set(r.user_id, r));
 
       const rows: UserAdminRow[] = users.map((u) => {
-        const userSubs = submissions.filter((s) => s.user_id === u.uid);
+        const userSubs = submissions.filter((s) => s.user_id === u.uid && !String(s.lesson_id).startsWith('extra_'));
         const uniqueLessonIds = new Set(userSubs.map((s) => s.lesson_id));
         const count = Math.min(21, uniqueLessonIds.size);
         const percent = Math.min(100, Math.round((count / 21) * 100));

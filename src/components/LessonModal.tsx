@@ -19,6 +19,8 @@ import {
   DriveUploadProgress,
   TEACHER_SHARE_EMAIL,
 } from '../services/drive';
+import { isExtraLessonId, EXTRA_COUNT_PER_LEVEL } from '../data/extraVideos';
+import { ENABLE_CHAMPION } from '../config';
 import { createSubmission, getAccessToken, setAccessToken, connectGoogleDrive } from '../services/firebase';
 import { evaluateMotivationalFeedback, FeedbackRuleResult } from '../utils/feedbackRules';
 
@@ -47,6 +49,11 @@ function getProgressMessage(done: number, lang: Language): string {
   const isEn = lang === 'en';
 
   if (done >= total) {
+    if (!ENABLE_CHAMPION) {
+      return isEn
+        ? `🏆 You finished ${total}/${total} videos! Amazing work — keep practising with the Extra Practice videos!`
+        : `🏆 Con đã hoàn thành ${total}/${total} video! Tuyệt vời lắm, con hãy luyện thêm với các video trong mục "Luyện thêm" nhé!`;
+    }
     return isEn
       ? `🏆 You finished ${total}/${total} videos! Don't forget to write your reflection post in the Eflita community to join the Shadowing Champion contest!`
       : `🏆 Con đã hoàn thành ${total}/${total} video! Đừng quên viết bài cảm nhận trên cộng đồng Eflita để được xét vào cuộc thi Shadowing Champion nhé!`;
@@ -167,6 +174,7 @@ export const LessonModal: React.FC<LessonModalProps> = ({
   lang,
 }) => {
   const t = getTranslation(lang);
+  const isExtra = isExtraLessonId(lesson.id);
 
   // File upload state
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -299,22 +307,33 @@ export const LessonModal: React.FC<LessonModalProps> = ({
 
       // Calculate rule-based motivational feedback
       const allSubs = [fullSubmission, ...existingSubmissions];
-      const feedback = evaluateMotivationalFeedback(
-        fullSubmission,
-        allSubs,
-        userProfile.created_at,
-        lang
-      );
+      const feedback: FeedbackRuleResult = isExtra
+        ? {
+            message:
+              lang === 'vi'
+                ? 'Con luyện thêm thật chăm chỉ! Mỗi video luyện thêm giúp con nói tự tin hơn mỗi ngày.'
+                : 'Great extra practice! Every extra video helps you speak more confidently.',
+            ruleIndex: 0,
+            highlightIcon: '🌟',
+          }
+        : evaluateMotivationalFeedback(
+            fullSubmission,
+            allSubs.filter((s) => !isExtraLessonId(s.lesson_id)),
+            userProfile.created_at,
+            lang
+          );
 
       // Progress: number of distinct videos completed in this level (including the one just submitted)
       const doneCount = new Set(
-        allSubs.filter((s) => s.level === lesson.level).map((s) => s.lesson_id)
+        allSubs
+          .filter((s) => s.level === lesson.level && isExtraLessonId(s.lesson_id) === isExtra)
+          .map((s) => s.lesson_id)
       ).size;
       setCompletedCount(doneCount);
-      setProgressMessage(getProgressMessage(doneCount, lang));
+      setProgressMessage(isExtra ? '' : getProgressMessage(doneCount, lang));
 
       // Confetti: bigger burst at milestones
-      const isMilestone = MILESTONES.includes(doneCount);
+      const isMilestone = !isExtra && MILESTONES.includes(doneCount);
       confetti({
         particleCount: isMilestone ? 220 : 80,
         spread: isMilestone ? 110 : 70,
@@ -343,7 +362,9 @@ export const LessonModal: React.FC<LessonModalProps> = ({
             </div>
             <div>
               <span className="text-xs font-black uppercase tracking-wider text-amber-700">
-                {t.week} {lesson.week} • {t.video} {lesson.order}
+                {isExtra
+                  ? `${lang === 'vi' ? 'Luyện thêm' : 'Extra practice'} • ${t.video} ${lesson.order}`
+                  : `${t.week} ${lesson.week} • ${t.video} ${lesson.order}`}
               </span>
               <h3 className="text-base sm:text-lg font-black text-slate-800 font-['Fredoka',sans-serif] leading-tight">
                 {lesson.topic}
@@ -361,7 +382,11 @@ export const LessonModal: React.FC<LessonModalProps> = ({
         {/* Content Body */}
         <div className="p-4 sm:p-6 space-y-5 max-h-[80vh] overflow-y-auto">
           {/* YouTube Video Player */}
-          <div className="rounded-2xl overflow-hidden shadow-md border-2 border-amber-200 bg-black aspect-video relative">
+          <div
+            className={`rounded-2xl overflow-hidden shadow-md border-2 border-amber-200 bg-black relative ${
+              isExtra ? 'aspect-[9/16] max-h-[60vh] mx-auto' : 'aspect-video'
+            }`}
+          >
             <iframe
               src={lesson.embed_url}
               title={lesson.topic}
@@ -446,16 +471,16 @@ export const LessonModal: React.FC<LessonModalProps> = ({
                   {completedCount > 0 && (
                     <div className="mt-3 space-y-1.5">
                       <div className="flex items-center justify-between text-xs font-extrabold text-emerald-900">
-                        <span>📚 {lang === 'vi' ? 'Tiến độ của con' : 'Your progress'}</span>
+                        <span>📚 {isExtra ? (lang === 'vi' ? 'Luyện thêm của con' : 'Your extra practice') : (lang === 'vi' ? 'Tiến độ của con' : 'Your progress')}</span>
                         <span>
-                          {Math.min(completedCount, TOTAL_VIDEOS_PER_LEVEL)}/{TOTAL_VIDEOS_PER_LEVEL}
+                          {Math.min(completedCount, isExtra ? EXTRA_COUNT_PER_LEVEL : TOTAL_VIDEOS_PER_LEVEL)}/{isExtra ? EXTRA_COUNT_PER_LEVEL : TOTAL_VIDEOS_PER_LEVEL}
                         </span>
                       </div>
                       <div className="w-full h-2.5 bg-white/70 rounded-full overflow-hidden border border-emerald-200">
                         <div
                           className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-500"
                           style={{
-                            width: `${Math.min(100, (completedCount / TOTAL_VIDEOS_PER_LEVEL) * 100)}%`,
+                            width: `${Math.min(100, (completedCount / (isExtra ? EXTRA_COUNT_PER_LEVEL : TOTAL_VIDEOS_PER_LEVEL)) * 100)}%`,
                           }}
                         />
                       </div>

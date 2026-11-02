@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Check, Play, X, Sparkles } from 'lucide-react';
-import { Language, LevelType, UserProfile } from '../types';
-import { EXTRA_VIDEOS, ExtraVideo, getExtraEmbedUrl } from '../data/extraVideos';
+import React, { useState } from 'react';
+import { Check, Play, Sparkles } from 'lucide-react';
+import { Language, Lesson, LevelType, Submission, UserProfile } from '../types';
+import { EXTRA_ID_PREFIX, EXTRA_VIDEOS, ExtraVideo, getExtraEmbedUrl } from '../data/extraVideos';
 
 interface ExtraPracticePageProps {
   userProfile: UserProfile;
+  submissions: Submission[];
+  onSelectLesson: (lesson: Lesson) => void;
   lang: Language;
 }
 
@@ -14,39 +16,29 @@ const LEVELS: { id: LevelType; label: string; icon: string }[] = [
   { id: 'FLYERS', label: 'Flyers', icon: '🚀' },
 ];
 
-const readWatched = (uid: string): string[] => {
-  try {
-    const raw = localStorage.getItem(`kidshadow_extra_watched_${uid}`);
-    const list = raw ? JSON.parse(raw) : [];
-    return Array.isArray(list) ? list : [];
-  } catch {
-    return [];
-  }
-};
+// Biến video luyện thêm thành "bài học" để dùng chung màn hình xem, quay và nộp bài
+export const toExtraLesson = (v: ExtraVideo): Lesson => ({
+  id: `${EXTRA_ID_PREFIX}${v.id}`,
+  level: v.level,
+  week: 0,
+  order: v.order,
+  topic: v.title,
+  embed_url: getExtraEmbedUrl(v.youtubeId),
+  script: '',
+});
 
-export const ExtraPracticePage: React.FC<ExtraPracticePageProps> = ({ userProfile, lang }) => {
+export const ExtraPracticePage: React.FC<ExtraPracticePageProps> = ({
+  userProfile,
+  submissions,
+  onSelectLesson,
+  lang,
+}) => {
   const vi = lang === 'vi';
   const [level, setLevel] = useState<LevelType>(userProfile.level);
-  const [watched, setWatched] = useState<string[]>(() => readWatched(userProfile.uid));
-  const [active, setActive] = useState<ExtraVideo | null>(null);
 
-  useEffect(() => {
-    setWatched(readWatched(userProfile.uid));
-  }, [userProfile.uid]);
-
-  const markWatched = (id: string) => {
-    setWatched((prev) => {
-      if (prev.includes(id)) return prev;
-      const next = [...prev, id];
-      try {
-        localStorage.setItem(`kidshadow_extra_watched_${userProfile.uid}`, JSON.stringify(next));
-      } catch {}
-      return next;
-    });
-  };
-
+  const submittedIds = new Set(submissions.map((s) => s.lesson_id));
   const videos = EXTRA_VIDEOS.filter((v) => v.level === level).sort((a, b) => a.order - b.order);
-  const doneCount = videos.filter((v) => watched.includes(v.id)).length;
+  const doneCount = videos.filter((v) => submittedIds.has(`${EXTRA_ID_PREFIX}${v.id}`)).length;
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-4 py-5 sm:py-8 space-y-5">
@@ -59,8 +51,8 @@ export const ExtraPracticePage: React.FC<ExtraPracticePageProps> = ({ userProfil
         </div>
         <p className="text-xs sm:text-sm font-bold text-amber-900/90 mt-1.5 leading-relaxed">
           {vi
-            ? 'Các video ngắn để con luyện nói thêm mỗi ngày. Nghe thật kỹ, nhại lại thật to, rồi nghe lại để so giọng của mình nhé! Mục này không tính vào lộ trình 21 bài.'
-            : 'Short videos for extra daily speaking practice. Listen closely, repeat out loud, then listen again to compare! These are not part of the 21-lesson path.'}
+            ? 'Các video ngắn để con luyện nói thêm. Xem video, nhại lại thật to rồi quay video của con và nộp bài giống như các bài chính nhé! Các bài luyện thêm không tính vào lộ trình 21 bài.'
+            : 'Short videos for extra speaking practice. Watch, repeat out loud, then record and submit your own video just like the main lessons! Extra videos are not part of the 21-lesson path.'}
         </p>
       </div>
 
@@ -82,17 +74,17 @@ export const ExtraPracticePage: React.FC<ExtraPracticePageProps> = ({ userProfil
           </button>
         ))}
         <span className="ml-auto text-xs font-black text-amber-900 bg-amber-100 px-2.5 py-1 rounded-full">
-          {doneCount}/{videos.length} {vi ? 'đã xem' : 'watched'}
+          {doneCount}/{videos.length} {vi ? 'đã nộp' : 'submitted'}
         </span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {videos.map((v) => {
-          const done = watched.includes(v.id);
+          const done = submittedIds.has(`${EXTRA_ID_PREFIX}${v.id}`);
           return (
             <button
               key={v.id}
-              onClick={() => setActive(v)}
+              onClick={() => onSelectLesson(toExtraLesson(v))}
               className={`text-left rounded-2xl border-2 p-3 sm:p-4 transition cursor-pointer active:scale-95 hover:shadow-md ${
                 done ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-amber-200 hover:border-amber-400'
               }`}
@@ -108,53 +100,15 @@ export const ExtraPracticePage: React.FC<ExtraPracticePageProps> = ({ userProfil
                 )}
               </div>
               <div className="mt-2 text-sm font-black text-slate-800 leading-snug">{v.title}</div>
+              {done && (
+                <div className="mt-1 text-[11px] font-bold text-emerald-700">
+                  {vi ? 'Đã nộp bài ✓' : 'Submitted ✓'}
+                </div>
+              )}
             </button>
           );
         })}
       </div>
-
-      {active && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-900/70 backdrop-blur-xs"
-          onClick={() => setActive(null)}
-        >
-          <div
-            className="w-full max-w-sm bg-white rounded-3xl border-4 border-amber-300 shadow-2xl p-3 sm:p-4 space-y-3"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-black text-sm text-slate-900 font-['Fredoka',sans-serif]">{active.title}</h3>
-              <button
-                onClick={() => setActive(null)}
-                className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="rounded-2xl overflow-hidden bg-black mx-auto aspect-[9/16] max-h-[65vh]">
-              <iframe
-                src={getExtraEmbedUrl(active.youtubeId)}
-                title={active.title}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-            <button
-              onClick={() => {
-                markWatched(active.id);
-                setActive(null);
-              }}
-              className="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-black py-2.5 rounded-2xl text-xs sm:text-sm cursor-pointer font-['Fredoka',sans-serif]"
-            >
-              {watched.includes(active.id)
-                ? vi ? 'Đóng' : 'Close'
-                : vi ? 'Con đã luyện xong ✓' : "I've practised ✓"}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

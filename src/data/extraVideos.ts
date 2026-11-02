@@ -59,3 +59,8 @@ export const EXTRA_VIDEOS: ExtraVideo[] = [
 
 export const getExtraEmbedUrl = (youtubeId: string): string =>
   `https://www.youtube.com/embed/${youtubeId}?rel=0&playsinline=1&modestbranding=1`;
+
+// Bài luyện thêm dùng chung màn hình học/nộp bài; mã bài luôn bắt đầu bằng tiền tố này
+export const EXTRA_ID_PREFIX = 'extra_';
+export const isExtraLessonId = (lessonId?: string): boolean => !!lessonId && lessonId.startsWith(EXTRA_ID_PREFIX);
+export const EXTRA_COUNT_PER_LEVEL = 15;

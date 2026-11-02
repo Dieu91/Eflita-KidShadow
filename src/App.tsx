@@ -32,6 +32,7 @@ import { LessonModal } from './components/LessonModal';
 import { ProgressPage } from './components/ProgressPage';
 import { ChampionModal } from './components/ChampionModal';
 import { ExtraPracticePage } from './components/ExtraPracticePage';
+import { isExtraLessonId } from './data/extraVideos';
 import { ENABLE_CHAMPION } from './config';
 import { ChampionArenaPage } from './components/ChampionArenaPage';
 import { AdminPage } from './components/AdminPage';
@@ -469,7 +470,7 @@ export default function App() {
     setSubmissions((prev) => [newSub, ...prev]);
 
     // Check if 21 submissions achieved for Champion modal
-    const uniqueLessonIds = new Set([newSub.lesson_id, ...submissions.map((s) => s.lesson_id)]);
+    const uniqueLessonIds = new Set([newSub.lesson_id, ...submissions.map((s) => s.lesson_id)].filter((id) => !isExtraLessonId(id)));
     if (ENABLE_CHAMPION && uniqueLessonIds.size >= 21 && !reflectionPost) {
       setTimeout(() => {
         setShowChampionModal(true);
@@ -547,6 +548,8 @@ export default function App() {
 
   // Calculate Streak
   const streak = calculateStreak(submissions);
+  // 21 bài chính: không tính các bài "Luyện thêm" vào tiến độ
+  const mainSubmissions = submissions.filter((s) => !isExtraLessonId(s.lesson_id));
 
   // Cảnh báo sắp hết hạn khóa học (còn <= 7 ngày) cho học viên
   const expiryInfo =
@@ -561,14 +564,14 @@ export default function App() {
       : null;
 
   // Check if champion qualified (>= 21 submissions)
-  const completedLessonsCount = new Set(submissions.map((s) => s.lesson_id)).size;
+  const completedLessonsCount = new Set(mainSubmissions.map((s) => s.lesson_id)).size;
   const isChampionQualified = ENABLE_CHAMPION && completedLessonsCount >= 21;
 
   // Handle "Học ngay" button click from weekly reminder toast
   const handleLearnNow = () => {
     setActiveTab('map');
     const currentWeek = calculateCurrentStudyWeek(userProfile?.first_login_at || userProfile?.created_at);
-    const completedLessonIds = new Set(submissions.map((s) => s.lesson_id));
+    const completedLessonIds = new Set(mainSubmissions.map((s) => s.lesson_id));
 
     // First try finding uncompleted lesson in the current week
     let targetLesson = lessons.find(
@@ -750,7 +753,7 @@ export default function App() {
         {activeTab === 'map' && (
           <PathMap
             lessons={lessons}
-            submissions={submissions}
+            submissions={mainSubmissions}
             onSelectLesson={(lesson) => setSelectedLesson(lesson)}
             onOpenChampionModal={() => setShowChampionModal(true)}
             onOpenExtra={() => setActiveTab('extra')}
@@ -763,7 +766,7 @@ export default function App() {
         {activeTab === 'progress' && userProfile && (
           <ProgressPage
             userProfile={userProfile}
-            submissions={submissions}
+            submissions={mainSubmissions}
             streak={streak}
             onOpenChampionModal={() => setShowChampionModal(true)}
             lang={lang}
@@ -789,7 +792,12 @@ export default function App() {
         )}
 
         {activeTab === 'extra' && userProfile && (
-          <ExtraPracticePage userProfile={userProfile} lang={lang} />
+          <ExtraPracticePage
+            userProfile={userProfile}
+            submissions={submissions}
+            onSelectLesson={(lesson) => setSelectedLesson(lesson)}
+            lang={lang}
+          />
         )}
 
         {ENABLE_CHAMPION && activeTab === 'champion' && userProfile && (
@@ -834,7 +842,7 @@ export default function App() {
           onClose={() => setShowEditProfile(false)}
           isFirstTime={false}
           initialProfile={userProfile}
-          submissions={submissions}
+          submissions={mainSubmissions}
           streak={streak}
           onSave={handleSaveProfile}
           lang={lang}
@@ -878,7 +886,7 @@ export default function App() {
         <WeeklyReminderToast
           currentWeek={calculateCurrentStudyWeek(userProfile.first_login_at || userProfile.created_at)}
           submittedCountInWeek={
-            submissions.filter(
+            mainSubmissions.filter(
               (s) => s.week === calculateCurrentStudyWeek(userProfile.first_login_at || userProfile.created_at)
             ).length
           }
