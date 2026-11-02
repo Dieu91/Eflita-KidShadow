@@ -17,19 +17,15 @@ jobs:
           set -e
           place() { if [ -f "$1" ]; then mkdir -p "$(dirname "$2")"; mv -f "$1" "$2"; echo "da chuyen $1 -> $2"; fi; }
           place App.tsx src/App.tsx
-          place config.ts src/config.ts
-          place translations.ts src/i18n/translations.ts
           place extraVideos.ts src/data/extraVideos.ts
-          place Navbar.tsx src/components/Navbar.tsx
-          place PathMap.tsx src/components/PathMap.tsx
-          place ProgressPage.tsx src/components/ProgressPage.tsx
-          place StudentGuideModal.tsx src/components/StudentGuideModal.tsx
           place ExtraPracticePage.tsx src/components/ExtraPracticePage.tsx
+          place LessonModal.tsx src/components/LessonModal.tsx
+          place AdminPage.tsx src/components/AdminPage.tsx
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add -A
           git diff --cached --quiet && echo "Khong co gi de commit" && exit 0
-          git commit -m "Them muc Luyen them, an phan thi Champion"
+          git commit -m "Luyen them: cho phep nop video va nhan xet"
           git push
       - name: Start deploy
         env:
