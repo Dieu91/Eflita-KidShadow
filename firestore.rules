@@ -84,9 +84,12 @@ service cloud.firestore {
     // chỉ admin tạo/xem danh sách; học viên đọc được 1 mã khi biết mã, và chỉ được thêm CHÍNH MÌNH vào mã còn chỗ.
     match /activation_codes/{code} {
       allow get: if isSignedIn();
-      allow list: if isAdmin();
-      allow create, delete: if isAdmin();
+      allow list: if isStaff();            // Owner + Admin (sales/CSKH) xem được danh sách mã
+      allow create, delete: if isAdmin();  // chỉ Owner tạo/xóa mã
       allow update: if isAdmin()
+        // Admin (sales/CSKH) chỉ được đánh dấu "đã gửi" và ghi người nhận
+        || (isStaff()
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['sent_at', 'sent_to']))
         || (isSignedIn()
             && !(request.auth.uid in resource.data.used_by)
             && resource.data.used_by.size() < resource.data.seats
