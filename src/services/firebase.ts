@@ -59,7 +59,7 @@ export const isUserAdmin = (email?: string | null, userProfile?: UserProfile | n
     return false;
   }
   const lower = email.toLowerCase().trim();
-  if (ADMIN_EMAILS.includes(lower) || lower.endsWith('@eflita.com')) {
+  if (ADMIN_EMAILS.includes(lower)) {
     return true;
   }
   if (cachedAdminEmails.map(e => e.toLowerCase().trim()).includes(lower)) {

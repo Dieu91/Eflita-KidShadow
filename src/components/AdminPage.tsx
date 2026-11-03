@@ -80,6 +80,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   const [loading, setLoading] = useState<boolean>(true);
   const [userRows, setUserRows] = useState<UserAdminRow[]>([]);
+  const [allSubs, setAllSubs] = useState<Submission[]>([]);
   const [filterLevel, setFilterLevel] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [updatingPostId, setUpdatingPostId] = useState<string | null>(null);
@@ -225,6 +226,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setLoading(true);
       const { users, submissions, reflections } = await getAdminUsersData();
+      setAllSubs(submissions);
 
       const reflectionMap = new Map<string, ReflectionPost>();
       reflections.forEach((r) => reflectionMap.set(r.user_id, r));
@@ -529,6 +531,46 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   const qualifiedList = userRows.filter((r) => r.isQualified);
 
+  // Xuất toàn bộ bài nộp (để lưu dự phòng)
+  const handleExportSubmissionsCSV = () => {
+    if (allSubs.length === 0) {
+      alert('Chưa có bài nộp nào để xuất.');
+      return;
+    }
+    const byUid = new Map<string, UserProfile>(userRows.map((r) => [r.user.uid, r.user] as [string, UserProfile]));
+    const q = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const headers = ['Học viên', 'Email', 'Cấp độ', 'Loại bài', 'Tuần', 'Bài số', 'Tên bài', 'Mã bài', 'Link Drive', 'Thời lượng (giây)', 'Ngày nộp'];
+    const rows = [...allSubs]
+      .sort((a, b) => (b.submitted_at || '').localeCompare(a.submitted_at || ''))
+      .map((s) => {
+        const u = byUid.get(s.user_id);
+        const isExtra = String(s.lesson_id).startsWith('extra_');
+        return [
+          q(u?.student_name || '(đã xóa)'),
+          q(u?.email || s.user_id),
+          q(s.level),
+          q(isExtra ? 'Luyện thêm' : 'Bài chính'),
+          isExtra ? '""' : q(s.week),
+          q(s.order),
+          q(s.lesson_topic || ''),
+          q(s.lesson_id),
+          q(s.drive_link),
+          q(s.duration),
+          q(s.submitted_at),
+        ];
+      });
+    const csv = '\uFEFF' + [headers.map(q).join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Eflita_Bai_Nop_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   // Export CSV
   const handleExportCSV = (onlyQualified: boolean = false) => {
     const listToExport = onlyQualified ? qualifiedList : (filteredRows.length > 0 ? filteredRows : userRows);
@@ -646,6 +688,15 @@ export const AdminPage: React.FC<AdminPageProps> = ({
           >
             <Download className="w-3.5 h-3.5" />
             <span>Xuất Excel ({filteredRows.length})</span>
+          </button>
+
+          <button
+            onClick={handleExportSubmissionsCSV}
+            className="px-3.5 py-2 bg-white/20 hover:bg-white/30 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+            title="Xuất toàn bộ bài nộp (kể cả Luyện thêm) ra file CSV để lưu dự phòng"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Xuất bài nộp ({allSubs.length})</span>
           </button>
 
           <button
