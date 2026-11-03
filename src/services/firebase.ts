@@ -45,6 +45,10 @@ export const ADMIN_EMAILS = [
 
 let cachedAdminEmails: string[] = ['aidieu0411@gmail.com'];
 
+// Owner = chủ sở hữu (toàn quyền). Admin = nhân sự (sales/CSKH) do Owner thêm trong Cài đặt. User = học viên.
+export const isOwnerEmail = (email?: string | null): boolean =>
+  !!email && ADMIN_EMAILS.map((e) => e.toLowerCase().trim()).includes(email.toLowerCase().trim());
+
 export const isUserAdmin = (email?: string | null, userProfile?: UserProfile | null): boolean => {
   // Lưu ý: chỉ dựa vào email/vai trò đã lưu. Không còn "chế độ test" trong localStorage
   // và không còn quy tắc "email chứa chữ admin" (ai cũng có thể đặt email như vậy).
@@ -1295,6 +1299,25 @@ export const listActivationCodes = async (): Promise<ActivationCode[]> => {
     list.push({ ...data, id: d.id, used_by: Array.isArray(data.used_by) ? data.used_by : [] });
   });
   return list.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+};
+
+// Admin: đánh dấu mã đã gửi cho khách (hoặc bỏ đánh dấu)
+export const markActivationCodeSent = async (
+  id: string,
+  sent: boolean,
+  sentTo?: string
+): Promise<string | null> => {
+  const sentAt = sent ? new Date().toISOString() : null;
+  const patch: Record<string, any> = { sent_at: sentAt };
+  if (!sent) patch.sent_to = null;
+  else if (sentTo !== undefined) patch.sent_to = sentTo;
+  await updateDoc(doc(db, 'activation_codes', id), patch);
+  return sentAt;
+};
+
+// Admin: ghi tên người nhận mã
+export const setActivationCodeRecipient = async (id: string, sentTo: string): Promise<void> => {
+  await updateDoc(doc(db, 'activation_codes', id), { sent_to: sentTo });
 };
 
 // Admin: xóa mã (chỉ nên xóa mã chưa dùng)

@@ -13,6 +13,7 @@ import {
   seedLessonsIfNeeded,
   isUserAdmin,
   ADMIN_EMAILS,
+  isOwnerEmail,
   isAdminTestModeActive,
   setAdminTestMode,
   isUserExpired,
@@ -773,11 +774,16 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'admin' && ADMIN_EMAILS.includes((currentUser?.email || '').toLowerCase().trim()) && (
-          <ActivationCodesPanel />
+        {/* Owner: toàn quyền. Admin (sales/CSKH): chỉ xem mã, chép gửi học viên, ghi người nhận. */}
+        {activeTab === 'admin' && isAdmin && !isOwnerEmail(currentUser?.email) && (
+          <ActivationCodesPanel canManage={false} />
         )}
 
-        {activeTab === 'admin' && (
+        {activeTab === 'admin' && isOwnerEmail(currentUser?.email) && (
+          <ActivationCodesPanel canManage />
+        )}
+
+        {activeTab === 'admin' && isOwnerEmail(currentUser?.email) && (
           <AdminPage
             currentUserEmail={currentUser?.email || null}
             lang={lang}

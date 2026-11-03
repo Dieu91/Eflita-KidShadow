@@ -91,4 +91,6 @@ export interface ActivationCode {
   note?: string;
   created_at: string;
   created_by?: string;
+  sent_at?: string | null; // đã sao chép/gửi cho khách (admin đánh dấu)
+  sent_to?: string | null; // ghi chú gửi cho ai
 }

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { ActivationCode, UserProfile } from '../types';
+import { LOW_CODE_THRESHOLD } from '../config';
 import {
   auth,
   db,
@@ -8,14 +9,15 @@ import {
   deleteActivationCode,
   formatActivationCode,
   listActivationCodes,
+  markActivationCodeSent,
 } from '../services/firebase';
 
-type Filter = 'ALL' | 'OPEN' | 'FULL';
+type Filter = 'ALL' | 'UNSENT' | 'SENT' | 'FULL';
 
 const fmtDate = (iso?: string | null) => (iso ? new Date(iso).toLocaleDateString('vi-VN') : '');
 
-export const ActivationCodesPanel: React.FC = () => {
-  const [open, setOpen] = useState(false);
+export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canManage = true }) => {
+  const [open, setOpen] = useState(!canManage);
   const [codes, setCodes] = useState<ActivationCode[]>([]);
   const [people, setPeople] = useState<Record<string, string>>({}); // uid -> "Tên (email)"
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ export const ActivationCodesPanel: React.FC = () => {
   const [note, setNote] = useState('');
   const [creating, setCreating] = useState(false);
   const [fresh, setFresh] = useState<ActivationCode[]>([]);
-  const [filter, setFilter] = useState<Filter>('ALL');
+  const [filter, setFilter] = useState<Filter>(canManage ? 'ALL' : 'UNSENT');
   const [copied, setCopied] = useState('');
 
   const reload = useCallback(async () => {
@@ -80,6 +82,31 @@ export const ActivationCodesPanel: React.FC = () => {
     }
   };
 
+  const patchCode = (id: string, patch: Partial<ActivationCode>) =>
+    setCodes((prev) => prev.map((c) => (c.id === id ? { ...c, ...patch } : c)));
+
+  // Bấm "chép" => sao chép + tự đánh dấu "đã gửi"
+  const handleCopyCode = async (c: ActivationCode) => {
+    await copyText(formatActivationCode(c.id), c.id);
+    if (!c.sent_at && c.used_by.length === 0) {
+      try {
+        const at = await markActivationCodeSent(c.id, true);
+        patchCode(c.id, { sent_at: at });
+      } catch (e: any) {
+        setError('Không đánh dấu được "đã gửi": ' + (e?.message || e));
+      }
+    }
+  };
+
+  const handleToggleSent = async (c: ActivationCode) => {
+    try {
+      const at = await markActivationCodeSent(c.id, !c.sent_at);
+      patchCode(c.id, { sent_at: at, ...(at ? {} : { sent_to: null }) });
+    } catch (e: any) {
+      setError('Không cập nhật được: ' + (e?.message || e));
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm(`Xóa mã ${formatActivationCode(id)}? Mã này sẽ không dùng được nữa.`)) return;
     try {
@@ -96,7 +123,7 @@ export const ActivationCodesPanel: React.FC = () => {
       rows.push([
         formatActivationCode(c.id),
         c.note || '',
-        c.used_by.length > 0 ? 'Đã dùng' : 'Chưa dùng',
+        c.used_by.length > 0 ? 'Đã dùng' : c.sent_at ? 'Đã gửi, chưa kích hoạt' : 'Chưa gửi',
         c.used_by.map((u) => people[u] || u).join('; '),
         fmtDate(c.used_at),
         fmtDate(c.created_at),
@@ -114,7 +141,11 @@ export const ActivationCodesPanel: React.FC = () => {
 
   const isFull = (c: ActivationCode) => c.used_by.length >= c.seats;
   const fullCount = codes.filter(isFull).length;
-  const shown = codes.filter((c) => (filter === 'ALL' ? true : filter === 'FULL' ? isFull(c) : !isFull(c)));
+  const sentCount = codes.filter((c) => !isFull(c) && !!c.sent_at).length;
+  const unsentCount = codes.filter((c) => !isFull(c) && !c.sent_at).length;
+  const shown = codes.filter((c) =>
+    filter === 'ALL' ? true : filter === 'FULL' ? isFull(c) : filter === 'SENT' ? !isFull(c) && !!c.sent_at : !isFull(c) && !c.sent_at
+  );
   const freshText = fresh.map((c) => formatActivationCode(c.id)).join('\n');
 
   return (
@@ -124,9 +155,9 @@ export const ActivationCodesPanel: React.FC = () => {
           onClick={() => setOpen((v) => !v)}
           className="w-full flex items-center justify-between px-4 py-3 font-extrabold text-amber-950 cursor-pointer"
         >
-          <span>🔑 Mã kích hoạt khóa học</span>
+          <span>🔑 Mã kích hoạt khóa học{!canManage ? ' (Admin)' : ''}</span>
           <span className="text-xs font-bold text-amber-700">
-            {open ? 'Thu gọn ▲' : codes.length ? `${fullCount}/${codes.length} mã đã dùng ▼` : 'Mở ▼'}
+            {open ? 'Thu gọn ▲' : codes.length ? `${fullCount}/${codes.length} đã kích hoạt • còn ${unsentCount} chưa gửi ▼` : 'Mở ▼'}
           </span>
         </button>
 
@@ -136,6 +167,14 @@ export const ActivationCodesPanel: React.FC = () => {
               <div className="p-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold">{error}</div>
             )}
 
+            {codes.length > 0 && unsentCount <= LOW_CODE_THRESHOLD && (
+              <div className="p-2 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold">
+                ⚠️ Sắp hết mã: chỉ còn {unsentCount} mã chưa gửi.{' '}
+                {canManage ? 'Hãy tạo thêm mã mới bên dưới.' : 'Vui lòng báo Owner tạo thêm mã.'}
+              </div>
+            )}
+
+            {canManage && (
             <div className="flex flex-wrap items-end gap-2">
               <label className="text-xs font-bold text-slate-600">
                 Số mã
@@ -164,8 +203,9 @@ export const ActivationCodesPanel: React.FC = () => {
                 {creating ? 'Đang tạo...' : 'Tạo mã mới'}
               </button>
             </div>
+            )}
 
-            {fresh.length > 0 && (
+            {canManage && fresh.length > 0 && (
               <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
                 <div className="flex items-center justify-between mb-1">
                   <strong className="text-emerald-900 text-xs">
@@ -188,7 +228,7 @@ export const ActivationCodesPanel: React.FC = () => {
             )}
 
             <div className="flex flex-wrap items-center gap-2">
-              {(['ALL', 'OPEN', 'FULL'] as Filter[]).map((f) => (
+              {(['ALL', 'UNSENT', 'SENT', 'FULL'] as Filter[]).map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
@@ -198,9 +238,11 @@ export const ActivationCodesPanel: React.FC = () => {
                 >
                   {f === 'ALL'
                     ? `Tất cả (${codes.length})`
-                    : f === 'OPEN'
-                    ? `Chưa dùng (${codes.length - fullCount})`
-                    : `Đã dùng (${fullCount})`}
+                    : f === 'UNSENT'
+                    ? `Chưa gửi (${unsentCount})`
+                    : f === 'SENT'
+                    ? `Đã gửi, chờ kích hoạt (${sentCount})`
+                    : `Đã kích hoạt (${fullCount})`}
                 </button>
               ))}
               <button onClick={reload} className="text-xs underline text-slate-600 cursor-pointer">
@@ -232,7 +274,7 @@ export const ActivationCodesPanel: React.FC = () => {
                       <td className="py-1.5 pr-2 font-mono font-bold whitespace-nowrap">
                         {formatActivationCode(c.id)}{' '}
                         <button
-                          onClick={() => copyText(formatActivationCode(c.id), c.id)}
+                          onClick={() => handleCopyCode(c)}
                           className="text-[10px] underline text-slate-500 cursor-pointer"
                         >
                           {copied === c.id ? '✓' : 'chép'}
@@ -240,10 +282,15 @@ export const ActivationCodesPanel: React.FC = () => {
                       </td>
                       <td className="py-1.5 pr-2">{c.note}</td>
                       <td className="py-1.5 pr-2 whitespace-nowrap">
-                        <span className={isFull(c) ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
-                          {isFull(c) ? 'Đã dùng' : 'Chưa dùng'}
-                        </span>
-                        {c.used_at ? <span className="text-slate-400"> • {fmtDate(c.used_at)}</span> : null}
+                        {isFull(c) ? (
+                          <span className="text-emerald-700 font-bold">Đã kích hoạt</span>
+                        ) : c.sent_at ? (
+                          <span className="text-sky-700 font-bold">Đã gửi, chờ kích hoạt</span>
+                        ) : (
+                          <span className="text-amber-700 font-bold">Chưa gửi</span>
+                        )}
+                        {isFull(c) && c.used_at ? <span className="text-slate-400"> • {fmtDate(c.used_at)}</span> : null}
+                        {!isFull(c) && c.sent_at ? <span className="text-slate-400"> • {fmtDate(c.sent_at)}</span> : null}
                       </td>
                       <td className="py-1.5 pr-2">
                         {c.used_by.map((u) => (
@@ -252,9 +299,16 @@ export const ActivationCodesPanel: React.FC = () => {
                       </td>
                       <td className="py-1.5 pr-2 text-right">
                         {c.used_by.length === 0 && (
-                          <button onClick={() => handleDelete(c.id)} className="text-rose-600 underline cursor-pointer">
-                            xóa
-                          </button>
+                          <>
+                            <button onClick={() => handleToggleSent(c)} className="text-slate-600 underline cursor-pointer mr-2">
+                              {c.sent_at ? 'bỏ đánh dấu gửi' : 'đánh dấu đã gửi'}
+                            </button>
+                            {canManage && (
+                              <button onClick={() => handleDelete(c.id)} className="text-rose-600 underline cursor-pointer">
+                                xóa
+                              </button>
+                            )}
+                          </>
                         )}
                       </td>
                     </tr>
