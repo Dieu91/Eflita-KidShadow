@@ -519,6 +519,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       return matchName || matchParent || matchPhone || matchEmail;
     }
     return true;
+  }).sort((a, b) => {
+    // Sắp xếp theo ngày vào học: mới nhất -> cũ nhất
+    const ta = new Date(a.user.first_login_at || a.user.created_at || 0).getTime() || 0;
+    const tb = new Date(b.user.first_login_at || b.user.created_at || 0).getTime() || 0;
+    return tb - ta;
   });
 
   const activeCount = userRows.filter((r) => {
