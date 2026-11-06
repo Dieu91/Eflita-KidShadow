@@ -44,8 +44,10 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   const t = getTranslation(lang);
   const env = detectEnv();
 
-  // If detected as in-app browser or triggered by a popup-blocked error
-  const isInApp = env.inApp || forceInAppCard;
+  // Mặc định ai cũng thấy nút đăng nhập Google. Thẻ hướng dẫn mở bằng Safari/Chrome chỉ hiện khi
+  // đăng nhập không được (cửa sổ Google không hiện / bị đóng) hoặc khi người dùng bấm xem hướng dẫn.
+  const [showHelpCard, setShowHelpCard] = useState(false);
+  const isInApp = forceInAppCard || showHelpCard;
 
   const [copied, setCopied] = useState(false);
   const [androidIntentFailed, setAndroidIntentFailed] = useState(false);
@@ -334,6 +336,19 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>{t.parentAccount} • {t.privacySecure}</span>
             </p>
+
+            {env.inApp && (
+              <p className="text-[11px] text-slate-500 text-center leading-relaxed">
+                Cửa sổ Google không hiện hoặc báo lỗi?{' '}
+                <button
+                  type="button"
+                  onClick={() => setShowHelpCard(true)}
+                  className="underline font-bold text-amber-800 cursor-pointer"
+                >
+                  Xem cách mở bằng Safari/Chrome
+                </button>
+              </p>
+            )}
           </div>
         )}
       </main>

@@ -275,6 +275,9 @@ export default function App() {
         if (result?.user) {
           // Hồ sơ sẽ được tải bởi bộ lắng nghe đăng nhập (initAuth), không tải lần hai ở đây.
           setCurrentUser(result.user);
+        } else if (env.inApp) {
+          // Cửa sổ Google bị đóng/không hoàn tất trong trình duyệt nhúng (Zalo, Messenger...): hiện hướng dẫn mở bằng Safari/Chrome
+          setForceInAppCard(true);
         }
       })
       .catch((err: any) => {
