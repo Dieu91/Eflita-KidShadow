@@ -294,6 +294,29 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     }
   };
 
+  // Đồng bộ vai trò (huy hiệu Admin) của học viên có email này, nếu họ đã có hồ sơ
+  const syncRoleByEmail = async (email: string, role: 'admin' | 'user') => {
+    const row = userRows.find((r) => (r.user.email || '').toLowerCase().trim() === email.toLowerCase().trim());
+    if (!row || row.user.role === role) return;
+    try {
+      await updateUserRole(row.user.uid, role);
+      const weeks = settings.validityWeeks ?? 8;
+      let exp = row.user.expires_at;
+      if (role === 'admin') {
+        exp = new Date(Date.now() + 365 * 10 * 86400000).toISOString();
+      } else if (weeks > 0) {
+        const d = new Date(row.user.first_login_at || row.user.created_at || new Date().toISOString());
+        d.setDate(d.getDate() + weeks * 7);
+        exp = d.toISOString();
+      }
+      setUserRows((prev) =>
+        prev.map((r) => (r.user.uid === row.user.uid ? { ...r, user: { ...r.user, role, expires_at: exp } } : r))
+      );
+    } catch (e) {
+      console.warn('Không đồng bộ được vai trò:', e);
+    }
+  };
+
   const handleAddAdminEmail = async () => {
     if (!newAdminEmail.trim() || !newAdminEmail.includes('@')) {
       alert('Vui lòng nhập địa chỉ email hợp lệ.');
@@ -308,6 +331,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     const updatedSettings = { ...settings, adminEmails: updatedEmails };
     setSettings(updatedSettings);
     await saveSystemSettings(updatedSettings);
+    await syncRoleByEmail(clean, 'admin');
     setNewAdminEmail('');
     setSeedMessage(`Đã cấp quyền Admin cho ${clean}!`);
     setTimeout(() => setSeedMessage(''), 3000);
@@ -323,6 +347,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     const updatedSettings = { ...settings, adminEmails: updatedEmails };
     setSettings(updatedSettings);
     await saveSystemSettings(updatedSettings);
+    await syncRoleByEmail(emailToRemove, 'user');
     setSeedMessage(`Đã thu hồi quyền Admin của ${emailToRemove}`);
     setTimeout(() => setSeedMessage(''), 3000);
   };
@@ -332,6 +357,20 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setUserRoleUpdatingId(user.uid);
       await updateUserRole(user.uid, nextRole);
+      // Đồng bộ danh sách "Thêm Admin" để một thao tác là đủ
+      const em = (user.email || '').toLowerCase().trim();
+      if (em && em !== 'aidieu0411@gmail.com') {
+        const has = settings.adminEmails.map((e) => e.toLowerCase()).includes(em);
+        if (nextRole === 'admin' && !has) {
+          const next = { ...settings, adminEmails: [...settings.adminEmails, em] };
+          setSettings(next);
+          await saveSystemSettings(next);
+        } else if (nextRole === 'user' && has) {
+          const next = { ...settings, adminEmails: settings.adminEmails.filter((e) => e.toLowerCase() !== em) };
+          setSettings(next);
+          await saveSystemSettings(next);
+        }
+      }
       let updatedExpiresAt = user.expires_at;
       if (nextRole === 'admin') {
         updatedExpiresAt = new Date(Date.now() + 365 * 10 * 86400000).toISOString();
