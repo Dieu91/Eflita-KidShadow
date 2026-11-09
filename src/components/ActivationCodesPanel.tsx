@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { ActivationCode, UserProfile } from '../types';
 import { LOW_CODE_THRESHOLD } from '../config';
@@ -14,6 +14,8 @@ import {
 
 type Filter = 'ALL' | 'UNSENT' | 'SENT' | 'FULL';
 
+const PAGE_SIZE = 25;
+
 const fmtDate = (iso?: string | null) => (iso ? new Date(iso).toLocaleDateString('vi-VN') : '');
 
 export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canManage = true }) => {
@@ -28,6 +30,8 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
   const [fresh, setFresh] = useState<ActivationCode[]>([]);
   const [filter, setFilter] = useState<Filter>(canManage ? 'ALL' : 'UNSENT');
   const [copied, setCopied] = useState('');
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -143,9 +147,33 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
   const fullCount = codes.filter(isFull).length;
   const sentCount = codes.filter((c) => !isFull(c) && !!c.sent_at).length;
   const unsentCount = codes.filter((c) => !isFull(c) && !c.sent_at).length;
-  const shown = codes.filter((c) =>
-    filter === 'ALL' ? true : filter === 'FULL' ? isFull(c) : filter === 'SENT' ? !isFull(c) && !!c.sent_at : !isFull(c) && !c.sent_at
-  );
+  // Thứ tự: Chưa gửi (trên cùng) -> Đã gửi chờ kích hoạt -> Đã kích hoạt (dưới cùng)
+  const rank = (c: ActivationCode) => (isFull(c) ? 2 : c.sent_at ? 1 : 0);
+  const ts = (v?: string | null) => (v ? new Date(v).getTime() || 0 : 0);
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase().replace(/[-\s]/g, '');
+    const list = codes.filter((c) => {
+      const okFilter =
+        filter === 'ALL' ? true : filter === 'FULL' ? isFull(c) : filter === 'SENT' ? !isFull(c) && !!c.sent_at : !isFull(c) && !c.sent_at;
+      if (!okFilter) return false;
+      if (!q) return true;
+      const hay = (c.id + ' ' + (c.note || '') + ' ' + c.used_by.map((u) => people[u] || u).join(' '))
+        .toLowerCase()
+        .replace(/[-\s]/g, '');
+      return hay.includes(q);
+    });
+    return list.sort((a, b) => {
+      const r = rank(a) - rank(b);
+      if (r !== 0) return r;
+      if (rank(a) === 0) return ts(a.created_at) - ts(b.created_at) || a.id.localeCompare(b.id); // chưa gửi: cũ trước, gửi theo thứ tự
+      if (rank(a) === 1) return ts(b.sent_at) - ts(a.sent_at); // mới gửi lên trên
+      return ts(b.used_at) - ts(a.used_at); // mới kích hoạt lên trên
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codes, filter, query, people]);
+  const totalPages = Math.max(1, Math.ceil(shown.length / PAGE_SIZE));
+  const curPage = Math.min(page, totalPages);
+  const pageRows = shown.slice((curPage - 1) * PAGE_SIZE, curPage * PAGE_SIZE);
   const freshText = fresh.map((c) => formatActivationCode(c.id)).join('\n');
 
   return (
@@ -231,7 +259,10 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
               {(['ALL', 'UNSENT', 'SENT', 'FULL'] as Filter[]).map((f) => (
                 <button
                   key={f}
-                  onClick={() => setFilter(f)}
+                  onClick={() => {
+                    setFilter(f);
+                    setPage(1);
+                  }}
                   className={`px-3 py-1 rounded-full text-xs font-bold border cursor-pointer ${
                     filter === f ? 'bg-amber-400 border-amber-500 text-amber-950' : 'bg-white border-slate-300 text-slate-600'
                   }`}
@@ -257,6 +288,16 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
               </button>
             </div>
 
+            <input
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setPage(1);
+              }}
+              placeholder="🔍 Tìm theo mã, ghi chú, tên hoặc email học viên..."
+              className="w-full border-2 border-amber-200 rounded-xl px-3 py-1.5 text-xs"
+            />
+
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
@@ -269,7 +310,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
                   </tr>
                 </thead>
                 <tbody>
-                  {shown.map((c) => (
+                  {pageRows.map((c) => (
                     <tr key={c.id} className="border-b last:border-0 align-top">
                       <td className="py-1.5 pr-2 font-mono font-bold whitespace-nowrap">
                         {formatActivationCode(c.id)}{' '}
@@ -316,13 +357,48 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
                   {!shown.length && (
                     <tr>
                       <td colSpan={5} className="py-3 text-center text-slate-400">
-                        Chưa có mã nào.
+                        Không có mã nào.
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
+
+            {shown.length > PAGE_SIZE && (
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-600">
+                <span>
+                  Hiển thị {(curPage - 1) * PAGE_SIZE + 1}–{Math.min(curPage * PAGE_SIZE, shown.length)} / {shown.length} mã
+                </span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setPage(curPage - 1)}
+                    disabled={curPage <= 1}
+                    className="px-2.5 py-1 rounded-lg border border-slate-300 bg-white disabled:opacity-40 cursor-pointer"
+                  >
+                    ← Trước
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => setPage(n)}
+                      className={`w-7 py-1 rounded-lg border cursor-pointer ${
+                        n === curPage ? 'bg-amber-400 border-amber-500 text-amber-950' : 'bg-white border-slate-300'
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setPage(curPage + 1)}
+                    disabled={curPage >= totalPages}
+                    className="px-2.5 py-1 rounded-lg border border-slate-300 bg-white disabled:opacity-40 cursor-pointer"
+                  >
+                    Sau →
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
