@@ -21,6 +21,8 @@ import {
   collection,
   query,
   where,
+  orderBy,
+  limit,
   getDocs,
   onSnapshot,
   arrayUnion
@@ -340,18 +342,37 @@ export const saveUserProfile = async (profile: UserProfile, activationCode?: str
   try {
     if (activationCode) {
       // Tạo hồ sơ và giữ 1 chỗ trong mã kích hoạt trong CÙNG một lần ghi (mã hết chỗ thì cả hai cùng thất bại)
-      const batch = writeBatch(db);
-      batch.set(doc(db, 'users', profile.uid), profile, { merge: true });
-      batch.update(doc(db, 'activation_codes', activationCode), {
-        used_by: arrayUnion(profile.uid),
-        used_at: now
-      });
-      await batch.commit();
+      // Thử lại vài lần khi mạng chập chờn; nếu vẫn không được thì báo lỗi (KHÔNG im lặng), để mã không bị "mất dấu".
+      let lastErr: unknown = null;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const batch = writeBatch(db);
+          batch.set(doc(db, 'users', profile.uid), profile, { merge: true });
+          batch.update(doc(db, 'activation_codes', activationCode), {
+            used_by: arrayUnion(profile.uid),
+            used_at: now
+          });
+          await batch.commit();
+          lastErr = null;
+          break;
+        } catch (e) {
+          lastErr = e;
+          if (!isOfflineOrNetworkError(e) || attempt === 3) break;
+          await new Promise((r) => setTimeout(r, attempt * 800));
+        }
+      }
+      if (lastErr) {
+        try {
+          localStorage.removeItem(cacheKey); // không để hồ sơ "ảo" chỉ nằm trên máy
+        } catch {}
+        throw lastErr;
+      }
     } else {
       await setDoc(doc(db, 'users', profile.uid), profile, { merge: true });
     }
   } catch (error: any) {
-    if (isOfflineOrNetworkError(error)) {
+    // Với lần kích hoạt bằng mã: luôn báo lỗi để người dùng nhập lại; các lần lưu khác giữ cách cũ (lưu tạm trên máy)
+    if (!activationCode && isOfflineOrNetworkError(error)) {
       console.warn(`[Firestore] Client offline while saving ${path}. Cached locally.`);
       return;
     }
@@ -1121,6 +1142,42 @@ export const saveSystemSettings = async (settings: Partial<SystemSettings>): Pro
     console.error('Error saving system settings:', e);
     throw e;
   }
+};
+
+// Nhật ký hoạt động của mọi tài khoản có quyền Admin (Owner đọc; Admin chỉ ghi được dòng của chính mình)
+export interface AdminLogEntry {
+  id: string;
+  at: string;
+  by: string;
+  role: 'owner' | 'admin';
+  action: string;
+  target: string;
+  detail: string;
+}
+
+export const logActivity = (action: string, target: string = '', detail: string = ''): void => {
+  try {
+    const email = auth.currentUser?.email || '';
+    if (!email) return;
+    const ref = doc(collection(db, 'admin_logs'));
+    setDoc(ref, {
+      at: new Date().toISOString(),
+      by: email.toLowerCase(),
+      role: isOwnerEmail(email) ? 'owner' : 'admin',
+      action,
+      target: (target || '').slice(0, 200),
+      detail: (detail || '').slice(0, 300),
+    }).catch((e) => console.warn('Không ghi được nhật ký (kiểm tra Firestore Rules):', e));
+  } catch (e) {
+    console.warn('logActivity error', e);
+  }
+};
+
+export const listActivityLogs = async (max: number = 300): Promise<AdminLogEntry[]> => {
+  const snap = await getDocs(query(collection(db, 'admin_logs'), orderBy('at', 'desc'), limit(max)));
+  const out: AdminLogEntry[] = [];
+  snap.forEach((d) => out.push({ ...(d.data() as Omit<AdminLogEntry, 'id'>), id: d.id }));
+  return out;
 };
 
 // Role management

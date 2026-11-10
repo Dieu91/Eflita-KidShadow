@@ -34,6 +34,9 @@ import {
   getSystemSettings,
   saveSystemSettings,
   updateUserRole,
+  logActivity,
+  listActivityLogs,
+  AdminLogEntry,
   extendUserExpiration,
   deleteUserAccount,
   deleteLessonFromFirestore,
@@ -64,6 +67,28 @@ interface UserAdminRow {
   isQualified: boolean;
 }
 
+const ADMIN_ACTION_LABELS: Record<string, string> = {
+  admin_login: 'Đăng nhập',
+  create_codes: 'Tạo mã kích hoạt',
+  copy_code: 'Sao chép mã (đánh dấu đã gửi)',
+  mark_sent: 'Đánh dấu đã gửi',
+  unmark_sent: 'Bỏ đánh dấu gửi',
+  delete_code: 'Xóa mã',
+  export_codes_csv: 'Tải CSV mã',
+  add_admin: 'Thêm Admin',
+  remove_admin: 'Gỡ Admin',
+  edit_lesson_script: 'Sửa kịch bản bài',
+  delete_lesson: 'Xóa bài học',
+  cleanup_extra_lessons: 'Dọn bài thừa',
+  sync_default_scripts: 'Đồng bộ kịch bản mặc định',
+  seed_lessons: 'Nạp bài học mẫu',
+  save_settings: 'Lưu cài đặt',
+  extend_user: 'Gia hạn học viên',
+  delete_user: 'Xóa hồ sơ học viên',
+  reflection_status: 'Duyệt bài cảm nhận',
+  export_csv: 'Xuất file',
+};
+
 export const AdminPage: React.FC<AdminPageProps> = ({
   currentUserEmail,
   lang,
@@ -85,6 +110,20 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [updatingPostId, setUpdatingPostId] = useState<string | null>(null);
   const [seedMessage, setSeedMessage] = useState<string>('');
+  const [adminLogs, setAdminLogs] = useState<AdminLogEntry[]>([]);
+  const [logError, setLogError] = useState('');
+  const [logWho, setLogWho] = useState('ALL');
+  const loadAdminLogs = async () => {
+    try {
+      setAdminLogs(await listActivityLogs());
+      setLogError('');
+    } catch {
+      setLogError('Chưa đọc được nhật ký. Hãy cập nhật Firestore Rules theo hướng dẫn.');
+    }
+  };
+  useEffect(() => {
+    loadAdminLogs();
+  }, []);
   const [showQualifiedModal, setShowQualifiedModal] = useState<boolean>(false);
 
   // System Settings & Expiration State
@@ -150,6 +189,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       setSavingLessonId(lessonId);
       const scriptText = editingScripts[lessonId] || '';
       await updateLessonScript(lessonId, scriptText);
+      logActivity('edit_lesson_script', lessonId);
       setLessonsList((prev) =>
         prev.map((l) => (l.id === lessonId ? { ...l, script: scriptText } : l))
       );
@@ -175,6 +215,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setDeletingLessonId(lessonId);
       await deleteLessonFromFirestore(lessonId);
+      logActivity('delete_lesson', lessonId, topic || '');
       setLessonsList((prev) => prev.filter((l) => l.id !== lessonId));
       setScriptFeedbackMsg('Đã xóa bài học thành công khỏi cơ sở dữ liệu!');
       setTimeout(() => setScriptFeedbackMsg(''), 3000);
@@ -191,6 +232,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setCleaningExtraLessons(true);
       const cleaned = await cleanupExtraLessonsInFirestore();
+      logActivity('cleanup_extra_lessons');
       await loadLessons();
       setScriptFeedbackMsg(
         cleaned > 0
@@ -211,6 +253,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setSeedMessage('Đang đồng bộ câu mẫu mặc định vào Firestore...');
       const result = await seedLessonsIfNeeded(true);
+      logActivity('sync_default_scripts');
       await loadLessons();
       setSeedMessage(`Đã đồng bộ thành công ${result.count} bài học với trường câu mẫu (script)!`);
       setTimeout(() => setSeedMessage(''), 4000);
@@ -283,6 +326,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       setSavingSettings(true);
       const toSave = newConfig ? { ...settings, ...newConfig } : settings;
       await saveSystemSettings(toSave);
+      logActivity('save_settings', '', Object.keys(toSave).join(', '));
       setSettings(toSave);
       setSeedMessage('Đã lưu cấu hình thời hạn và hệ thống thành công!');
       setTimeout(() => setSeedMessage(''), 3500);
@@ -332,6 +376,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     setSettings(updatedSettings);
     await saveSystemSettings(updatedSettings);
     await syncRoleByEmail(clean, 'admin');
+    logActivity('add_admin', clean, 'qua ô Thêm Admin');
+    loadAdminLogs();
     setNewAdminEmail('');
     setSeedMessage(`Đã cấp quyền Admin cho ${clean}!`);
     setTimeout(() => setSeedMessage(''), 3000);
@@ -348,12 +394,22 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     setSettings(updatedSettings);
     await saveSystemSettings(updatedSettings);
     await syncRoleByEmail(emailToRemove, 'user');
+    logActivity('remove_admin', emailToRemove, 'qua ô Cài đặt');
+    loadAdminLogs();
     setSeedMessage(`Đã thu hồi quyền Admin của ${emailToRemove}`);
     setTimeout(() => setSeedMessage(''), 3000);
   };
 
   const handleToggleUserRole = async (user: UserProfile) => {
     const nextRole = user.role === 'admin' ? 'user' : 'admin';
+    if (
+      !confirm(
+        nextRole === 'admin'
+          ? `Cấp quyền ADMIN (dùng trọn đời, không cần mã) cho ${user.email}?`
+          : `Chuyển ${user.email} về học viên (tính lại hạn 8 tuần)?`
+      )
+    )
+      return;
     try {
       setUserRoleUpdatingId(user.uid);
       await updateUserRole(user.uid, nextRole);
@@ -365,10 +421,14 @@ export const AdminPage: React.FC<AdminPageProps> = ({
           const next = { ...settings, adminEmails: [...settings.adminEmails, em] };
           setSettings(next);
           await saveSystemSettings(next);
+          logActivity('add_admin', em, 'qua nút gạt ở bảng học viên');
+          loadAdminLogs();
         } else if (nextRole === 'user' && has) {
           const next = { ...settings, adminEmails: settings.adminEmails.filter((e) => e.toLowerCase() !== em) };
           setSettings(next);
           await saveSystemSettings(next);
+          logActivity('remove_admin', em, 'qua nút gạt ở bảng học viên');
+          loadAdminLogs();
         }
       }
       let updatedExpiresAt = user.expires_at;
@@ -403,6 +463,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setUserExtendingId(user.uid);
       const newExpiresAt = await extendUserExpiration(user.uid, weeks);
+      logActivity('extend_user', user.email || user.uid, `+${weeks} tuần`);
       setUserRows(prev => prev.map(r => {
         if (r.user.uid === user.uid) {
           return { ...r, user: { ...r.user, expires_at: newExpiresAt, status: 'active' } };
@@ -426,6 +487,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setDeletingUserId(user.uid);
       await deleteUserAccount(user.uid);
+      logActivity('delete_user', user.email || user.uid);
       setUserRows(prev => prev.filter(r => r.user.uid !== user.uid));
       setSeedMessage(`Đã xóa tài khoản học viên ${user.student_name} thành công.`);
       setTimeout(() => setSeedMessage(''), 3000);
@@ -453,6 +515,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       let count = 0;
       for (const row of expiredList) {
         await deleteUserAccount(row.user.uid);
+        logActivity('delete_user', row.user.email || row.user.uid, 'dọn hàng loạt hồ sơ hết hạn');
         count++;
       }
       setUserRows(prev => prev.filter(r => formatValidityInfo(r.user).status !== 'expired'));
@@ -502,6 +565,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     try {
       setUpdatingPostId(post.id);
       await updateReflectionStatus(post.id, nextStatus);
+      logActivity('reflection_status', post.id, nextStatus);
       setUserRows((prev) =>
         prev.map((r) => {
           if (r.reflection && r.reflection.id === post.id) {
@@ -529,6 +593,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const handleSeed = async () => {
     setSeedMessage('Đang nạp bài học...');
     const result = await seedLessonsIfNeeded();
+    logActivity('seed_lessons');
     if (result.alreadySeeded) {
       setSeedMessage(`Cơ sở dữ liệu đã có sẵn ${result.count} bài học.`);
     } else {
@@ -577,6 +642,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   // Xuất toàn bộ bài nộp (để lưu dự phòng)
   const handleExportSubmissionsCSV = () => {
+    logActivity('export_csv', 'bài nộp');
     if (allSubs.length === 0) {
       alert('Chưa có bài nộp nào để xuất.');
       return;
@@ -617,6 +683,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   // Export CSV
   const handleExportCSV = (onlyQualified: boolean = false) => {
+    logActivity('export_csv', onlyQualified ? 'danh sách đủ điều kiện' : 'danh sách học viên');
     const listToExport = onlyQualified ? qualifiedList : (filteredRows.length > 0 ? filteredRows : userRows);
 
     if (listToExport.length === 0) {
@@ -1534,6 +1601,48 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                         </div>
                       );
                     })}
+                  </div>
+                </div>
+
+                {/* Nhật ký hoạt động của các tài khoản Admin */}
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <span className="text-xs font-bold text-slate-700">📜 Nhật ký hoạt động của Admin:</span>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={logWho}
+                        onChange={(e) => setLogWho(e.target.value)}
+                        className="text-[11px] border border-slate-300 rounded-lg px-1.5 py-1 bg-white"
+                      >
+                        <option value="ALL">Tất cả tài khoản</option>
+                        {[...new Set(adminLogs.map((l) => l.by))].map((em) => (
+                          <option key={em} value={em}>
+                            {em}
+                          </option>
+                        ))}
+                      </select>
+                      <button type="button" onClick={loadAdminLogs} className="text-[11px] underline text-slate-500 cursor-pointer">
+                        Làm mới
+                      </button>
+                    </div>
+                  </div>
+                  {logError && <div className="text-[11px] font-bold text-rose-700 mb-1">{logError}</div>}
+                  <div className="space-y-1 max-h-72 overflow-y-auto pr-1">
+                    {adminLogs
+                      .filter((l) => logWho === 'ALL' || l.by === logWho)
+                      .map((l) => (
+                        <div key={l.id} className="p-2 bg-slate-50 rounded-xl border border-slate-200 text-[11px]">
+                          <span className="text-slate-400">{new Date(l.at).toLocaleString('vi-VN')}</span>{' '}
+                          <span className="font-bold text-slate-800">{l.by}</span>{' '}
+                          <span className="text-slate-400">({l.role === 'owner' ? 'Owner' : 'Admin'})</span>{' '}
+                          <span className="font-bold text-amber-800">{ADMIN_ACTION_LABELS[l.action] || l.action}</span>
+                          {l.target ? <span className="font-bold text-slate-800"> • {l.target}</span> : null}
+                          {l.detail ? <span className="text-slate-500"> • {l.detail}</span> : null}
+                        </div>
+                      ))}
+                    {!adminLogs.length && !logError && (
+                      <div className="text-[11px] text-slate-400">Chưa có ghi nhận nào (chỉ ghi từ bản cập nhật này trở đi).</div>
+                    )}
                   </div>
                 </div>
 

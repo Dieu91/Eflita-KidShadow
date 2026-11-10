@@ -14,11 +14,13 @@ import {
   isUserAdmin,
   ADMIN_EMAILS,
   isOwnerEmail,
+  isOfflineOrNetworkError,
   isAdminTestModeActive,
   setAdminTestMode,
   isUserExpired,
   getUserDatesInfo,
   getSystemSettings,
+  logActivity,
   auth
 } from './services/firebase';
 import { UserProfile, Lesson, Submission, ReflectionPost, ContestRegistration, Language, LevelType, BrandConfig, SystemSettings } from './types';
@@ -243,7 +245,16 @@ export default function App() {
   const loadLessonsAndSubmissions = async (profile: UserProfile) => {
     try {
       // Ensure seed lessons exist
-      if (isUserAdmin(profile.email, profile)) seedLessonsIfNeeded().catch(console.warn);
+      if (isUserAdmin(profile.email, profile)) {
+        seedLessonsIfNeeded().catch(console.warn);
+        try {
+          const k = 'kidshadow_admin_login_logged';
+          if (!sessionStorage.getItem(k)) {
+            sessionStorage.setItem(k, '1');
+            logActivity('admin_login');
+          }
+        } catch {}
+      }
 
       const [lessonsList, userSubs, reflection, reg] = await Promise.all([
         getLessonsByLevel(profile.level).catch(() => []),
@@ -424,8 +435,13 @@ export default function App() {
           activationCodeRef.current = null;
           setUserProfile(null);
           setShowFirstTimeProfile(false);
+          const netIssue = isOfflineOrNetworkError(err);
           setActivationError(
-            lang === 'vi'
+            netIssue
+              ? lang === 'vi'
+                ? 'Mạng chưa ổn định nên chưa kích hoạt xong. Ba mẹ kiểm tra mạng rồi nhập lại mã nhé (mã chưa bị mất).'
+                : 'The connection was unstable, so activation did not finish. Please check your connection and enter the code again (your code is not lost).'
+              : lang === 'vi'
               ? 'Mã kích hoạt không dùng được (có thể vừa được người khác sử dụng). Ba mẹ nhập lại mã hoặc liên hệ Eflita nhé.'
               : 'The activation code could not be used (it may have just been taken). Please re-enter it or contact Eflita.'
           );

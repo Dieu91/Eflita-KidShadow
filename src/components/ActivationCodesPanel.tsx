@@ -10,6 +10,7 @@ import {
   formatActivationCode,
   listActivationCodes,
   markActivationCodeSent,
+  logActivity,
 } from '../services/firebase';
 
 type Filter = 'ALL' | 'UNSENT' | 'SENT' | 'FULL';
@@ -67,6 +68,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
     setError(null);
     try {
       const created = await createActivationCodes(count, 1, note, auth.currentUser?.email || '');
+      logActivity('create_codes', `${created.length} mã`, note);
       setFresh(created);
       await reload();
     } catch (e: any) {
@@ -95,6 +97,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
     if (!c.sent_at && c.used_by.length === 0) {
       try {
         const at = await markActivationCodeSent(c.id, true);
+        logActivity('copy_code', formatActivationCode(c.id));
         patchCode(c.id, { sent_at: at });
       } catch (e: any) {
         setError('Không đánh dấu được "đã gửi": ' + (e?.message || e));
@@ -105,6 +108,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
   const handleToggleSent = async (c: ActivationCode) => {
     try {
       const at = await markActivationCodeSent(c.id, !c.sent_at);
+      logActivity(at ? 'mark_sent' : 'unmark_sent', formatActivationCode(c.id));
       patchCode(c.id, { sent_at: at, ...(at ? {} : { sent_to: null }) });
     } catch (e: any) {
       setError('Không cập nhật được: ' + (e?.message || e));
@@ -115,6 +119,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
     if (!confirm(`Xóa mã ${formatActivationCode(id)}? Mã này sẽ không dùng được nữa.`)) return;
     try {
       await deleteActivationCode(id);
+      logActivity('delete_code', formatActivationCode(id));
       setCodes((prev) => prev.filter((c) => c.id !== id));
     } catch (e: any) {
       setError('Không xóa được: ' + (e?.message || e));
@@ -122,6 +127,7 @@ export const ActivationCodesPanel: React.FC<{ canManage?: boolean }> = ({ canMan
   };
 
   const downloadCsv = () => {
+    logActivity('export_codes_csv');
     const rows = [['Mã', 'Ghi chú', 'Trạng thái', 'Tài khoản đã dùng', 'Ngày dùng', 'Ngày tạo']];
     codes.forEach((c) =>
       rows.push([
