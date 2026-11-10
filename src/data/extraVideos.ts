@@ -58,7 +58,7 @@ export const EXTRA_VIDEOS: ExtraVideo[] = [
 ];
 
 export const getExtraEmbedUrl = (youtubeId: string): string =>
-  `https://www.youtube.com/embed/${youtubeId}?rel=0;
+  `https://www.youtube.com/embed/${youtubeId}?rel=0`;
 
 // Bài luyện thêm dùng chung màn hình học/nộp bài; mã bài luôn bắt đầu bằng tiền tố này
 export const EXTRA_ID_PREFIX = 'extra_';
