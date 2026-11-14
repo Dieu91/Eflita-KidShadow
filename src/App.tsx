@@ -798,6 +798,10 @@ export default function App() {
           <ActivationCodesPanel canManage={false} />
         )}
 
+        {activeTab === 'admin' && isAdmin && !isOwnerEmail(currentUser?.email) && (
+          <AdminPage currentUserEmail={currentUser?.email || null} lang={lang} readOnly />
+        )}
+
         {activeTab === 'admin' && isOwnerEmail(currentUser?.email) && (
           <ActivationCodesPanel canManage />
         )}

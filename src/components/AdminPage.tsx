@@ -56,6 +56,7 @@ interface AdminPageProps {
   onOpenChampionModal?: () => void;
   onOpenChampionArena?: () => void;
   completedCount?: number;
+  readOnly?: boolean; // Admin (sales/CSKH): chỉ xem bảng học viên, không sửa gì
 }
 
 interface UserAdminRow {
@@ -98,6 +99,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   onResetTest,
   onOpenChampionModal,
   onOpenChampionArena,
+  readOnly = false,
   completedCount = 0,
 }) => {
   const t = getTranslation(lang);
@@ -139,7 +141,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [cleaningExpired, setCleaningExpired] = useState<boolean>(false);
 
   // Lesson Script Management State & Champion Test & Settings Tab
-  const [adminTab, setAdminTabState] = useState<'students' | 'scripts' | 'champion-test' | 'settings'>(() => {
+  const [adminTabRaw, setAdminTabState] = useState<'students' | 'scripts' | 'champion-test' | 'settings'>(() => {
     if (typeof window !== 'undefined') {
       try {
         const saved = sessionStorage.getItem('kidshadow_admin_active_tab');
@@ -150,6 +152,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     }
     return 'students';
   });
+  const adminTab = readOnly ? 'students' : adminTabRaw;
 
   const setAdminTab = (tab: 'students' | 'scripts' | 'champion-test' | 'settings') => {
     setAdminTabState(tab);
@@ -185,6 +188,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleSaveLessonScript = async (lessonId: string) => {
+    if (readOnly) return;
     try {
       setSavingLessonId(lessonId);
       const scriptText = editingScripts[lessonId] || '';
@@ -205,6 +209,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleDeleteLesson = async (lessonId: string, topic?: string) => {
+    if (readOnly) return;
     if (
       !confirm(
         `⚠️ XÁC NHẬN XÓA VIDEO/BÀI HỌC:\n\nBạn có chắc chắn muốn xóa bài học "${topic || lessonId}" khỏi cơ sở dữ liệu Firestore không?\n\nHành động này không thể hoàn tác.`
@@ -322,6 +327,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleSaveSettings = async (newConfig?: Partial<SystemSettings>) => {
+    if (readOnly) return;
     try {
       setSavingSettings(true);
       const toSave = newConfig ? { ...settings, ...newConfig } : settings;
@@ -362,6 +368,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleAddAdminEmail = async () => {
+    if (readOnly) return;
     if (!newAdminEmail.trim() || !newAdminEmail.includes('@')) {
       alert('Vui lòng nhập địa chỉ email hợp lệ.');
       return;
@@ -384,6 +391,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleRemoveAdminEmail = async (emailToRemove: string) => {
+    if (readOnly) return;
     if (emailToRemove.toLowerCase() === 'aidieu0411@gmail.com') {
       alert('Không thể xóa tài khoản Admin sáng lập chính.');
       return;
@@ -401,6 +409,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleToggleUserRole = async (user: UserProfile) => {
+    if (readOnly) return;
     const nextRole = user.role === 'admin' ? 'user' : 'admin';
     if (
       !confirm(
@@ -460,6 +469,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleExtendUser = async (user: UserProfile, weeks: number = 2) => {
+    if (readOnly) return;
     try {
       setUserExtendingId(user.uid);
       const newExpiresAt = await extendUserExpiration(user.uid, weeks);
@@ -481,6 +491,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleDeleteUser = async (user: UserProfile) => {
+    if (readOnly) return;
     if (!confirm(`⚠️ XÁC NHẬN XÓA TÀI KHOẢN:\n\nBạn có chắc chắn muốn xóa vĩnh viễn học viên "${user.student_name}" (Phụ huynh: ${user.parent_name} - ${user.phone})?\n\nHành động này sẽ xóa toàn bộ bài nộp video, điểm số và bài viết cảm nhận trong hệ thống và không thể hoàn tác.`)) {
       return;
     }
@@ -500,6 +511,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const handleBatchCleanupExpired = async () => {
+    if (readOnly) return;
     const expiredList = userRows.filter(r => formatValidityInfo(r.user).status === 'expired');
     if (expiredList.length === 0) {
       alert('Hiện không có học viên nào đã hết hạn cần dọn dẹp!');
@@ -561,6 +573,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   // Handle status toggle for reflection post
   const handleToggleStatus = async (post: ReflectionPost, nextStatus: 'pending' | 'invalid' | 'approved') => {
+    if (readOnly) return;
     if (!post.id) return;
     try {
       setUpdatingPostId(post.id);
@@ -591,6 +604,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   // Seed sample lessons to Firestore if needed
   const handleSeed = async () => {
+    if (readOnly) return;
     setSeedMessage('Đang nạp bài học...');
     const result = await seedLessonsIfNeeded();
     logActivity('seed_lessons');
@@ -763,7 +777,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          {onOpenBrandSettings && (
+          {!readOnly && onOpenBrandSettings && (
             <button
               onClick={onOpenBrandSettings}
               className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black text-xs px-3.5 py-2 rounded-2xl shadow-md flex items-center gap-1.5 transition active:scale-95 cursor-pointer font-['Fredoka',sans-serif]"
@@ -783,6 +797,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             <span>Làm mới</span>
           </button>
 
+          {!readOnly && (
+            <>
           <button
             onClick={handleSeed}
             className="px-3.5 py-2 bg-white/20 hover:bg-white/30 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
@@ -819,6 +835,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             <Trophy className="w-3.5 h-3.5 text-amber-500" />
             <span>Thí sinh chung kết ({qualifiedList.length})</span>
           </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -829,6 +847,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       )}
 
       {/* Admin Tab Switcher */}
+      {!readOnly && (
       <div className="flex items-center gap-1.5 sm:gap-2 p-1.5 bg-slate-100 rounded-2xl w-full max-w-full overflow-x-auto scrollbar-none pb-1.5 sm:pb-1.5">
         <button
           onClick={() => setAdminTab('students')}
@@ -881,6 +900,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
           <span>⚙️ Thời Hạn & Phân Quyền</span>
         </button>
       </div>
+      )}
 
       {adminTab === 'scripts' ? (
         /* LESSON SCRIPT MANAGEMENT VIEW (Requirement 1) */
@@ -1764,7 +1784,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             ))}
           </div>
 
-          {expiredCount > 0 && (
+          {!readOnly && expiredCount > 0 && (
             <button
               type="button"
               onClick={handleBatchCleanupExpired}
@@ -1862,7 +1882,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                         <button
                           type="button"
                           onClick={() => handleToggleUserRole(row.user)}
-                          disabled={userRoleUpdatingId === row.user.uid || isMainAdmin}
+                          disabled={userRoleUpdatingId === row.user.uid || isMainAdmin || readOnly}
                           className={`px-2.5 py-1 rounded-full text-[10px] font-black border transition cursor-pointer flex items-center gap-1 shadow-2xs ${
                             userIsAdmin
                               ? 'bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200'
@@ -1978,6 +1998,9 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
                       {/* Actions: Review, Extend, Delete */}
                       <td className="py-3 px-4 text-right">
+                        {readOnly ? (
+                          <span className="text-[10px] text-slate-300">chỉ xem</span>
+                        ) : (
                         <div className="flex items-center justify-end gap-1.5 flex-wrap">
                           {row.reflection && (
                             row.reflection.status !== 'invalid' ? (
@@ -2040,6 +2063,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                             </button>
                           )}
                         </div>
+                        )}
                       </td>
                     </tr>
                   );
